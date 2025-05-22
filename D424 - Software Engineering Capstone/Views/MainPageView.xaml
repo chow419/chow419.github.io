@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.MainPageView">
+
+    <!-- Main Page Layout -->
+    <Grid ColumnDefinitions="*,Auto"
+          RowDefinitions="Auto,*,*">
+        
+        <!-- Profile Icon -->
+        <Image x:Name="ProfileIcon"
+               Grid.Row="0"
+               Grid.Column="1"
+               Source="profile_menu.svg">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="OnProfileIconTapped"
+                    NumberOfTapsRequired="1" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <!-- SignIn Overlay -->
+        <Grid x:Name="SignInOverlay"
+              Grid.ColumnSpan="2"
+              Grid.RowSpan="3"
+              IsVisible="True">
+            <!-- SignInOverlay Window -->
+            <Grid ColumnDefinitions="*,Auto"
+                  RowDefinitions="Auto,Auto,Auto,Auto"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
+                <!-- Sign In Title -->
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Text="Sign In" />
+                <VerticalStackLayout Grid.Row="2"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2">
+                    <!-- Username Entry Field -->
+                    <Entry x:Name="SignInUsernameEntry"
+                           Placeholder="Username" />
+                    <!-- Password Entry Field -->
+                    <Entry x:Name="SignInPasswordEntry"
+                           Placeholder="Password"
+                           IsPassword="True" />
+                </VerticalStackLayout>
+                <!-- Sign Up -->
+                <HorizontalStackLayout Grid.Column="0"
+                                       Grid.Row="3">
+                    <Label Text="Don't have an account?" />
+                    <Label x:Name="SignUpLabel"
+                           Text="Sign Up">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="OnSignUpLabelTapped"
+                                NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+                <!-- Sign In Button -->
+                <Button x:Name="SignInButton"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        Grid.RowSpan="2"
+                        HorizontalOptions="End"
+                        Text="Sign In"/>
+                <Label x:Name="ContinueAsGuestLabel"
+                       Grid.Column="0"
+                       Grid.Row="4"
+                       Text="Continue As Guest">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnContinueAsGuestLabelTapped"
+                            NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+        </Grid>
+
+        <!-- SignUp Overlay -->
+        <Grid x:Name="SignUpOverlay"
+              Grid.ColumnSpan="2"
+              Grid.RowSpan="3"
+              IsVisible="False">
+            <!-- SignUpOverlay Window -->
+            <Grid RowDefinitions="Auto,Auto,Auto"
+                  ColumnDefinitions="*,Auto">
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Text="Sign Up" />
+                <VerticalStackLayout Grid.Row="1"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2">
+                    <!-- First Name Entry Field -->
+                    <Entry x:Name="NewUserFirstNameEntry"
+                           Placeholder="First Name" />
+                    <!-- Last Name Entry Field -->
+                    <Entry x:Name="NewUserLastNameEntry"
+                           Placeholder="Last Name" />
+                    <!-- Phone Number Entry Field -->
+                    <Entry x:Name="NewUserPhoneNumberEntry"
+                           Placeholder="Phone Number" />
+                    <!-- Email Entry Field -->
+                    <Entry x:Name="NewUserEmailEntry"
+                           Placeholder="Email" />
+                    <!-- Street Address Entry Field -->
+                    <Entry x:Name="NewUserStreetAddressEntry"
+                           Placeholder="Street Address" />
+                    <!-- City Entry Field -->
+                    <Entry x:Name="NewUserCityEntry"
+                           Placeholder="City" />
+                    <!-- State Picker -->
+                    <Picker x:Name="NewUserStatePicker"
+                            Title="SelectState">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Alabama</x:String>
+                                <x:String>Alaska</x:String>
+                                <x:String>Arizona</x:String>
+                                <x:String>Arkansas</x:String>
+                                <x:String>California</x:String>
+                                <x:String>Colorado</x:String>
+                                <x:String>Connecticut</x:String>
+                                <x:String>Delaware</x:String>
+                                <x:String>Florida</x:String>
+                                <x:String>Georgia</x:String>
+                                <x:String>Hawaii</x:String>
+                                <x:String>Idaho</x:String>
+                                <x:String>Illinois</x:String>
+                                <x:String>Indiana</x:String>
+                                <x:String>Iowa</x:String>
+                                <x:String>Kansas</x:String>
+                                <x:String>Kentucky</x:String>
+                                <x:String>Louisiana</x:String>
+                                <x:String>Maine</x:String>
+                                <x:String>Maryland</x:String>
+                                <x:String>Massachusetts</x:String>
+                                <x:String>Michigan</x:String>
+                                <x:String>Minnesota</x:String>
+                                <x:String>Mississippi</x:String>
+                                <x:String>Missouri</x:String>
+                                <x:String>Montana</x:String>
+                                <x:String>Nebraska</x:String>
+                                <x:String>Nevada</x:String>
+                                <x:String>New Hampshire</x:String>
+                                <x:String>New Jersey</x:String>
+                                <x:String>New Mexico</x:String>
+                                <x:String>New York</x:String>
+                                <x:String>North Carolina</x:String>
+                                <x:String>North Dakota</x:String>
+                                <x:String>Ohio</x:String>
+                                <x:String>Oklahoma</x:String>
+                                <x:String>Oregon</x:String>
+                                <x:String>Pennsylvania</x:String>
+                                <x:String>Rhode Island</x:String>
+                                <x:String>South Carolina</x:String>
+                                <x:String>South Dakota</x:String>
+                                <x:String>Tennessee</x:String>
+                                <x:String>Texas</x:String>
+                                <x:String>Utah</x:String>
+                                <x:String>Vermont</x:String>
+                                <x:String>Virginia</x:String>
+                                <x:String>Washington</x:String>
+                                <x:String>West Virginia</x:String>
+                                <x:String>Wisconsin</x:String>
+                                <x:String>Wyoming</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <!-- Zip Code Entry Field -->
+                    <Entry x:Name="NewUserZipCodeEntry"
+                           Placeholder="Zip Code" />
+                    <!-- Country Picker -->
+                    <Picker x:Name="NewUserCountryPicker"
+                            Title="Select Country">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>USA</x:String>
+                                <x:String>Canada</x:String>
+                                <x:String>Mexico</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <!-- Date of Birth Picker -->
+                    <DatePicker x:Name="NewUserDateOfBirthPicker" />
+                    <!-- Username Entry Field -->
+                    <Entry x:Name="NewUserUsernameEntry"
+                           Placeholder="Username" />
+                    <!-- Password Entry Field -->
+                    <Entry x:Name="NewUserPasswordEntry"
+                           Placeholder="Password"
+                           IsPassword="True" />
+                </VerticalStackLayout>
+            </Grid>
+            
+        </Grid>
+        
+    </Grid>
+    
+    
+
+</ContentPage>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using D424___Software_Engineering_Capstone.Views;
+using Microsoft.Extensions.Logging;
 
 namespace D424___Software_Engineering_Capstone;
 
@@ -15,8 +16,12 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		builder.Services.AddSingleton<MainPageView>();
+		builder.Services.AddSingleton<Database.DatabaseHandler>();
+		builder.Services.AddSingleton<TeeTimeView>();
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();
