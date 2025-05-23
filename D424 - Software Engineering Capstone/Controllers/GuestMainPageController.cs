@@ -1,8 +1,5 @@
 ﻿using D424___Software_Engineering_Capstone.Database;
-using D424___Software_Engineering_Capstone.Controllers;
 using D424___Software_Engineering_Capstone.Models;
-using D424___Software_Engineering_Capstone.Database.Tables;
-using System.Threading.Tasks;
 
 namespace D424___Software_Engineering_Capstone.Controllers
 {
@@ -16,6 +13,13 @@ namespace D424___Software_Engineering_Capstone.Controllers
             MainView = mainPageView;
 
             _database = new DatabaseHandler();
+
+            InitializeDatabase();
+        }
+
+        public async void InitializeDatabase()
+        {
+            await _database.AddAll();
         }
 
         public async Task<bool> ValidateUserSignUp(MainPageView mainPageView)

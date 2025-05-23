@@ -19,7 +19,7 @@ namespace D424___Software_Engineering_Capstone.Database
             string salt = Convert.ToBase64String(saltBytes);
 
             // Combine password and salt, then hash
-            using (var sha256 = SHA1.Create())
+            using (var sha256 = SHA256.Create())
             {
                 string saltedPassword = password + salt;
                 byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));

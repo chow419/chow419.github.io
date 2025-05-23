@@ -14,22 +14,17 @@ namespace D424___Software_Engineering_Capstone.Database
 
             _connection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
 
-            _connection.CreateTableAsync<GuestTable>();
-            _connection.CreateTableAsync<UserTable>();
-            _connection.CreateTableAsync<ReservationTable>();
-            _connection.CreateTableAsync<ScoreTable>();
+            CreateTables();
         }
 
         public async Task AddMyselfAsAdmin()
         {
-            var query = _connection.Table<UserTable>().FirstOrDefaultAsync();
+            var query = await _connection.Table<UserTable>().FirstOrDefaultAsync();
 
             if (query is not null)
             {
                 return;
             }
-
-            var passwordInfo = PasswordHasher.HashPassword("T#eD@rkUrg3");
 
             UserModel cameron = new()
             {
@@ -51,7 +46,27 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task AddAll()
         {
+            //await DeleteAll();
+
             await AddMyselfAsAdmin();
+        }
+
+        public async void CreateTables()
+        {
+            await _connection.CreateTableAsync<GuestTable>();
+            await _connection.CreateTableAsync<UserTable>();
+            await _connection.CreateTableAsync<ReservationTable>();
+            await _connection.CreateTableAsync<ScoreTable>();
+            await _connection.CreateTableAsync<CredentialsTable>();
+        }
+
+        public async Task DeleteAll()
+        {
+            await _connection.DeleteAllAsync<GuestTable>();
+            await _connection.DeleteAllAsync<UserTable>();
+            await _connection.DeleteAllAsync<ReservationTable>();
+            await _connection.DeleteAllAsync<ScoreTable>();
+            await _connection.DeleteAllAsync<CredentialsTable>();
         }
 
         public async Task AddNewUser(UserModel user, string username, string password)
@@ -72,7 +87,9 @@ namespace D424___Software_Engineering_Capstone.Database
                 DateOfBirth = user.DateOfBirth
             });
 
-            var newlyCreateUser = await GetUserByUsername(username);
+            
+
+            var newlyCreateUser = await GetUserByEmail(user.Email);
 
             await _connection.InsertAsync(new CredentialsTable
             {
@@ -103,7 +120,15 @@ namespace D424___Software_Engineering_Capstone.Database
             return query;
         }
 
-        public async Task<(string Hash, string Salt, int UserId)> GetHashAndSalt(string username)
+        public async Task<UserTable> GetUserByEmail(string email)
+        {
+            var query = await _connection.Table<UserTable>()
+                                         .Where(x => x.Email == email)
+                                         .FirstOrDefaultAsync();
+            return query;
+        }
+
+        public async Task<(string? Hash, string? Salt, int UserId)> GetHashAndSalt(string username)
         {
             string hash;
             string salt;
@@ -112,6 +137,11 @@ namespace D424___Software_Engineering_Capstone.Database
             var query = await _connection.Table<CredentialsTable>()
                                          .Where(x => x.UserName == username)
                                          .FirstOrDefaultAsync();
+
+            if (query is null)
+            {
+                return (null, null, -1);
+            }
 
             hash = query.PasswordHash;
             salt = query.Salt;

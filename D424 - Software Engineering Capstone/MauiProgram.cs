@@ -1,5 +1,6 @@
 ﻿using D424___Software_Engineering_Capstone.Views;
 using Microsoft.Extensions.Logging;
+using D424___Software_Engineering_Capstone.Database;
 
 namespace D424___Software_Engineering_Capstone;
 
@@ -17,7 +18,7 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<MainPageView>();
-		builder.Services.AddSingleton<Database.DatabaseHandler>();
+		builder.Services.AddSingleton<DatabaseHandler>();
 		builder.Services.AddSingleton<TeeTimeView>();
 
 #if DEBUG

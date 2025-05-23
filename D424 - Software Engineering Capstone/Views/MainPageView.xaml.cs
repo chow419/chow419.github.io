@@ -70,8 +70,8 @@ namespace D424___Software_Engineering_Capstone
         public async void OnSignInButtonClicked(object sender, EventArgs e)
         {
             if (await _mainPageController.VerifyLogin(
-                UsernameEntry.Text,
-                PasswordEntry.Text
+                SignInUsernameEntry.Text,
+                SignInPasswordEntry.Text
             ))
             {
                 SignInOverlay.IsVisible = false;

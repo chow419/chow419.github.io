@@ -5,13 +5,16 @@
 
     <!-- Main Page Layout -->
     <Grid ColumnDefinitions="*,Auto"
-          RowDefinitions="Auto,*,*">
+          RowDefinitions="Auto,*,*"
+          Padding="20">
         
         <!-- Profile Icon -->
         <Image x:Name="ProfileIcon"
                Grid.Row="0"
                Grid.Column="1"
-               Source="profile_menu.svg">
+               Source="profile_menu_icon.png"
+               HeightRequest="50"
+               WidthRequest="50">
             <Image.GestureRecognizers>
                 <TapGestureRecognizer
                     Tapped="OnProfileIconTapped"
@@ -23,20 +26,28 @@
         <Grid x:Name="SignInOverlay"
               Grid.ColumnSpan="2"
               Grid.RowSpan="3"
-              IsVisible="True">
+              IsVisible="True"
+              BackgroundColor="DarkGreen"
+              Opacity="0.96">
             <!-- SignInOverlay Window -->
             <Grid ColumnDefinitions="*,Auto"
                   RowDefinitions="Auto,Auto,Auto,Auto"
                   HorizontalOptions="Center"
-                  VerticalOptions="Center">
+                  VerticalOptions="Center"
+                  ColumnSpacing="50"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="10">
                 <!-- Sign In Title -->
                 <Label Grid.Row="0"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
-                       Text="Sign In" />
-                <VerticalStackLayout Grid.Row="2"
+                       Text="Sign In"
+                       Style="{StaticResource Headline}"/>
+                <VerticalStackLayout Grid.Row="1"
                                      Grid.Column="0"
-                                     Grid.ColumnSpan="2">
+                                     Grid.ColumnSpan="2"
+                                     Spacing="10">
                     <!-- Username Entry Field -->
                     <Entry x:Name="SignInUsernameEntry"
                            Placeholder="Username" />
@@ -47,10 +58,13 @@
                 </VerticalStackLayout>
                 <!-- Sign Up -->
                 <HorizontalStackLayout Grid.Column="0"
-                                       Grid.Row="3">
+                                       Grid.Row="2"
+                                       Spacing="10">
                     <Label Text="Don't have an account?" />
                     <Label x:Name="SignUpLabel"
-                           Text="Sign Up">
+                           Text="Sign Up"
+                           TextDecorations="Underline"
+                           TextColor="Blue">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer
                                 Tapped="OnSignUpLabelTapped"
@@ -61,14 +75,18 @@
                 <!-- Sign In Button -->
                 <Button x:Name="SignInButton"
                         Grid.Column="1"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Grid.RowSpan="2"
                         HorizontalOptions="End"
-                        Text="Sign In"/>
+                        VerticalOptions="Center"
+                        Text="Sign In"
+                        Clicked="OnSignInButtonClicked"/>
                 <Label x:Name="ContinueAsGuestLabel"
                        Grid.Column="0"
                        Grid.Row="4"
-                       Text="Continue As Guest">
+                       Text="Continue As Guest"
+                       TextDecorations="Underline"
+                       TextColor="Blue">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer
                             Tapped="OnContinueAsGuestLabelTapped"
@@ -83,29 +101,72 @@
         <Grid x:Name="SignUpOverlay"
               Grid.ColumnSpan="2"
               Grid.RowSpan="3"
+              BackgroundColor="DarkGreen"
+              Opacity="0.96"
               IsVisible="False">
             <!-- SignUpOverlay Window -->
             <Grid RowDefinitions="Auto,Auto,Auto"
-                  ColumnDefinitions="*,Auto">
+                  ColumnDefinitions="*,Auto"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center"
+                  BackgroundColor="White"
+                  WidthRequest="400"
+                  ColumnSpacing="50"
+                  RowSpacing="20"
+                  Padding="10">
                 <Label Grid.Row="0"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
-                       Text="Sign Up" />
+                       Text="Sign Up"
+                       Style="{StaticResource Headline}"/>
                 <VerticalStackLayout Grid.Row="1"
                                      Grid.Column="0"
-                                     Grid.ColumnSpan="2">
+                                     Grid.ColumnSpan="2"
+                                     Spacing="10">
                     <!-- First Name Entry Field -->
-                    <Entry x:Name="NewUserFirstNameEntry"
-                           Placeholder="First Name" />
+                    <Grid Grid.ColumnSpan="2"
+                          ColumnDefinitions="*,Auto">
+                        <Label Text="First Name"
+                               Grid.Column="0"
+                               VerticalTextAlignment="Center"/>
+                        <Entry x:Name="NewUserFirstNameEntry"
+                               Grid.Column="1"
+                               WidthRequest="250"
+                               HorizontalOptions="End"/>
+                    </Grid>
                     <!-- Last Name Entry Field -->
-                    <Entry x:Name="NewUserLastNameEntry"
-                           Placeholder="Last Name" />
+                    <Grid Grid.ColumnSpan="2"
+                          ColumnDefinitions="*,Auto">
+                        <Label Text="Last Name"
+                               Grid.Column="0"
+                               VerticalTextAlignment="Center" />
+                        <Entry x:Name="NewUserLastNameEntry"
+                               Grid.Column="1"
+                               HorizontalOptions="End"
+                               WidthRequest="250"/>
+                    </Grid>
                     <!-- Phone Number Entry Field -->
-                    <Entry x:Name="NewUserPhoneNumberEntry"
-                           Placeholder="Phone Number" />
+                    <Grid Grid.ColumnSpan="2"
+                          ColumnDefinitions="*,Auto">
+                        <Label Text="Phone Number"
+                               Grid.Column="0"
+                               VerticalTextAlignment="Center" />
+                        <Entry x:Name="NewUserPhoneNumberEntry"
+                               Grid.Column="1"
+                               HorizontalOptions="End"
+                               WidthRequest="225"/>
+                    </Grid>
                     <!-- Email Entry Field -->
-                    <Entry x:Name="NewUserEmailEntry"
-                           Placeholder="Email" />
+                    <Grid Grid.ColumnSpan="2"
+                          ColumnDefinitions="*,Auto">
+                        <Label Text="Email"
+                               Grid.Column="0"
+                               VerticalTextAlignment="Center" />
+                        <Entry x:Name="NewUserEmailEntry"
+                               Grid.Column="1"
+                               HorizontalOptions="End"
+                               WidthRequest="275"/>
+                    </Grid>
                     <!-- Street Address Entry Field -->
                     <Entry x:Name="NewUserStreetAddressEntry"
                            Placeholder="Street Address" />
@@ -113,8 +174,15 @@
                     <Entry x:Name="NewUserCityEntry"
                            Placeholder="City" />
                     <!-- State Picker -->
-                    <Picker x:Name="NewUserStatePicker"
-                            Title="SelectState">
+                    <Grid Grid.ColumnSpan="2"
+                          ColumnDefinitions="*,Auto">
+                        <Label Text="State"
+                               Grid.Column="0"
+                               VerticalTextAlignment="Center"/>
+                        <Picker x:Name="NewUserStatePicker"
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                WidthRequest="250">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Alabama</x:String>
@@ -169,23 +237,40 @@
                                 <x:String>Wyoming</x:String>
                             </x:Array>
                         </Picker.ItemsSource>
-                    </Picker>
+                        </Picker>
+                    </Grid>
                     <!-- Zip Code Entry Field -->
                     <Entry x:Name="NewUserZipCodeEntry"
                            Placeholder="Zip Code" />
                     <!-- Country Picker -->
-                    <Picker x:Name="NewUserCountryPicker"
-                            Title="Select Country">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>USA</x:String>
-                                <x:String>Canada</x:String>
-                                <x:String>Mexico</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
+                    <Grid Grid.ColumnSpan="2"
+                          ColumnDefinitions="*,Auto">
+                        <Label Text="Country"
+                               Grid.Column="0"
+                               VerticalTextAlignment="Center"/>
+                        <Picker x:Name="NewUserCountryPicker"
+                                WidthRequest="250"
+                                HorizontalOptions="End"
+                                Grid.Column="1">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>USA</x:String>
+                                    <x:String>Canada</x:String>
+                                    <x:String>Mexico</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Grid>
                     <!-- Date of Birth Picker -->
-                    <DatePicker x:Name="NewUserDateOfBirthPicker" />
+                    <Grid Grid.ColumnSpan="2"
+                          ColumnDefinitions="*,Auto">
+                        <Label Text="Date of Birth"
+                               Grid.Column="0"/>
+                        <DatePicker x:Name="NewUserDateOfBirthPicker"
+                                    Grid.Column="1"
+                                    WidthRequest="250"
+                                    HorizontalOptions="End"/>
+                    </Grid>
                     <!-- Username Entry Field -->
                     <Entry x:Name="NewUserUsernameEntry"
                            Placeholder="Username" />
@@ -194,6 +279,23 @@
                            Placeholder="Password"
                            IsPassword="True" />
                 </VerticalStackLayout>
+                <!-- Sign Up Button -->
+                <Button x:Name="SignUpSubmitButton"
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Text="Sign Up"
+                        Clicked="OnSignUpSubmitButtonClicked"/>
+                <!-- Sign Up Cancel Button -->
+                <Button x:Name="SignUpCancelButton"
+                        Text="Cancel"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Clicked="OnSignUpCancelButtonClicked"/>
+
             </Grid>
             
         </Grid>
