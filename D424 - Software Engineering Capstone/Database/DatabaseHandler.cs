@@ -10,15 +10,13 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public DatabaseHandler()
         {
-            Directory.CreateDirectory(FileSystem.AppDataDirectory);
-
-            _connection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-
-            CreateTables();
+            
         }
 
         public async Task AddMyselfAsAdmin()
         {
+            await Init();
+
             var query = await _connection.Table<UserTable>().FirstOrDefaultAsync();
 
             if (query is not null)
@@ -51,8 +49,17 @@ namespace D424___Software_Engineering_Capstone.Database
             await AddMyselfAsAdmin();
         }
 
-        public async void CreateTables()
+        public async Task Init()
         {
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
+
+            if (_connection is not null)
+            {
+                return;
+            }
+
+            _connection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+
             await _connection.CreateTableAsync<GuestTable>();
             await _connection.CreateTableAsync<UserTable>();
             await _connection.CreateTableAsync<ReservationTable>();
@@ -62,15 +69,19 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task DeleteAll()
         {
-            await _connection.DeleteAllAsync<GuestTable>();
-            await _connection.DeleteAllAsync<UserTable>();
-            await _connection.DeleteAllAsync<ReservationTable>();
-            await _connection.DeleteAllAsync<ScoreTable>();
-            await _connection.DeleteAllAsync<CredentialsTable>();
+            await Init();
+
+            await _connection.DropTableAsync<GuestTable>();
+            await _connection.DropTableAsync<UserTable>();
+            await _connection.DropTableAsync<ReservationTable>();
+            await _connection.DropTableAsync<ScoreTable>();
+            await _connection.DropTableAsync<CredentialsTable>();
         }
 
         public async Task AddNewUser(UserModel user, string username, string password)
         {
+            await Init();
+
             var passwordInfo = PasswordHasher.HashPassword(password);
 
             await _connection.InsertAsync(new UserTable
@@ -102,6 +113,8 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task<UserTable> GetUserById(int userId)
         {
+            await Init();
+
             var query = await _connection.Table<UserTable>()
                                          .Where(x => x.Id == userId)
                                          .FirstOrDefaultAsync();
@@ -110,6 +123,8 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task<UserTable> GetUserByUsername(string username)
         {
+            await Init();
+
             var usernameQuery = await _connection.Table<CredentialsTable>()
                                          .Where(x => x.UserName == username)
                                          .FirstOrDefaultAsync();
@@ -122,6 +137,8 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task<UserTable> GetUserByEmail(string email)
         {
+            await Init();
+
             var query = await _connection.Table<UserTable>()
                                          .Where(x => x.Email == email)
                                          .FirstOrDefaultAsync();
@@ -130,6 +147,8 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task<(string? Hash, string? Salt, int UserId)> GetHashAndSalt(string username)
         {
+            await Init();
+
             string hash;
             string salt;
             int userId;

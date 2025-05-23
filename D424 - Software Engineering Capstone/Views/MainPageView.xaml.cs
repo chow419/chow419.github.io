@@ -8,7 +8,7 @@ namespace D424___Software_Engineering_Capstone
         public GuestModel CurrentUser { get; set; }
         public GuestMainPageController _mainPageController { get; set; }
         public Grid SignInOverlayGrid => this.SignInOverlay;
-        public Grid SignUpOverlayGrid => this.SignUpOverlay;
+        public Grid SignUpOverlayGrid => this.SignUpUNPWOverlay;
         public Entry UsernameEntry => this.NewUserUsernameEntry;
         public Entry PasswordEntry => this.NewUserPasswordEntry;
         public Entry FirstNameEntry => this.NewUserFirstNameEntry;
@@ -75,7 +75,7 @@ namespace D424___Software_Engineering_Capstone
             ))
             {
                 SignInOverlay.IsVisible = false;
-                SignUpOverlay.IsVisible = false;
+                SignUpUNPWOverlay.IsVisible = false;
                 ClearSignInFields();
 
                 InitializeNewMainPageController();
@@ -85,7 +85,7 @@ namespace D424___Software_Engineering_Capstone
         public void OnSignUpLabelTapped(object sender, EventArgs e)
         {
             SignInOverlay.IsVisible = false;
-            SignUpOverlay.IsVisible = true;
+            SignUpUNPWOverlay.IsVisible = true;
             ClearSignInFields();
         }
 
@@ -95,12 +95,12 @@ namespace D424___Software_Engineering_Capstone
 
             InitializeNewMainPageController();
 
-            SignUpOverlay.IsVisible = false;
+            SignUpUNPWOverlay.IsVisible = false;
         }
 
-        public void OnSignUpCancelButtonClicked(object sender, EventArgs e)
+        public void OnSignUpCancelLabelTapped(object sender, TappedEventArgs e)
         {
-            SignUpOverlay.IsVisible = false;
+            SignUpUNPWOverlay.IsVisible = false;
             SignInOverlay.IsVisible = true;
             ClearSignUpFields();
         }
