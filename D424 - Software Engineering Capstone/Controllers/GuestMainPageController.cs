@@ -25,7 +25,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
             await _database.AddAll();
         }
 
-        public async Task<bool> ValidateUNPWSignUp(MainPageView mainPageView)
+        public async Task<bool> ValidateUNPWSignUp()
         {
             if (!await Validation.ValidateUserUsername(_database, MainView, MainView.UsernameEntry.Text))
             {
@@ -40,7 +40,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
             return true;
         }
         
-        public async Task<bool> ValidatePISignUp(MainPageView mainPageView)
+        public async Task<bool> ValidatePISignUp()
         {
             if (!await Validation.ValidateUserFirstName(MainView, MainView.FirstNameEntry.Text))
             {
@@ -65,7 +65,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
             return true;
         }
 
-        public async Task<bool> ValidateLocationSignUp(MainPageView mainPageView)
+        public async Task<bool> ValidateLocationSignUp()
         {
             if (!await Validation.ValidateUserStreetAddress(MainView, MainView.StreetAddressEntry.Text))
             {
@@ -156,7 +156,64 @@ namespace D424___Software_Engineering_Capstone.Controllers
 
         public virtual void PopulateProfileMenuOverlay()
         {
-            // Populate the profile menu overlay with user information
+            VerticalStackLayout layout = (VerticalStackLayout)MainView.FindByName("ProfileMenuOverlay");
+            Border border = (Border)MainView.FindByName("ProfileMenuBorder");
+
+            layout.Children.Clear();
+
+            var registerLabel = new Label();
+            var logInLabel = new Label();
+            var registerTap = new TapGestureRecognizer();
+            var logInTap = new TapGestureRecognizer();
+
+            var needAccountLabel = new Label()
+            {
+                Text = "Need an account?",
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.End,
+            };
+
+            registerLabel.Text = "Sign Up";
+            registerLabel.SetDynamicResource(Label.StyleProperty, "Link");
+            registerLabel.HorizontalOptions = LayoutOptions.End;
+
+            var haveAccountLabel = new Label()
+            {
+                Text = "Already have an account?",
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.End,
+            };
+
+            logInLabel.Text = "Sign In";
+            logInLabel.SetDynamicResource(Label.StyleProperty, "Link");
+            logInLabel.HorizontalOptions = LayoutOptions.End;
+
+            logInTap.Tapped += (s, e) =>
+            {
+                layout.IsVisible = false;
+                border.IsVisible = false;
+                MainView.MainOverlayBackground.IsVisible = true;
+                MainView.SignInOverlayWindow.IsVisible = true;
+                MainView.SignInOverlayBorder.IsVisible = true;
+            };
+
+            registerTap.Tapped += (s, e) =>
+            {
+                layout.IsVisible = false;
+                border.IsVisible = false;
+                MainView.MainOverlayBackground.IsVisible = true;
+                MainView.SignUpOverlayWindow.IsVisible = true;
+                MainView.SignUpOverlayBorder.IsVisible = true;
+            };
+
+            logInLabel.GestureRecognizers.Add(logInTap);
+            registerLabel.GestureRecognizers.Add(registerTap);
+
+            layout.Add(haveAccountLabel);
+            layout.Add(logInLabel);
+            layout.Add(needAccountLabel);
+            layout.Add(registerLabel);
+            
         }
     }
 }

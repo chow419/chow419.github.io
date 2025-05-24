@@ -7,8 +7,6 @@ namespace D424___Software_Engineering_Capstone
     {
         public GuestModel CurrentUser { get; set; }
         public GuestMainPageController _mainPageController { get; set; }
-        public Grid SignInOverlayGrid => this.SignInOverlay;
-        public Grid SignUpOverlayGrid => this.SignUpUNPWOverlay;
         public Entry UsernameEntry => this.SignUpUsernameEntry;
         public Entry PasswordEntry => this.SignUpPasswordEntry;
         public Entry FirstNameEntry => this.SignUpFirstNameEntry;
@@ -22,6 +20,11 @@ namespace D424___Software_Engineering_Capstone
         public Entry ZipCodeEntry => this.SignUpZipCodeEntry;
         public Picker CountryPicker => this.SignUpCountryPicker;
         public DatePicker DateOfBirthPicker => this.SignUpDateOfBirthPicker;
+        public Grid MainOverlayBackground => this.MainOverlay;
+        public Grid SignInOverlayWindow => this.SignInOverlay;
+        public Border SignInOverlayBorder => this.SignInBorder;
+        public Grid SignUpOverlayWindow => this.SignUpUNPWOverlay;
+        public Border SignUpOverlayBorder => this.SignUpUNPWBorder;
 
         public MainPageView()
         {
@@ -100,7 +103,7 @@ namespace D424___Software_Engineering_Capstone
 
         public async void OnSignUpSubmitButtonClicked(object sender, EventArgs e)
         {
-            if (await _mainPageController.ValidateLocationSignUp(this))
+            if (await _mainPageController.ValidateLocationSignUp())
             {
                 await _mainPageController.SignUpNewUser();
 
@@ -108,11 +111,8 @@ namespace D424___Software_Engineering_Capstone
 
                 SignUpLocationOverlay.IsVisible = false;
                 SignUpLocationBorder.IsVisible = false;
+                MainOverlay.IsVisible = false;
             }
-
-            await _mainPageController.SignUpNewUser();
-
-            InitializeNewMainPageController();
         }
 
         public void OnSignUpCancelButtonClicked(object sender, EventArgs e)
@@ -126,7 +126,7 @@ namespace D424___Software_Engineering_Capstone
 
         public async void OnSignUpUNPWNextButtonClicked(object sender, EventArgs e)
         {
-            if (await _mainPageController.ValidateUNPWSignUp(this))
+            if (await _mainPageController.ValidateUNPWSignUp())
             {
                 SignUpUNPWOverlay.IsVisible = false;
                 SignUpUNPWBorder.IsVisible = false;
@@ -145,7 +145,7 @@ namespace D424___Software_Engineering_Capstone
 
         public async void OnSignUpPINextButtonClicked(object sender, EventArgs e)
         {
-            if (await _mainPageController.ValidatePISignUp(this))
+            if (await _mainPageController.ValidatePISignUp())
             {
                 SignUpPIOverlay.IsVisible = false;
                 SignUpPIBorder.IsVisible = false;
@@ -167,9 +167,11 @@ namespace D424___Software_Engineering_Capstone
             _mainPageController.GetGuest();
 
             SignInOverlay.IsVisible = false;
+            SignInBorder.IsVisible = false;
+            MainOverlay.IsVisible = false;
         }
 
-        public void OnScheduleATeeTimeButtonClicked(object sender, EventArgs e)
+        public void OnTeeTimesButtonClicked(object sender, EventArgs e)
         {
             // Open TeeTimeView
         }
@@ -179,14 +181,17 @@ namespace D424___Software_Engineering_Capstone
             // Open CourseNewsView
         }
 
-        public void ContactUsButtonClicked(object sender, EventArgs e)
+        public void OnContactUsButtonClicked(object sender, EventArgs e)
         {
             // Open ContactUsView
         }
 
         public void OnProfileIconTapped(object sender, TappedEventArgs e)
         {
-            // Open ProfileMenuOverlay
+            _mainPageController.PopulateProfileMenuOverlay();
+
+            ProfileMenuOverlay.IsVisible = !ProfileMenuOverlay.IsVisible;
+            ProfileMenuBorder.IsVisible = !ProfileMenuBorder.IsVisible;
         }
     }
 

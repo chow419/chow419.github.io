@@ -4,13 +4,13 @@
              x:Class="D424___Software_Engineering_Capstone.MainPageView">
 
     <!-- Main Page Layout -->
-    <Grid ColumnDefinitions="*,Auto"
-          RowDefinitions="Auto,*,*">
+    <Grid>
         
         <!-- Main Page -->
         <Grid ColumnDefinitions="*,Auto"
               RowDefinitions="Auto,*,*"
-              Padding="20">
+              Padding="20"
+              RowSpacing="50">
             
             <!-- Profile Icon -->
             <Image x:Name="ProfileIcon"
@@ -25,9 +25,59 @@
                 </Image.GestureRecognizers>
             </Image>
             
+            <!-- Title -->
+            <VerticalStackLayout Grid.Column="0"
+                                 Grid.ColumnSpan="2"
+                                 Grid.Row="1"
+                                 Spacing="-30"
+                                 Margin="0,175,0,0">
+                <Label x:Name="MainTitle"
+                   Text="Parallel 33"
+                   FontFamily="Playball-Regular"
+                   FontSize="70"
+                   TextColor="DarkGreen"
+                   HorizontalTextAlignment="Center"/>
+
+                <Label x:Name="SubTitle"
+                       Text="Country Club"
+                       FontFamily="Lora-Italic"
+                       TextColor="DarkGreen"
+                       HorizontalTextAlignment="Center"
+                       FontSize="36"/>
+            </VerticalStackLayout>
+
+            <!-- Main Page Buttons -->
+            <Grid Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Grid.Row="2"
+                  RowDefinitions="*,*,*"
+                  HorizontalOptions="Fill"
+                  RowSpacing="25"
+                  Padding="10">
+
+                <!-- Tee Times Button -->
+                <Button Grid.Row="0"
+                        Text="Tee Times"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnTeeTimesButtonClicked"/>
+                
+                <!-- Course News Button -->
+                <Button Grid.Row="1"
+                        Text="Course News"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnCourseNewsButtonClicked"/>
+                
+                <!-- Contact Us Button -->
+                <Button Grid.Row="2"
+                        Text="Contact Us"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnContactUsButtonClicked"/>
+
+            </Grid>
+
         </Grid>
         
-        <!-- Overlays -->
+        <!-- Sign In / Sign Up Overlays -->
         <Grid x:Name="MainOverlay"
               Grid.ColumnSpan="2"
               Grid.RowSpan="3"
@@ -135,7 +185,8 @@
                             Grid.RowSpan="2"
                             VerticalOptions="Center"
                             Text="Sign In"
-                            Clicked="OnSignInButtonClicked" />
+                            Clicked="OnSignInButtonClicked"
+                            Style="{StaticResource OverlayButton}"/>
 
                 </Grid>
                 
@@ -207,14 +258,16 @@
                             Grid.Column="0"
                             Grid.Row="2"
                             Text="Cancel"
-                            Clicked="OnSignUpCancelButtonClicked" />
+                            Clicked="OnSignUpCancelButtonClicked"
+                            Style="{StaticResource OverlayButton}"/>
                     
                     <!-- Sign Up Username And Password Next Button -->
                     <Button x:Name="SignUpUNPWNextButton"
                             Grid.Column="1"
                             Grid.Row="2"
                             Text="Next"
-                            Clicked="OnSignUpUNPWNextButtonClicked" />
+                            Clicked="OnSignUpUNPWNextButtonClicked"
+                            Style="{StaticResource OverlayButton}"/>
 
                 </Grid>
 
@@ -243,7 +296,7 @@
                     <Label Grid.Column="0"
                            Grid.Row="0"
                            Grid.ColumnSpan="2"
-                           Text="Sign In"
+                           Text="Sign Up"
                            Style="{StaticResource Headline}"/>
 
                     <!-- Sign Up Entry Fields -->
@@ -323,14 +376,16 @@
                             Grid.Column="0"
                             Grid.Row="2"
                             Text="Back"
-                            Clicked="OnSignUpPIBackButtonClicked" />
+                            Clicked="OnSignUpPIBackButtonClicked"
+                            Style="{StaticResource OverlayButton}"/>
 
                     <!-- Sign Up Personal Info Next Button -->
                     <Button x:Name="SignUpPINextButton"
                             Grid.Column="1"
                             Grid.Row="2"
                             Text="Next"
-                            Clicked="OnSignUpPINextButtonClicked" />
+                            Clicked="OnSignUpPINextButtonClicked"
+                            Style="{StaticResource OverlayButton}"/>
 
                 </Grid>
 
@@ -359,7 +414,7 @@
                     <Label Grid.Column="0"
                            Grid.Row="0"
                            Grid.ColumnSpan="2"
-                           Text="Sign In"
+                           Text="Sign Up"
                            Style="{StaticResource Headline}"/>
 
                     <!-- Sign Up Entry Fields -->
@@ -454,20 +509,44 @@
                             Grid.Column="0"
                             Grid.Row="2"
                             Text="Back"
-                            Clicked="OnSignUpLocationBackButtonClicked" />
+                            Clicked="OnSignUpLocationBackButtonClicked"
+                            Style="{StaticResource OverlayButton}"/>
 
                     <!-- Sign Up Submit Button -->
                     <Button x:Name="SignUpSubmitButton"
                             Grid.Column="1"
                             Grid.Row="2"
-                            Text="Next"
-                            Clicked="OnSignUpSubmitButtonClicked" />
+                            Text="Sign Up!"
+                            Clicked="OnSignUpSubmitButtonClicked"
+                            Style="{StaticResource OverlayButton}"/>
 
                 </Grid>
 
             </Border>
 
         </Grid>
+
+        <Border x:Name="ProfileMenuBorder" VerticalOptions="Start"
+                HorizontalOptions="End"
+                Margin="0,70,20,0"
+                IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10,0,20,10" />
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Offset="10,10"
+                        Radius="16"
+                        Brush="Black"
+                        Opacity="0.5"/>
+            </Border.Shadow>
+            <VerticalStackLayout x:Name="ProfileMenuOverlay"
+                                 BackgroundColor="White"
+                                 Padding="20"
+                                 Spacing="15"
+                                 IsVisible="False">
+            </VerticalStackLayout>
+        </Border>
+        
 
     </Grid>
     
