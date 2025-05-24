@@ -30,7 +30,8 @@ namespace D424___Software_Engineering_Capstone.Database
                 LastName = "Howard",
                 PhoneNumber = "208-841-2881",
                 Email = "socialenigma11@gmail.com",
-                StreetAddress = "511 McMillan St., Apt. A",
+                StreetAddress = "511 McMillan St.",
+                AddressLine2 = "Apt. A",
                 City = "Winnsboro",
                 State = "TX",
                 ZipCode = "75494",
@@ -91,6 +92,7 @@ namespace D424___Software_Engineering_Capstone.Database
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 StreetAddress = user.StreetAddress,
+                AddressLine2 = user.AddressLine2,
                 City = user.City,
                 State = user.State,
                 ZipCode = user.ZipCode,
@@ -129,10 +131,16 @@ namespace D424___Software_Engineering_Capstone.Database
                                          .Where(x => x.UserName == username)
                                          .FirstOrDefaultAsync();
 
-            var query = await _connection.Table<UserTable>()
+            if (usernameQuery is not null)
+            {
+                var query = await _connection.Table<UserTable>()
                                          .Where(x => x.Id == usernameQuery.UserId)
                                          .FirstOrDefaultAsync();
-            return query;
+
+                return query;
+            }
+
+            return null;
         }
 
         public async Task<UserTable> GetUserByEmail(string email)

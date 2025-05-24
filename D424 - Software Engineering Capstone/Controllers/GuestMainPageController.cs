@@ -12,6 +12,9 @@ namespace D424___Software_Engineering_Capstone.Controllers
         {
             MainView = mainPageView;
 
+            mainPageView.StatePicker.ItemsSource = Constants.StateList;
+            mainPageView.CountryPicker.ItemsSource = Constants.CountryList;
+
             _database = new DatabaseHandler();
 
             InitializeDatabase();
@@ -22,7 +25,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
             await _database.AddAll();
         }
 
-        public async Task<bool> ValidateUserSignUp(MainPageView mainPageView)
+        public async Task<bool> ValidateUNPWSignUp(MainPageView mainPageView)
         {
             if (!await Validation.ValidateUserUsername(_database, MainView, MainView.UsernameEntry.Text))
             {
@@ -34,6 +37,11 @@ namespace D424___Software_Engineering_Capstone.Controllers
                 return false;
             }
 
+            return true;
+        }
+        
+        public async Task<bool> ValidatePISignUp(MainPageView mainPageView)
+        {
             if (!await Validation.ValidateUserFirstName(MainView, MainView.FirstNameEntry.Text))
             {
                 return false;
@@ -54,6 +62,11 @@ namespace D424___Software_Engineering_Capstone.Controllers
                 return false;
             }
 
+            return true;
+        }
+
+        public async Task<bool> ValidateLocationSignUp(MainPageView mainPageView)
+        {
             if (!await Validation.ValidateUserStreetAddress(MainView, MainView.StreetAddressEntry.Text))
             {
                 return false;
@@ -74,26 +87,24 @@ namespace D424___Software_Engineering_Capstone.Controllers
 
        public async Task SignUpNewUser()
         {
-            if (await ValidateUserSignUp(MainView))
+            UserModel newUserModel = new()
             {
-                UserModel newUserModel = new()
-                {
-                    FirstName = MainView.FirstNameEntry.Text,
-                    LastName = MainView.LastNameEntry.Text,
-                    PhoneNumber = MainView.PhoneNumberEntry.Text,
-                    Email = MainView.EmailEntry.Text,
-                    StreetAddress = MainView.StreetAddressEntry.Text,
-                    City = MainView.CityEntry.Text,
-                    State = MainView.StatePicker.SelectedItem.ToString(),
-                    ZipCode = MainView.ZipCodeEntry.Text,
-                    Country = MainView.CountryPicker.SelectedItem.ToString(),
-                    DateOfBirth = DateTime.ParseExact(MainView.DateOfBirthPicker.Date.ToString(), "yyyy-MM-dd", null)
-                };
+                FirstName = MainView.FirstNameEntry.Text,
+                LastName = MainView.LastNameEntry.Text,
+                PhoneNumber = MainView.PhoneNumberEntry.Text,
+                Email = MainView.EmailEntry.Text,
+                StreetAddress = MainView.StreetAddressEntry.Text,
+                AddressLine2 = MainView.Address2Entry.Text,
+                City = MainView.CityEntry.Text,
+                State = MainView.StatePicker.SelectedItem.ToString(),
+                ZipCode = MainView.ZipCodeEntry.Text,
+                Country = MainView.CountryPicker.SelectedItem.ToString(),
+                DateOfBirth = DateTime.Parse(MainView.DateOfBirthPicker.Date.ToString())
+            };
 
-                await _database.AddNewUser(newUserModel, MainView.UsernameEntry.Text, MainView.PasswordEntry.Text);
+            await _database.AddNewUser(newUserModel, MainView.UsernameEntry.Text, MainView.PasswordEntry.Text);
 
-                MainView.CurrentUser = newUserModel;
-            }
+            MainView.CurrentUser = newUserModel;
         }
 
         public async Task<bool> VerifyLogin(string username, string password)
@@ -118,6 +129,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
                     PhoneNumber = userQuery.PhoneNumber,
                     Email = userQuery.Email,
                     StreetAddress = userQuery.StreetAddress,
+                    AddressLine2 = userQuery.AddressLine2,
                     City = userQuery.City,
                     State = userQuery.State,
                     ZipCode = userQuery.ZipCode,

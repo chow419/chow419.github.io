@@ -23,6 +23,9 @@ namespace D424___Software_Engineering_Capstone.Database.Tables
         [Column("street_address")]
         public string StreetAddress { get; set; }
 
+        [Column("address_line_2")]
+        public string AddressLine2 { get; set; }
+
         [Column("city")]
         public string City { get; set; }
 

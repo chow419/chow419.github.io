@@ -9,18 +9,19 @@ namespace D424___Software_Engineering_Capstone
         public GuestMainPageController _mainPageController { get; set; }
         public Grid SignInOverlayGrid => this.SignInOverlay;
         public Grid SignUpOverlayGrid => this.SignUpUNPWOverlay;
-        public Entry UsernameEntry => this.NewUserUsernameEntry;
-        public Entry PasswordEntry => this.NewUserPasswordEntry;
-        public Entry FirstNameEntry => this.NewUserFirstNameEntry;
-        public Entry LastNameEntry => this.NewUserLastNameEntry;
-        public Entry PhoneNumberEntry => this.NewUserPhoneNumberEntry;
-        public Entry EmailEntry => this.NewUserEmailEntry;
-        public Entry StreetAddressEntry => this.NewUserStreetAddressEntry;
-        public Entry CityEntry => this.NewUserCityEntry;
-        public Picker StatePicker => this.NewUserStatePicker;
-        public Entry ZipCodeEntry => this.NewUserZipCodeEntry;
-        public Picker CountryPicker => this.NewUserCountryPicker;
-        public DatePicker DateOfBirthPicker => this.NewUserDateOfBirthPicker;
+        public Entry UsernameEntry => this.SignUpUsernameEntry;
+        public Entry PasswordEntry => this.SignUpPasswordEntry;
+        public Entry FirstNameEntry => this.SignUpFirstNameEntry;
+        public Entry LastNameEntry => this.SignUpLastNameEntry;
+        public Entry PhoneNumberEntry => this.SignUpPhoneNumberEntry;
+        public Entry EmailEntry => this.SignUpEmailEntry;
+        public Entry StreetAddressEntry => this.SignUpAddressEntry;
+        public Entry Address2Entry => this.SignUpAddressLine2Entry;
+        public Entry CityEntry => this.SignUpCityEntry;
+        public Picker StatePicker => this.SignUpStatePicker;
+        public Entry ZipCodeEntry => this.SignUpZipCodeEntry;
+        public Picker CountryPicker => this.SignUpCountryPicker;
+        public DatePicker DateOfBirthPicker => this.SignUpDateOfBirthPicker;
 
         public MainPageView()
         {
@@ -39,17 +40,18 @@ namespace D424___Software_Engineering_Capstone
 
         private void ClearSignUpFields()
         {
-            NewUserUsernameEntry.Text = string.Empty;
-            NewUserPasswordEntry.Text = string.Empty;
-            NewUserFirstNameEntry.Text = string.Empty;
-            NewUserLastNameEntry.Text = string.Empty;
-            NewUserPhoneNumberEntry.Text = string.Empty;
-            NewUserEmailEntry.Text = string.Empty;
-            NewUserStreetAddressEntry.Text = string.Empty;
-            NewUserCityEntry.Text = string.Empty;
-            NewUserStatePicker.SelectedItem = null;
-            NewUserZipCodeEntry.Text = string.Empty;
-            NewUserCountryPicker.SelectedItem = null;
+            SignUpUsernameEntry.Text = string.Empty;
+            SignUpPasswordEntry.Text = string.Empty;
+            SignUpFirstNameEntry.Text = string.Empty;
+            SignUpLastNameEntry.Text = string.Empty;
+            SignUpPhoneNumberEntry.Text = string.Empty;
+            SignUpEmailEntry.Text = string.Empty;
+            SignUpAddressEntry.Text = string.Empty;
+            SignUpAddressLine2Entry.Text = string.Empty;
+            SignUpCityEntry.Text = string.Empty;
+            SignUpStatePicker.SelectedItem = null;
+            SignUpZipCodeEntry.Text = string.Empty;
+            SignUpCountryPicker.SelectedItem = null;
         }
 
         public void InitializeNewMainPageController()
@@ -75,34 +77,89 @@ namespace D424___Software_Engineering_Capstone
             ))
             {
                 SignInOverlay.IsVisible = false;
-                SignUpUNPWOverlay.IsVisible = false;
+                SignInBorder.IsVisible = false;
+                MainOverlay.IsVisible = false;
                 ClearSignInFields();
 
                 InitializeNewMainPageController();
+            }
+            else
+            {
+                SignInPasswordEntry.Text = string.Empty;
             }
         }
 
         public void OnSignUpLabelTapped(object sender, EventArgs e)
         {
             SignInOverlay.IsVisible = false;
+            SignInBorder.IsVisible = false;
             SignUpUNPWOverlay.IsVisible = true;
+            SignUpUNPWBorder.IsVisible = true;
             ClearSignInFields();
         }
 
         public async void OnSignUpSubmitButtonClicked(object sender, EventArgs e)
         {
+            if (await _mainPageController.ValidateLocationSignUp(this))
+            {
+                await _mainPageController.SignUpNewUser();
+
+                InitializeNewMainPageController();
+
+                SignUpLocationOverlay.IsVisible = false;
+                SignUpLocationBorder.IsVisible = false;
+            }
+
             await _mainPageController.SignUpNewUser();
 
             InitializeNewMainPageController();
-
-            SignUpUNPWOverlay.IsVisible = false;
         }
 
-        public void OnSignUpCancelLabelTapped(object sender, TappedEventArgs e)
+        public void OnSignUpCancelButtonClicked(object sender, EventArgs e)
         {
             SignUpUNPWOverlay.IsVisible = false;
+            SignUpUNPWBorder.IsVisible = false;
             SignInOverlay.IsVisible = true;
+            SignInBorder.IsVisible = true;
             ClearSignUpFields();
+        }
+
+        public async void OnSignUpUNPWNextButtonClicked(object sender, EventArgs e)
+        {
+            if (await _mainPageController.ValidateUNPWSignUp(this))
+            {
+                SignUpUNPWOverlay.IsVisible = false;
+                SignUpUNPWBorder.IsVisible = false;
+                SignUpPIOverlay.IsVisible = true;
+                SignUpPIBorder.IsVisible = true;
+            }
+        }
+
+        public void OnSignUpPIBackButtonClicked(object sender, EventArgs e)
+        {
+            SignUpUNPWOverlay.IsVisible = true;
+            SignUpUNPWBorder.IsVisible = true;
+            SignUpPIOverlay.IsVisible = false;
+            SignUpPIBorder.IsVisible = false;
+        }
+
+        public async void OnSignUpPINextButtonClicked(object sender, EventArgs e)
+        {
+            if (await _mainPageController.ValidatePISignUp(this))
+            {
+                SignUpPIOverlay.IsVisible = false;
+                SignUpPIBorder.IsVisible = false;
+                SignUpLocationOverlay.IsVisible = true;
+                SignUpLocationBorder.IsVisible = true;
+            }
+        }
+
+        public void OnSignUpLocationBackButtonClicked(object sender, EventArgs e)
+        {
+            SignUpPIOverlay.IsVisible = true;
+            SignUpPIBorder.IsVisible = true;
+            SignUpLocationOverlay.IsVisible = false;
+            SignUpLocationBorder.IsVisible = false;
         }
 
         public void OnContinueAsGuestLabelTapped(object sender, TappedEventArgs e)
