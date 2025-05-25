@@ -97,7 +97,8 @@ namespace D424___Software_Engineering_Capstone.Database
                 State = user.State,
                 ZipCode = user.ZipCode,
                 Country = user.Country,
-                DateOfBirth = user.DateOfBirth
+                DateOfBirth = user.DateOfBirth,
+                IsAdmin = user.IsAdmin
             });
 
             

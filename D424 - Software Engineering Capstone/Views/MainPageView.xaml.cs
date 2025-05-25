@@ -1,5 +1,6 @@
 ﻿using D424___Software_Engineering_Capstone.Controllers;
 using D424___Software_Engineering_Capstone.Models;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace D424___Software_Engineering_Capstone
 {
@@ -188,10 +189,83 @@ namespace D424___Software_Engineering_Capstone
 
         public void OnProfileIconTapped(object sender, TappedEventArgs e)
         {
-            _mainPageController.PopulateProfileMenuOverlay();
+            Grid page = (Grid)FindByName("MainPage");
 
-            ProfileMenuOverlay.IsVisible = !ProfileMenuOverlay.IsVisible;
-            ProfileMenuBorder.IsVisible = !ProfileMenuBorder.IsVisible;
+            var border = new Border()
+            {
+                AutomationId = "ProfileMenu",
+                StrokeShape = new RoundRectangle()
+                {
+                    CornerRadius = new CornerRadius(10, 0, 20, 10)
+                },
+                HorizontalOptions = LayoutOptions.End,
+                VerticalOptions = LayoutOptions.Start,
+                Margin = new Thickness(0, 70, 20, 0),
+                Content = _mainPageController.PopulateProfileMenuOverlay()
+            };
+            border.Shadow = new Shadow()
+            {
+                Brush = Colors.Black,
+                Offset = new Point(10, 10),
+                Radius = 16,
+                Opacity = 0.5f
+            };
+
+            page.Children.Add(border);
+        }
+
+        public void RemoveProfileMenuBorder()
+        {
+            Grid page = (Grid)FindByName("MainPage");
+            var border = page.Children.Where(c => c.AutomationId == "ProfileMenu").FirstOrDefault();
+
+            page.Children.Remove(border);
+        }
+
+        public void OnProfileSignInTapped(object sender, TappedEventArgs e)
+        {
+            RemoveProfileMenuBorder();
+
+            SignInOverlay.IsVisible = true;
+            SignInBorder.IsVisible = true;
+            MainOverlay.IsVisible = true;
+            ClearSignInFields();
+        }
+
+        public void OnProfileSignUpTapped(object sender, TappedEventArgs e)
+        {
+            RemoveProfileMenuBorder();
+
+            MainOverlay.IsVisible = true;
+            SignUpUNPWOverlay.IsVisible = true;
+            SignUpUNPWBorder.IsVisible = true;
+            ClearSignUpFields();
+        }
+
+        public void OnMemberPageLabelTapped(object sender, TappedEventArgs e)
+        {
+            RemoveProfileMenuBorder();
+
+            // Open MemberPageView
+        }
+
+        public void OnAdminPortalLabelTapped(object sender, TappedEventArgs e)
+        {
+            RemoveProfileMenuBorder();
+
+            // Open AdminPortalView
+        }
+
+        public void OnLogOutLabelTapped(object sender, TappedEventArgs e)
+        {
+            RemoveProfileMenuBorder();
+
+            CurrentUser = null;
+            _mainPageController = new GuestMainPageController(this);
+            MainOverlay.IsVisible = true;
+            SignInOverlay.IsVisible = true;
+            SignInBorder.IsVisible = true;
+            ClearSignInFields();
         }
     }
 

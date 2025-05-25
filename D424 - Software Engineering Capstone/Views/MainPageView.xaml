@@ -4,7 +4,7 @@
              x:Class="D424___Software_Engineering_Capstone.MainPageView">
 
     <!-- Main Page Layout -->
-    <Grid>
+    <Grid x:Name="MainPage">
         
         <!-- Main Page -->
         <Grid ColumnDefinitions="*,Auto"
@@ -526,7 +526,9 @@
 
         </Grid>
 
-        <Border x:Name="ProfileMenuBorder" VerticalOptions="Start"
+        <!-- Profile Menu Overlay -->
+        <Border x:Name="ProfileMenuBorder"
+                VerticalOptions="Start"
                 HorizontalOptions="End"
                 Margin="0,70,20,0"
                 IsVisible="False">

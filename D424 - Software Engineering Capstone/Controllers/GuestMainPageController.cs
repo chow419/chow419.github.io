@@ -1,5 +1,6 @@
 ﻿using D424___Software_Engineering_Capstone.Database;
 using D424___Software_Engineering_Capstone.Models;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace D424___Software_Engineering_Capstone.Controllers
 {
@@ -134,7 +135,8 @@ namespace D424___Software_Engineering_Capstone.Controllers
                     State = userQuery.State,
                     ZipCode = userQuery.ZipCode,
                     Country = userQuery.Country,
-                    DateOfBirth = userQuery.DateOfBirth
+                    DateOfBirth = userQuery.DateOfBirth,
+                    IsAdmin = userQuery.IsAdmin
                 };
 
                 MainView.CurrentUser = signedInUser;
@@ -154,17 +156,32 @@ namespace D424___Software_Engineering_Capstone.Controllers
             MainView.CurrentUser = new GuestModel();
         }
 
-        public virtual void PopulateProfileMenuOverlay()
+        public virtual VerticalStackLayout PopulateProfileMenuOverlay()
         {
-            VerticalStackLayout layout = (VerticalStackLayout)MainView.FindByName("ProfileMenuOverlay");
-            Border border = (Border)MainView.FindByName("ProfileMenuBorder");
+            var layout = new VerticalStackLayout()
+            {
+                Spacing = 15,
+                Padding = new Thickness(20),
+                BackgroundColor = Colors.White
+            };
 
-            layout.Children.Clear();
+            var logInLabel = new Label()
+                        {
+                            Text = "Sign In",
+                            FontSize = 16,
+                            HorizontalOptions = LayoutOptions.End,
+                        };
 
-            var registerLabel = new Label();
-            var logInLabel = new Label();
-            var registerTap = new TapGestureRecognizer();
+            var registerLabel = new Label()
+            {
+                Text = "Sign Up",
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.End,
+            };
+
             var logInTap = new TapGestureRecognizer();
+
+            var registerTap = new TapGestureRecognizer();
 
             var needAccountLabel = new Label()
             {
@@ -173,9 +190,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
                 HorizontalOptions = LayoutOptions.End,
             };
 
-            registerLabel.Text = "Sign Up";
             registerLabel.SetDynamicResource(Label.StyleProperty, "Link");
-            registerLabel.HorizontalOptions = LayoutOptions.End;
 
             var haveAccountLabel = new Label()
             {
@@ -184,36 +199,27 @@ namespace D424___Software_Engineering_Capstone.Controllers
                 HorizontalOptions = LayoutOptions.End,
             };
 
-            logInLabel.Text = "Sign In";
             logInLabel.SetDynamicResource(Label.StyleProperty, "Link");
-            logInLabel.HorizontalOptions = LayoutOptions.End;
 
             logInTap.Tapped += (s, e) =>
             {
-                layout.IsVisible = false;
-                border.IsVisible = false;
-                MainView.MainOverlayBackground.IsVisible = true;
-                MainView.SignInOverlayWindow.IsVisible = true;
-                MainView.SignInOverlayBorder.IsVisible = true;
+                MainView.OnProfileSignInTapped(s, e);
             };
 
             registerTap.Tapped += (s, e) =>
             {
-                layout.IsVisible = false;
-                border.IsVisible = false;
-                MainView.MainOverlayBackground.IsVisible = true;
-                MainView.SignUpOverlayWindow.IsVisible = true;
-                MainView.SignUpOverlayBorder.IsVisible = true;
+                MainView.OnProfileSignUpTapped(s, e);
             };
 
             logInLabel.GestureRecognizers.Add(logInTap);
             registerLabel.GestureRecognizers.Add(registerTap);
 
-            layout.Add(haveAccountLabel);
-            layout.Add(logInLabel);
-            layout.Add(needAccountLabel);
-            layout.Add(registerLabel);
-            
+            layout.Children.Add(haveAccountLabel);
+            layout.Children.Add(logInLabel);
+            layout.Children.Add(needAccountLabel);
+            layout.Children.Add(registerLabel);
+
+            return layout;
         }
     }
 }
