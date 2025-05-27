@@ -30,5 +30,8 @@
         {
             "Canada", "Mexico", "United States"
         };
+
+        public const double OverlayRedBlue = 8;
+        public const double OverlayGreen = 105;
     }
 }

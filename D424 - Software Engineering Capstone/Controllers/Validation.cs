@@ -5,11 +5,11 @@ namespace D424___Software_Engineering_Capstone.Controllers
 {
     public static class Validation
     {
-        public static async Task<bool> ValidateUserUsername(DatabaseHandler _database, ContentPage currentView, string username)
+        public static async Task<bool> ValidateUserUsername(DatabaseHandler _database, Func<string, string, string, Task> displayAlert, string username)
         {
             if (username is null || username == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a username.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a username.", "OK");
                 return false;
             }
 
@@ -17,7 +17,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
 
             if (uniqueUserNameCheck is not null)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "The username has already been taken.\n" +
+                await displayAlert("Sign Up Failed", "The username has already been taken.\n" +
                     "Please choose a unique username.", "OK");
                 return false;
             }
@@ -25,116 +25,113 @@ namespace D424___Software_Engineering_Capstone.Controllers
             return true;
         }
 
-        public static async Task<bool> ValidateUserPassword(ContentPage currentView, string password)
+        public static async Task<bool> ValidateUserPassword(Func<string, string, string, Task> displayAlert, string username, string password)
         {
             if (password is null || password == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a password.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a password.", "OK");
                 return false;
             }
 
             if (password.Length < 8)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Password must be at least 8 characters long.", "OK");
+                await displayAlert("Sign Up Failed", "Password must be at least 8 characters long.", "OK");
                 return false;
             }
 
             if (!password.Any(char.IsUpper))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Password must contain at least one uppercase letter.", "OK");
+                await displayAlert("Sign Up Failed", "Password must contain at least one uppercase letter.", "OK");
                 return false;
             }
 
             if (!password.Any(char.IsLower))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Password must contain at least one lowercase letter.", "OK");
+                await displayAlert("Sign Up Failed", "Password must contain at least one lowercase letter.", "OK");
                 return false;
             }
 
             if (!password.Any(char.IsDigit))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Password must contain at least one digit.", "OK");
+                await displayAlert("Sign Up Failed", "Password must contain at least one digit.", "OK");
                 return false;
             }
 
             if (!password.Any(c => "!@#$%^&*()_+-=[]{}|;':\",.<>?/`~".Contains(c)))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Password must contain at least one special character.", "OK");
+                await displayAlert("Sign Up Failed", "Password must contain at least one special character.", "OK");
                 return false;
             }
 
             if (password.Contains(" "))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Password cannot contain spaces.", "OK");
+                await displayAlert("Sign Up Failed", "Password cannot contain spaces.", "OK");
                 return false;
             }
 
-            if (currentView is MainPageView mainPageView)
+            if (password == username)
             {
-                if (password == mainPageView.UsernameEntry.Text)
-                {
-                    await currentView.DisplayAlert("Sign Up Failed", "Password cannot be the same as the username.", "OK");
-                    return false;
-                }
+                await displayAlert("Sign Up Failed", "Password cannot be the same as the username.", "OK");
+                return false;
             }
 
             if (password.Contains("password", StringComparison.OrdinalIgnoreCase))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Password cannot contain the word 'password'.", "OK");
+                await displayAlert("Sign Up Failed", "Password cannot contain the word 'password'.", "OK");
                 return false;
             }
 
             return true;
         }
 
-        public static async Task<bool> ValidateUserFirstName(ContentPage currentView, string firstName)
+        public static async Task<bool> ValidateUserFirstName(Func<string, string, string, Task> displayAlert, string firstName)
         {
             if (firstName is null || firstName == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a first name.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a first name.", "OK");
                 return false;
             }
             return true;
         }
 
-        public static async Task<bool> ValidateUserLastName(ContentPage currentView, string lastName)
+        public static async Task<bool> ValidateUserLastName(Func<string, string, string, Task> displayAlert, string lastName)
         {
             if (lastName is null || lastName == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a last name.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a last name.", "OK");
                 return false;
             }
             return true;
         }
 
-        public static async Task<bool> ValidateUserPhoneNumber(ContentPage currentView, string phoneNumber)
+        public static async Task<bool> ValidateUserPhoneNumber(Func<string, string, string, Task> displayAlert, string phoneNumber)
         {
             if (phoneNumber is null || phoneNumber == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a phone number.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a phone number.", "OK");
                 return false;
             }
 
             if (phoneNumber.Length != 10 || !phoneNumber.All(char.IsDigit))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Phone number must be 10 digits long and contain only numbers.", "OK");
+                await displayAlert("Sign Up Failed", "Phone number must be 10 digits long and contain only numbers.", "OK");
                 return false;
             }
 
             return true;
         }
 
-        public static async Task<bool> ValidateUserEmail(ContentPage currentView, string email)
+        public static async Task<bool> ValidateUserEmail(Func<string, string, string, Task> displayAlert, string email)
         {
             if (email is null || email == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter an email address.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter an email address.", "OK");
                 return false;
             }
 
             if (!email.Contains("@") || !email.Contains("."))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a valid email address.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a valid email address.", "OK");
                 return false;
             }
 
@@ -144,45 +141,45 @@ namespace D424___Software_Engineering_Capstone.Controllers
             }
             catch (FormatException)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a valid email address.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a valid email address.", "OK");
                 return false;
             }
 
             return true;
         }
 
-        public static async Task<bool> ValidateUserStreetAddress(ContentPage currentView, string streetAddress)
+        public static async Task<bool> ValidateUserStreetAddress(Func<string, string, string, Task> displayAlert, string streetAddress)
         {
             if (streetAddress is null || streetAddress == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a street address.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a street address.", "OK");
                 return false;
             }
 
             return true;
         }
 
-        public static async Task<bool> ValidateUserCity(ContentPage currentView, string city)
+        public static async Task<bool> ValidateUserCity(Func<string, string, string, Task> displayAlert, string city)
         {
             if (city is null || city == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a city.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a city.", "OK");
                 return false;
             }
 
             return true;
         }
 
-        public static async Task<bool> ValidateUserZipCode(ContentPage currentView, string zipCode)
+        public static async Task<bool> ValidateUserZipCode(Func<string, string, string, Task> displayAlert, string zipCode)
         {
-            if (zipCode == string.Empty)
+            if (zipCode is null || zipCode == string.Empty)
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Please enter a postal code.", "OK");
+                await displayAlert("Sign Up Failed", "Please enter a postal code.", "OK");
                 return false;
             }
             if (zipCode.ToString().Length != 5 || !zipCode.All(char.IsDigit))
             {
-                await currentView.DisplayAlert("Sign Up Failed", "Postal code must be 5 digits long and contain only numbers.", "OK");
+                await displayAlert("Sign Up Failed", "Postal code must be 5 digits long and contain only numbers.", "OK");
                 return false;
             }
             return true;
