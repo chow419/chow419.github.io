@@ -10,7 +10,6 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public DatabaseHandler()
         {
-            
         }
 
         public async Task AddMyselfAsAdmin()
@@ -45,7 +44,7 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task AddAll()
         {
-            //await DeleteAll();
+            // await DeleteAll();
 
             await AddMyselfAsAdmin();
         }
@@ -66,6 +65,7 @@ namespace D424___Software_Engineering_Capstone.Database
             await _connection.CreateTableAsync<ReservationTable>();
             await _connection.CreateTableAsync<ScoreTable>();
             await _connection.CreateTableAsync<CredentialsTable>();
+            await _connection.CreateTableAsync<ClosuresTable>();
         }
 
         public async Task DeleteAll()
@@ -178,5 +178,62 @@ namespace D424___Software_Engineering_Capstone.Database
             return (hash, salt, userId);
         }
 
+        public async Task<List<ReservationTable>> GetReservationsByDate(DateTime date)
+        {
+            await Init();
+
+            var query = await _connection.Table<ReservationTable>()
+                .Where(r => r.ReservationDate == date).ToListAsync();
+
+            return query;
+        }
+
+        public async Task<ClosuresTable> GetClosuresByDate(DateTime date)
+        {
+            await Init();
+
+            var query = await _connection.Table<ClosuresTable>()
+                                         .Where(c => c.ClosureDate == date.Date)
+                                         .FirstOrDefaultAsync();
+
+            return query;
+        }
+
+        public async Task AddNewGuest(GuestModel guest)
+        {
+            await Init();
+
+            await _connection.InsertAsync(new GuestTable
+            {
+                FirstName = guest.FirstName,
+                LastName = guest.LastName,
+                PhoneNumber = guest.PhoneNumber
+            });
+        }
+
+        public async Task<List<GuestTable>> GetGuestByNameAndNumber(string firstName, string lastName, string phoneNumber)
+        {
+            await Init();
+
+            var query = await _connection.Table<GuestTable>()
+                                         .Where(g => g.FirstName == firstName && g.LastName == lastName && g.PhoneNumber == phoneNumber)
+                                         .ToListAsync();
+
+            return query;
+        }
+
+        public async Task AddNewReservation(int id, bool isGuest, ReservationModel teeTime)
+        {
+            await Init();
+
+            await _connection.InsertAsync(new ReservationTable
+            {
+                UserId = id,
+                IsGuest = isGuest,
+                ReservationDate = teeTime.Date.Date,
+                ReservationTime = teeTime.Time,
+                NumberOfPlayers = teeTime.NumberOfPlayers
+            });
+        }
     }
 }

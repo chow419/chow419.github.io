@@ -38,20 +38,20 @@
 
                 <!-- Sign Up Entry Fields -->
                 <VerticalStackLayout Grid.Column="0"
-                                 Grid.Row="1"
-                                 Grid.ColumnSpan="2"
-                                 Spacing="15">
+                                     Grid.Row="1"
+                                     Grid.ColumnSpan="2"
+                                     Spacing="15">
 
                     <!-- Sign Up Username Entry -->
                     <Grid ColumnDefinitions="Auto,*"
-                      ColumnSpacing="25">
+                          ColumnSpacing="25">
                         <Label Grid.Column="0"
-                           Text="Username"
-                           VerticalTextAlignment="Center" />
+                               Text="Username"
+                               VerticalTextAlignment="Center" />
                         <Border Grid.Column="1">
                             <Entry x:Name="SignUpUsernameEntry"
-                               VerticalOptions="Center"
-                               HorizontalOptions="Fill"/>
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Fill"/>
                         </Border>
                     </Grid>
 

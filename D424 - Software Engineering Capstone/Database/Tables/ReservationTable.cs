@@ -11,11 +11,14 @@ namespace D424___Software_Engineering_Capstone.Database.Tables
         [Column("userId")]
         public int UserId { get; set; }
 
+        [Column("isGuest")]
+        public bool IsGuest { get; set; }
+
         [Column("teeTimeDate")]
-        public DateTime TeeTimeDate { get; set; }
+        public DateTime ReservationDate { get; set; }
 
         [Column("teeTimeTime")]
-        public DateTime TeeTimeTime { get; set; }
+        public DateTime ReservationTime { get; set; }
 
         [Column("numberOfPlayers")]
         public int NumberOfPlayers { get; set; }

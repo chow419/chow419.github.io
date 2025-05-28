@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.Views.ReserveTeeTimeView"
+             xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models">
+
+    <Grid x:Name="MainOverlay"
+          Grid.ColumnSpan="2"
+          Grid.RowSpan="3"
+          BackgroundColor="DarkGreen"
+          Opacity="0.96">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Grid.GestureRecognizers>
+
+        <!-- Reserve Tee Time Overlay -->
+        <Border x:Name="ReserveTeeTimeBorder"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="ReserveTeeTimeOverlay"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto,Auto"
+                  ColumnSpacing="50"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="15">
+
+                <!-- Reserve Tee Time Title -->
+                <Grid Grid.Row="0"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      ColumnDefinitions="*,Auto"
+                      RowDefinitions="Auto,Auto"
+                      RowSpacing="20">
+                    <Label Grid.Column="0"
+                           Grid.Row="0"
+                           Text="{Binding Date, StringFormat='{0:MM/dd/yyyy}'}"
+                           FontFamily="Lora-Italic"
+                           FontSize="24" />
+                    <Label Grid.Column="1"
+                           Grid.Row="0"
+                           Text="{Binding Time, StringFormat='{0:h:mm tt}'}"
+                           FontFamily="Lora-Italic"
+                           FontSize="24" />
+                    <Label Grid.Column="0"
+                           Grid.Row="1"
+                           Text="Number Of Players:"
+                           FontFamily="Lora-Italic"
+                           FontSize="18"/>
+                    <Picker x:Name="NumberOfPlayersPicker"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalTextAlignment="Center"/>
+                </Grid>
+                
+
+                <!-- Reserve Tee Time Entry Fields -->
+                <VerticalStackLayout Grid.Column="0"
+                                     Grid.Row="1"
+                                     Grid.ColumnSpan="2"
+                                     Spacing="15">
+
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="25">
+
+                        <Label Grid.Column="0"
+                               Text="First Name"
+                               VerticalTextAlignment="Center"/>
+                        <Border Grid.Column="1">
+                            <Entry x:Name="ReserveTeeTimeFirstNameEntry"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Fill"/>
+                        </Border>
+
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="25">
+
+                        <Label Grid.Column="0"
+                               Text="Last Name"
+                               VerticalTextAlignment="Center"/>
+                        <Border Grid.Column="1">
+                            <Entry x:Name="ReserveTeeTimeLastNameEntry"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Fill"/>
+                        </Border>
+
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="25">
+
+                        <Label Grid.Column="0"
+                               Text="Phone Number"
+                               VerticalTextAlignment="Center"/>
+                        <Border Grid.Column="1">
+                            <Entry x:Name="ReserveTeeTimePhoneNumberEntry"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Fill"
+                                   Text="{Binding PhoneNumber}"/>
+                        </Border>
+
+                    </Grid>
+
+                </VerticalStackLayout>
+                
+                <!-- Buttons -->
+                <Button Grid.Row="2"
+                        Grid.Column="0"
+                        Text="Cancel"
+                        Clicked="OnReserveTeeTimeCancelClicked"
+                        Style="{StaticResource OverlayButton}"/>
+
+                <Button Grid.Row="2"
+                        Grid.Column="1"
+                        Text="Submit"
+                        Clicked="OnReserveTeeTimeSubmitClicked"
+                        Style="{StaticResource OverlayButton}"/>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</ContentView>

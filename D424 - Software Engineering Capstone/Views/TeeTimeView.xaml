@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="D424___Software_Engineering_Capstone.Views.TeeTimeView"
-             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views">
+             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views"
+             xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="profile_menu_icon.png"
@@ -12,10 +13,80 @@
     <Grid>
         
         <!-- Main Content -->
+        <Grid RowDefinitions="Auto,Auto,Auto,*"
+              ColumnDefinitions="*,*">
+
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Text="Parallel 33"
+                   FontFamily="Playball-Regular"
+                   TextColor="DarkGreen"
+                   FontSize="32"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Text="Tee Times"
+                   FontFamily="Lora-Italic"
+                   TextColor="DarkGreen"
+                   FontSize="24"
+                   HorizontalTextAlignment="Center" />
+
+            <DatePicker x:Name="ReservationDatePicker"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalOptions="Center"
+                        DateSelected="OnDateChanged"/>
+
+            <Picker x:Name="NumberOfPlayersPicker"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    SelectedIndexChanged="OnNumberOfPlayersChanged">
+            </Picker>
+
+            <ScrollView Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2">
+                <VerticalStackLayout x:Name="TeeTimeLayout"
+                                     BindableLayout.ItemsSource="{Binding AvailableTeeTimes}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:TeeTimeModel">
+
+                            <Border>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnTeeTimeObjectTapped"
+                                                          CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <Grid RowDefinitions="Auto,Auto"
+                                      ColumnDefinitions="*,*">
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Time}" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Text="Number Of Player Slots Available:" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="1"
+                                           Text="{Binding AvailablePlayerSlots}" />
+                                </Grid>
+                            </Border>
+
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+
+        </Grid>
 
         <views:SignInOverlayView x:Name="_signInOverlay" IsVisible="False" />
         <views:SignUpOverlayView x:Name="_signUpOverlay" IsVisible="False" />
         <views:ProfileOptionsOverlayView x:Name="_profileOptionsOverlay" IsVisible="False" />
+        <views:ReserveTeeTimeView x:Name="_reserveTeeTimeView" IsVisible="False" />
 
     </Grid>
     
