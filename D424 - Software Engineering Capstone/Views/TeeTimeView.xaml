@@ -6,7 +6,8 @@
              xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="profile_menu_icon.png"
+        <ToolbarItem x:Name="ProfileMenuIcon"
+                     IconImageSource="profile_menu_icon.png"
                      Clicked="OnProfileMenuButtonClicked" />
     </ContentPage.ToolbarItems>
 
@@ -22,7 +23,7 @@
                    Text="Parallel 33"
                    FontFamily="Playball-Regular"
                    TextColor="DarkGreen"
-                   FontSize="32"
+                   FontSize="48"
                    HorizontalTextAlignment="Center" />
 
             <Label Grid.Row="1"
@@ -31,47 +32,66 @@
                    Text="Tee Times"
                    FontFamily="Lora-Italic"
                    TextColor="DarkGreen"
-                   FontSize="24"
-                   HorizontalTextAlignment="Center" />
+                   FontSize="32"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,-15,0,0" />
 
             <DatePicker x:Name="ReservationDatePicker"
                         Grid.Row="2"
                         Grid.Column="0"
                         HorizontalOptions="Center"
-                        DateSelected="OnDateChanged"/>
+                        DateSelected="OnDateChanged"
+                        FontSize="24" />
 
             <Picker x:Name="NumberOfPlayersPicker"
                     Grid.Row="2"
                     Grid.Column="1"
                     HorizontalOptions="Center"
-                    SelectedIndexChanged="OnNumberOfPlayersChanged">
+                    SelectedIndexChanged="OnNumberOfPlayersChanged"
+                    FontSize="24"
+                    HorizontalTextAlignment="Center">
             </Picker>
 
             <ScrollView Grid.Row="3"
                         Grid.Column="0"
                         Grid.ColumnSpan="2">
                 <VerticalStackLayout x:Name="TeeTimeLayout"
-                                     BindableLayout.ItemsSource="{Binding AvailableTeeTimes}">
+                                     BindableLayout.ItemsSource="{Binding AvailableTeeTimes}"
+                                     Spacing="20"
+                                     Padding="20">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:TeeTimeModel">
 
-                            <Border>
+                            <Border Stroke="DarkGreen"
+                                    StrokeThickness="4"
+                                    BackgroundColor="LightGrey">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="20" />
+                                </Border.StrokeShape>
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnTeeTimeObjectTapped"
                                                           CommandParameter="{Binding .}"/>
                                 </Border.GestureRecognizers>
                                 <Grid RowDefinitions="Auto,Auto"
-                                      ColumnDefinitions="*,*">
+                                      ColumnDefinitions="*,*"
+                                      RowSpacing="10"
+                                      Padding="10">
                                     <Label Grid.Row="0"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
-                                           Text="{Binding Time}" />
+                                           Text="{Binding Time, StringFormat='{0:h:mm tt}'}"
+                                           HorizontalTextAlignment="Center"
+                                           Style="{StaticResource Headline}" />
                                     <Label Grid.Row="1"
                                            Grid.Column="0"
-                                           Text="Number Of Player Slots Available:" />
+                                           Text="Player Slots:"
+                                           HorizontalTextAlignment="Center"
+                                           Style="{StaticResource SubHeadline}" />
                                     <Label Grid.Row="1"
                                            Grid.Column="1"
-                                           Text="{Binding AvailablePlayerSlots}" />
+                                           Text="{Binding AvailablePlayerSlots}"
+                                           HorizontalTextAlignment="Center"
+                                           Style="{StaticResource SubHeadline}" />
                                 </Grid>
                             </Border>
 

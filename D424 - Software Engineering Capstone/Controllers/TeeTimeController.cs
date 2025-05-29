@@ -75,11 +75,11 @@ namespace D424___Software_Engineering_Capstone.Controllers
             await _database.AddNewGuest(guest);
         }
 
-        public async Task<int> GetGuestId(string firstName, string lastName, string phoneNumber)
+        public async Task<GuestTable> GetGuest(string firstName, string lastName, string phoneNumber)
         {
             var result = await _database.GetGuestByNameAndNumber(firstName, lastName, phoneNumber);
 
-            return result.LastOrDefault().Id;
+            return result;
         }
 
         public async Task ScheduleTeeTime(int playerIdNumber, bool isGuest, ReservationModel teeTime)

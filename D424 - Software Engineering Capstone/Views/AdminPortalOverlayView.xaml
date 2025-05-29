@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.Views.AdminPortalOverlayView"
+             xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models"
+             xmlns:converters="clr-namespace:D424___Software_Engineering_Capstone.Converters">
+
+    <ContentView.Resources>
+        <converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter" />
+    </ContentView.Resources>
+
+    <Grid x:Name="MainOverlay"
+          BackgroundColor="DarkGreen"
+          Opacity="0.96">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer />
+            </Grid.GestureRecognizers>
+
+        <!-- View Reservations Overlay -->
+        <Border x:Name="ViewReservationsBorder"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="ViewReservationsOverlay"
+                  RowDefinitions="Auto,Auto,*,Auto"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="10"
+                  MinimumWidthRequest="325">
+
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Text="Reservations"
+                       Style="{StaticResource Headline}" />
+
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      RowDefinitions="Auto,Auto"
+                      ColumnDefinitions="Auto,Auto,*">
+
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Filter By Date: "
+                           VerticalTextAlignment="Center"/>
+                    <Switch x:Name="FilterByDateSwith"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            IsToggled="{Binding IsFilterByDateEnabled}"
+                            Toggled="OnFilterByDateSwitchToggled"/>
+                    <DatePicker x:Name="ReservationDatePicker"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                IsVisible="{Binding IsFilterByDateEnabled}"
+                                HorizontalOptions="End"
+                                DateSelected="OnReservationDateChanged"/>
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           Text="Filter By Player: "
+                           VerticalTextAlignment="Center" />
+                    <Switch x:Name="FilterByPlayerSwitch"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsToggled="{Binding IsFilterByPlayerEnabled}"
+                            Toggled="OnFilterByNameSwitchToggled"/>
+                    <Entry x:Name="ReservationNameEntry"
+                           Grid.Row="1"
+                           Grid.Column="2"
+                           Placeholder="Player Name"
+                           IsVisible="{Binding IsFilterByPlayerEnabled}"
+                           TextChanged="OnPlayerNameChanged" />
+
+                </Grid>
+                
+                <ScrollView Grid.Row="2">
+                    <VerticalStackLayout>
+                        <!-- Title Bar / Column Headers -->
+                        <Grid ColumnDefinitions="90,75,*,45,25" Padding="5" BackgroundColor="#e0e0e0">
+                            <Label Grid.Column="0" Text="Date" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="Time" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="2" Text="Player Name" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="3" Text="Guest" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="4" Text="#" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        </Grid>
+                        <!-- Reservation List -->
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding FilteredList}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="model:ReservationModel">
+                                    <Grid ColumnDefinitions="90,75,*,45,25">
+                                        <Border Grid.Column="0" Padding="5">
+                                            <Label Text="{Binding Date, StringFormat='{0:MM/dd/yyyy}'}" />
+                                        </Border>
+                                        <Border Grid.Column="1" Padding="5">
+                                            <Label Text="{Binding Time, StringFormat='{0:h:mm tt}'}" />
+                                        </Border>
+                                        <Border Grid.Column="2" Padding="5">
+                                            <Label Text="{Binding Player.FullName}" HorizontalTextAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="3" Padding="5">
+                                            <Label Text="{Binding IsPlayerGuest, Converter={StaticResource BoolToYesNoConverter}}" />
+                                        </Border>
+                                        <Border Grid.Column="4" Padding="5">
+                                            <Label Text="{Binding NumberOfPlayers}" />
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+                
+                <Button Grid.Row="3"
+                        Grid.Column="0"
+                        Text="Close"
+                        Style="{StaticResource OverlayButton}"
+                        HorizontalOptions="Center"
+                        Clicked="OnViewReservationsClosedClicked"/>
+
+            </Grid>
+
+        </Border>
+
+        <!-- View Signed Up Users Overlay -->
+        <Border x:Name="ViewSignedUpUsersBorder"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="ViewSignedUpUsersOverlay"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  IsVisible="False"
+                  ColumnSpacing="50"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="10"
+                  WidthRequest="325">
+
+            </Grid>
+
+        </Border>
+
+        <!-- View Guests Overlay -->
+        <Border x:Name="ViewGuestsBorder"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="ViewGuestsOverlay"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  IsVisible="False"
+                  ColumnSpacing="50"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="10"
+                  WidthRequest="325">
+
+            </Grid>
+
+        </Border>
+        
+        <!-- View Course News Overlay -->
+        <Border x:Name="ViewCourseNewsBorder"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="ViewCourseNewsOverlay"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  IsVisible="False"
+                  ColumnSpacing="50"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="10"
+                  WidthRequest="325">
+
+            </Grid>
+
+        </Border>
+
+        <!-- View Contact Us Info Overlay -->
+        <Border x:Name="ViewContactUsInfoBorder"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="ViewContactUsInfoOverlay"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  IsVisible="False"
+                  ColumnSpacing="50"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="10"
+                  WidthRequest="325">
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</ContentView>

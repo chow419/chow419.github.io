@@ -40,21 +40,25 @@
                            Grid.Row="0"
                            Text="{Binding Date, StringFormat='{0:MM/dd/yyyy}'}"
                            FontFamily="Lora-Italic"
-                           FontSize="24" />
+                           FontSize="28"/>
                     <Label Grid.Column="1"
                            Grid.Row="0"
                            Text="{Binding Time, StringFormat='{0:h:mm tt}'}"
                            FontFamily="Lora-Italic"
-                           FontSize="24" />
+                           FontSize="28"/>
                     <Label Grid.Column="0"
                            Grid.Row="1"
                            Text="Number Of Players:"
                            FontFamily="Lora-Italic"
-                           FontSize="18"/>
+                           FontSize="24"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
                     <Picker x:Name="NumberOfPlayersPicker"
                             Grid.Row="1"
                             Grid.Column="1"
-                            HorizontalTextAlignment="Center"/>
+                            HorizontalTextAlignment="Center"
+                            HorizontalOptions="Center"
+                            FontSize="24"/>
                 </Grid>
                 
 
@@ -69,11 +73,13 @@
 
                         <Label Grid.Column="0"
                                Text="First Name"
-                               VerticalTextAlignment="Center"/>
+                               VerticalTextAlignment="Center"
+                               FontSize="18"/>
                         <Border Grid.Column="1">
                             <Entry x:Name="ReserveTeeTimeFirstNameEntry"
                                    VerticalOptions="Center"
-                                   HorizontalOptions="Fill"/>
+                                   HorizontalOptions="Fill"
+                                   FontSize="18"/>
                         </Border>
 
                     </Grid>
@@ -83,11 +89,13 @@
 
                         <Label Grid.Column="0"
                                Text="Last Name"
-                               VerticalTextAlignment="Center"/>
+                               VerticalTextAlignment="Center"
+                               FontSize="18"/>
                         <Border Grid.Column="1">
                             <Entry x:Name="ReserveTeeTimeLastNameEntry"
                                    VerticalOptions="Center"
-                                   HorizontalOptions="Fill"/>
+                                   HorizontalOptions="Fill"
+                                   FontSize="18"/>
                         </Border>
 
                     </Grid>
@@ -97,12 +105,13 @@
 
                         <Label Grid.Column="0"
                                Text="Phone Number"
-                               VerticalTextAlignment="Center"/>
+                               VerticalTextAlignment="Center"
+                               FontSize="18"/>
                         <Border Grid.Column="1">
                             <Entry x:Name="ReserveTeeTimePhoneNumberEntry"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Fill"
-                                   Text="{Binding PhoneNumber}"/>
+                                   FontSize="18"/>
                         </Border>
 
                     </Grid>

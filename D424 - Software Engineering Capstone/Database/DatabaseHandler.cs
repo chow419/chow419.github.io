@@ -60,12 +60,14 @@ namespace D424___Software_Engineering_Capstone.Database
 
             _connection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
 
+            await _connection.CreateTableAsync<ClosuresTable>();
+            await _connection.CreateTableAsync<ContactUsInfoTable>();
+            await _connection.CreateTableAsync<CourseNewsTable>();
+            await _connection.CreateTableAsync<CredentialsTable>();
             await _connection.CreateTableAsync<GuestTable>();
-            await _connection.CreateTableAsync<UserTable>();
             await _connection.CreateTableAsync<ReservationTable>();
             await _connection.CreateTableAsync<ScoreTable>();
-            await _connection.CreateTableAsync<CredentialsTable>();
-            await _connection.CreateTableAsync<ClosuresTable>();
+            await _connection.CreateTableAsync<UserTable>();
         }
 
         public async Task DeleteAll()
@@ -211,7 +213,7 @@ namespace D424___Software_Engineering_Capstone.Database
             });
         }
 
-        public async Task<List<GuestTable>> GetGuestByNameAndNumber(string firstName, string lastName, string phoneNumber)
+        public async Task<GuestTable> GetGuestByNameAndNumber(string firstName, string lastName, string phoneNumber)
         {
             await Init();
 
@@ -219,7 +221,7 @@ namespace D424___Software_Engineering_Capstone.Database
                                          .Where(g => g.FirstName == firstName && g.LastName == lastName && g.PhoneNumber == phoneNumber)
                                          .ToListAsync();
 
-            return query;
+            return query.LastOrDefault();
         }
 
         public async Task AddNewReservation(int id, bool isGuest, ReservationModel teeTime)
@@ -234,6 +236,101 @@ namespace D424___Software_Engineering_Capstone.Database
                 ReservationTime = teeTime.Time,
                 NumberOfPlayers = teeTime.NumberOfPlayers
             });
+        }
+
+        public async Task<List<ReservationTable>> FetchAllReservations()
+        {
+            await Init();
+
+            var query = await _connection.Table<ReservationTable>()
+                                         .OrderBy(r => r.ReservationDate)
+                                         .ThenBy(r => r.ReservationTime)
+                                         .ToListAsync();
+
+            return query;
+        }
+
+        public async Task<List<UserTable>> FetchAllSignedUpUsers()
+        {
+            await Init();
+
+            var query = await _connection.Table<UserTable>().OrderBy(r => r.LastName).ThenBy(r => r.FirstName).ToListAsync();
+
+            return query;
+        }
+
+        public async Task<List<GuestTable>> FetchAllGuests()
+        {
+            await Init();
+
+            var query = await _connection.Table<GuestTable>().ToListAsync();
+
+            return query;
+        }
+
+        public async Task AddCourseNews(CourseNewsModel addedCourseNews)
+        {
+            await Init();
+
+            int closureId = -1;
+
+            CourseNewsTable courseNews = new CourseNewsTable()
+            {
+                Title = addedCourseNews.Title,
+                PostedDate = addedCourseNews.PostedDate,
+                NewsDetails = addedCourseNews.NewsDetails
+            };
+
+            if (addedCourseNews.IsClosed)
+            {
+                ClosuresTable closure = new ClosuresTable()
+                {
+                    ClosureDate = addedCourseNews.ClosureDate,
+                    ClosureReason = addedCourseNews.ClosureReason
+                };
+
+                await AddClosure(closure);
+
+                closureId = await GetLastClosureId();
+
+                courseNews.ClosureId = closureId;
+            }
+
+            await _connection.InsertAsync(courseNews);
+        }
+
+        public async Task AddClosure(ClosuresTable addedClosure)
+        {
+            await Init();
+
+            await _connection.InsertAsync(addedClosure);
+        }
+
+        public async Task<int> GetLastClosureId()
+        {
+            await Init();
+
+            var query = await _connection.Table<ClosuresTable>().ToListAsync();
+
+            return query.LastOrDefault().Id;
+        }
+
+        public async Task<ContactUsInfoTable> FetchContactUsInfo()
+        {
+            await Init();
+
+            var query = await _connection.Table<ContactUsInfoTable>().FirstOrDefaultAsync();
+
+            return query;
+        }
+
+        public async Task<GuestTable> GetGuestById(int id)
+        {
+            await Init();
+
+            var query = await _connection.Table<GuestTable>().Where(g => g.Id == id).FirstOrDefaultAsync();
+
+            return query;
         }
     }
 }

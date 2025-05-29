@@ -28,6 +28,19 @@ public partial class TeeTimeView : ContentPage
 
         this.OnTeeTimeSelected += _reserveTeeTimeView.InitializeTeeTimeScheduler;
 
+        _signInOverlay.ContinueAsGuest += OnContinueAsGuest;
+        _signInOverlay.RequestSignUp += OnRequestSignUp;
+        _signInOverlay.SuccessfulSignIn += OnSuccessfulSignIn;
+
+        _signUpOverlay.CancelSignUp += OnCancelSignUp;
+        _signUpOverlay.SignUpCompleted += OnSignUpCompleted;
+
+        _profileOptionsOverlay.ProfileSignInTapped += OnProfileSignInTapped;
+        _profileOptionsOverlay.ProfileSignUpTapped += OnProfileSignUpTapped;
+        _profileOptionsOverlay.MemberPortalTapped += OnMemberPageLabelTapped;
+        _profileOptionsOverlay.AdminPortalTapped += OnAdminPortalLabelTapped;
+        _profileOptionsOverlay.LogOutTapped += OnLogOutLabelTapped;
+
         BindingContext = this;
     }
 
@@ -91,37 +104,140 @@ public partial class TeeTimeView : ContentPage
     {
         if (CurrentUser is UserModel member)
         {
-            var memberId = await _controller.GetMemberId(member);
-
             var reservation = new ReservationModel
             {
-                UserId = memberId,
+                Player = member,
                 Date = e.TeeTime.Date,
                 Time = e.TeeTime.Time,
                 NumberOfPlayers = e.NumberOfPlayers
             };
 
-            await _controller.ScheduleTeeTime(memberId, false, reservation);
+            await _controller.ScheduleTeeTime(member.Id, false, reservation);
         }
         else
         {
             await _controller.AddGuest(e.FirstName, e.LastName, e.PhoneNumber);
 
-            var guestId = await _controller.GetGuestId(e.FirstName, e.LastName, e.PhoneNumber);
+            var guest = await _controller.GetGuest(e.FirstName, e.LastName, e.PhoneNumber);
 
             var reservation = new ReservationModel
             {
-                UserId = guestId,
+                Player = new GuestModel()
+                {
+                    FirstName = guest.FirstName,
+                    LastName = guest.LastName,
+                    PhoneNumber = guest.PhoneNumber
+                },
                 Date = e.TeeTime.Date,
                 Time = e.TeeTime.Time,
                 NumberOfPlayers = e.NumberOfPlayers
             };
 
-            await _controller.ScheduleTeeTime(guestId, true, reservation);
+            await _controller.ScheduleTeeTime(guest.Id, true, reservation);
         }
 
         _reserveTeeTimeView.IsVisible = false;
 
         SetAvailableTeeTimes();
+    }
+
+
+
+
+
+    private void SetNavigationBarColor(Color color)
+    {
+        if (Application.Current.MainPage is NavigationPage navPage)
+        {
+            navPage.BarBackgroundColor = color;
+        }
+    }
+
+    private void OnSuccessfulSignIn(object? sender, UserModel user)
+    {
+        CurrentUser = user;
+
+        SetNavigationBarColor(Colors.White);
+
+        ProfileMenuIcon.IsEnabled = true;
+
+        _profileOptionsOverlay.InitializeController(CurrentUser);
+    }
+
+    private void OnCancelSignUp(object? sender, EventArgs e)
+    {
+        _signUpOverlay.IsVisible = false;
+        _signInOverlay.IsVisible = true;
+    }
+
+    private void OnRequestSignUp(object? sender, EventArgs e)
+    {
+        _signInOverlay.IsVisible = false;
+        _signUpOverlay.IsVisible = true;
+    }
+
+    private void OnSignUpCompleted(object? sender, UserModel user)
+    {
+        CurrentUser = user;
+
+        SetNavigationBarColor(Colors.White);
+
+        ProfileMenuIcon.IsEnabled = true;
+
+        _profileOptionsOverlay.InitializeController(CurrentUser);
+    }
+
+    private void OnContinueAsGuest(object? sender, GuestModel? guest)
+    {
+        if (guest != null)
+        {
+            CurrentUser = guest;
+
+            SetNavigationBarColor(Colors.White);
+
+            ProfileMenuIcon.IsEnabled = true;
+
+            _profileOptionsOverlay.InitializeController(CurrentUser);
+        }
+    }
+
+    private void OnProfileSignInTapped(object? sender, EventArgs e)
+    {
+        _signInOverlay.IsVisible = true;
+
+        SetNavigationBarColor(Color.FromRgb(8, 105, 8));
+
+        ProfileMenuIcon.IsEnabled = false;
+    }
+
+    private void OnProfileSignUpTapped(object? sender, EventArgs e)
+    {
+        _signUpOverlay.IsVisible = true;
+
+        SetNavigationBarColor(Color.FromRgb(8, 105, 8));
+
+        ProfileMenuIcon.IsEnabled = false;
+    }
+
+    private void OnMemberPageLabelTapped(object? sender, EventArgs e)
+    {
+        // Open MemberPageView
+    }
+
+    private void OnAdminPortalLabelTapped(object? sender, EventArgs e)
+    {
+
+        // Open AdminPortalView
+    }
+
+    private void OnLogOutLabelTapped(object? sender, EventArgs e)
+    {
+        CurrentUser = null;
+
+        SetNavigationBarColor(Color.FromRgb(8, 105, 8));
+
+        ProfileMenuIcon.IsEnabled = false;
+
+        _signInOverlay.IsVisible = true;
     }
 }

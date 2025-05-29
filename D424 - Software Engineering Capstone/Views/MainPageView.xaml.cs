@@ -129,12 +129,12 @@ namespace D424___Software_Engineering_Capstone
 
         private void OnCourseNewsButtonClicked(object? sender, EventArgs e)
         {
-            // Open CourseNewsView
+            // Navigation.PushAsync(new CourseNewsView(CurrentUser));
         }
 
         private void OnContactUsButtonClicked(object sender, EventArgs e)
         {
-            // Open ContactUsView
+            // Navigation.PushAsync(new ContactUsView(CurrentUser));
         }
 
         private void OnProfileIconTapped(object sender, TappedEventArgs e)
@@ -149,13 +149,13 @@ namespace D424___Software_Engineering_Capstone
 
         private void OnMemberPageLabelTapped(object? sender, EventArgs e)
         {
-            // Open MemberPageView
+            // Navigation.PushAsync(new MemberPortalView(CurrentUser));
         }
 
         private void OnAdminPortalLabelTapped(object? sender, EventArgs e)
         {
 
-            // Open AdminPortalView
+            Navigation.PushAsync(new AdminPortalView((UserModel)CurrentUser));
         }
 
         private void OnLogOutLabelTapped(object? sender, EventArgs e)
