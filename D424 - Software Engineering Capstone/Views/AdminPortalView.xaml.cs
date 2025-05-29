@@ -17,9 +17,11 @@ public partial class AdminPortalView : ContentPage
 		CurrentUser = admin;
 
 		this.OnViewReservations += _adminPortalOverlay.OnViewReservationsClicked;
+		this.OnViewUsers += _adminPortalOverlay.OnViewUsersClicked;
 	}
 
 	public event EventHandler? OnViewReservations;
+	private event EventHandler? OnViewUsers;
 
 	private void OnProfileMenuButtonTapped(object sender, EventArgs e)
 	{
@@ -31,5 +33,12 @@ public partial class AdminPortalView : ContentPage
 		_adminPortalOverlay.IsVisible = true;
 
 		OnViewReservations?.Invoke(sender, e);
+	}
+
+	private void OnViewUsersClicked(object sender, EventArgs e)
+	{
+		_adminPortalOverlay.IsVisible = true;
+
+		OnViewUsers?.Invoke(sender, e);
 	}
 }

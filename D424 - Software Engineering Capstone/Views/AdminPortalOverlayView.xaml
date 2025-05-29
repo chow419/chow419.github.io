@@ -19,7 +19,7 @@
         <!-- View Reservations Overlay -->
         <Border x:Name="ViewReservationsBorder"
                 HorizontalOptions="Center"
-                VerticalOptions="Start"
+                VerticalOptions="Center"
                 IsVisible="False">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20" />
@@ -76,7 +76,8 @@
 
                 </Grid>
                 
-                <ScrollView Grid.Row="2">
+                <ScrollView Grid.Row="2"
+                            VerticalOptions="Start">
                     <VerticalStackLayout>
                         <!-- Title Bar / Column Headers -->
                         <Grid ColumnDefinitions="90,75,*,45,25" Padding="5" BackgroundColor="#e0e0e0">
@@ -87,7 +88,7 @@
                             <Label Grid.Column="4" Text="#" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         </Grid>
                         <!-- Reservation List -->
-                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding FilteredList}">
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding FilteredReservations}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="model:ReservationModel">
                                     <Grid ColumnDefinitions="90,75,*,45,25">
@@ -133,16 +134,71 @@
                 <RoundRectangle CornerRadius="20" />
             </Border.StrokeShape>
 
-            <Grid x:Name="ViewSignedUpUsersOverlay"
-                  ColumnDefinitions="*,*"
-                  RowDefinitions="Auto,Auto,Auto"
-                  IsVisible="False"
-                  ColumnSpacing="50"
-                  RowSpacing="20"
-                  BackgroundColor="White"
-                  Padding="10"
-                  WidthRequest="325">
+            <Grid x:Name="ViewUsersOverlay"
+                      RowDefinitions="Auto,Auto,*,Auto"
+                      RowSpacing="20"
+                      BackgroundColor="White"
+                      Padding="10"
+                      MinimumWidthRequest="325">
 
+                    <!-- Title -->
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Signed-Up Users"
+                           Style="{StaticResource Headline}" />
+
+                    <!-- Filter Information -->
+                    <Grid Grid.Row="1"
+                          Grid.Column="0"
+                          ColumnDefinitions="Auto,*">
+                        <Label Grid.Column="0"
+                               Text="Filter By Name: "
+                               VerticalTextAlignment="Center" />
+                        <Entry x:Name="NameFilterEntry"
+                               Grid.Column="2"
+                               Placeholder="User Name"
+                               TextChanged="OnNameFilterTextChanged" />
+                    </Grid>
+                    
+
+                <ScrollView Grid.Row="2"
+                            VerticalOptions="Start">
+                    <VerticalStackLayout>
+                        <!-- Title Bar / Column Headers -->
+                        <Grid ColumnDefinitions="*,65" Padding="5" BackgroundColor="#e0e0e0">
+                            <Label Grid.Column="0" Text="Player Name" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="Admin" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        </Grid>
+                        <!-- Reservation List -->
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding FilteredUsers}">
+                            <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:UserModel">
+                                    <Grid ColumnDefinitions="*,65">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer x:Name="UserEntryTap"
+                                                                  Tapped="UserEntryTapped"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Border Grid.Column="0" Padding="5">
+                                            <Label Text="{Binding FullName}" HorizontalTextAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="1" Padding="5">
+                                            <Label Text="{Binding IsAdmin, Converter={StaticResource BoolToYesNoConverter}}"
+                                                   HorizontalTextAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+
+                <Button Grid.Row="3"
+                            Grid.Column="0"
+                            Text="Close"
+                            Style="{StaticResource OverlayButton}"
+                            HorizontalOptions="Center"
+                            Clicked="OnViewUsersCloseButtonClicked"/>
             </Grid>
 
         </Border>
@@ -215,7 +271,42 @@
             </Grid>
 
         </Border>
+        
+        <!-- Selected User Overlay -->
+        <Border>
+            <Border x:Name="SelectedOverlay"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsVisible="False">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
 
+                <Grid x:Name="SelectedUserGrid"
+                      RowDefinitions="Auto,*,Auto"
+                      ColumnSpacing="50"
+                      RowSpacing="20"
+                      BackgroundColor="White"
+                      Padding="10"
+                      WidthRequest="325">
+
+                    <!-- Title -->
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="{Binding FullName}"
+                           Style="{StaticResource Headline}" />
+
+                    <Button Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Close"
+                            Style="{StaticResource OverlayButton}"
+                            HorizontalOptions="Center"
+                            Clicked="OnSelectedUserCloseButtonClicked"/>
+
+                </Grid>
+
+            </Border>
+        </Border>
     </Grid>
 
 </ContentView>

@@ -33,8 +33,9 @@
                         Style="{StaticResource MainPageButton}"
                         Clicked="OnViewReservationsClicked"/>
 
-                <Button Text="View Signed Up Users"
-                        Style="{StaticResource MainPageButton}" />
+                <Button Text="View Users"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnViewUsersClicked" />
 
                 <Button Text="View Guests"
                         Style="{StaticResource MainPageButton}" />

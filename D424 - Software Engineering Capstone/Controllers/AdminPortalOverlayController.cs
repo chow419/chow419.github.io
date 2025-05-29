@@ -93,5 +93,39 @@ namespace D424___Software_Engineering_Capstone.Controllers
 
             return returnList;
         }
+
+        public async Task<List<UserModel>> GetUsersListFromDatabase()
+        {
+            var tempList = await _database.FetchAllSignedUpUsers();
+            List<UserModel> returnList = new();
+
+            foreach (var user in tempList)
+            {
+                var userModel = new UserModel()
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    StreetAddress = user.StreetAddress,
+                    AddressLine2 = user.AddressLine2,
+                    City = user.City,
+                    ZipCode = user.ZipCode,
+                    Country = user.Country,
+                    DateOfBirth = user.DateOfBirth,
+                    IsAdmin = user.IsAdmin
+                };
+
+                returnList.Add(userModel);
+            }
+
+            return returnList;
+        }
+        public List<UserModel> FilterUserListByName(List<UserModel> list, string name)
+        {
+            var filteredList = list.Where(u => u.FullName.ToLower().Contains(name.ToLower())).ToList();
+
+            return filteredList;
+        }
     }
 }
