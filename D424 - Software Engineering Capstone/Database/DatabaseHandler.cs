@@ -274,35 +274,20 @@ namespace D424___Software_Engineering_Capstone.Database
             return query;
         }
 
-        public async Task AddCourseNews(CourseNewsModel addedCourseNews)
+        public async Task AddCourseNews(CourseNewsTable news, ClosuresTable? closure = null)
         {
             await Init();
 
-            int closureId = -1;
-
-            CourseNewsTable courseNews = new CourseNewsTable()
+            if (closure != null)
             {
-                Title = addedCourseNews.Title,
-                PostedDate = addedCourseNews.PostedDate,
-                NewsDetails = addedCourseNews.NewsDetails
-            };
+                AddClosure(closure);
 
-            if (addedCourseNews.IsClosed)
-            {
-                ClosuresTable closure = new ClosuresTable()
-                {
-                    ClosureDate = addedCourseNews.ClosureDate,
-                    ClosureReason = addedCourseNews.ClosureReason
-                };
+                var closureID = await GetLastClosureId();
 
-                await AddClosure(closure);
-
-                closureId = await GetLastClosureId();
-
-                courseNews.ClosureId = closureId;
+                news.ClosureId = closureID;
             }
 
-            await _connection.InsertAsync(courseNews);
+            await _connection.InsertAsync(news);
         }
 
         public async Task AddClosure(ClosuresTable addedClosure)

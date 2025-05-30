@@ -321,13 +321,43 @@ public partial class AdminPortalOverlayView : ContentView
 		ViewCourseNewsBorder.IsVisible = false;
 	}
 
-	private void OnCourseNewsCancelButtonClicked(object sender, EventArgs e)
+	private void ClearCourseNewsFields()
 	{
-		// Cancel
+		CourseNewsTitleEntry.Text = string.Empty;
+		CourseNewsDetailsEditor.Text = string.Empty;
+		CourseClosedDate.Date = DateTime.Today;
+		CourseClosedReasonPicker.SelectedIndex = -1;
 	}
 
-	private void OnCourseNewsSubmitButtonClicked(object sender, EventArgs e)
+	private void OnCourseNewsCancelButtonClicked(object sender, EventArgs e)
 	{
-		// Submit
+		ClearCourseNewsFields();
+		ViewCourseNewsBorder.IsVisible = false;
+		this.IsVisible = false;
+	}
+
+	private async void OnCourseNewsSubmitButtonClicked(object sender, EventArgs e)
+	{
+		CourseNewsModel news = new()
+		{
+			Title = CourseNewsTitleEntry.Text,
+			NewsDetails = CourseNewsDetailsEditor.Text,
+            PostedDate = DateTime.Today
+        };
+
+		if (IsCourseClosedSwitchEnabled)
+		{
+            news = new CourseNewsModel()
+            {
+                IsClosed = IsCourseClosedSwitchEnabled,
+                ClosureDate = CourseClosedDate.Date,
+                ClosureReason = CourseClosedReasonPicker.SelectedItem.ToString(),
+            };
+        }
+
+		await _controller.AddCourseNewsToDatabase(news);
+
+		ViewCourseNewsBorder.IsVisible = false;
+		this.IsVisible = false;
 	}
 }

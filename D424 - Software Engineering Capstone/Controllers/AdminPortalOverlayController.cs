@@ -1,4 +1,5 @@
 ﻿using D424___Software_Engineering_Capstone.Database;
+using D424___Software_Engineering_Capstone.Database.Tables;
 using D424___Software_Engineering_Capstone.Models;
 using System.Collections.ObjectModel;
 
@@ -121,6 +122,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
 
             return returnList.Cast<GuestModel>().ToList();
         }
+
         public async Task<List<GuestModel>> GetGuestsFromDatabase()
         {
             var guests = await _database.FetchAllGuests();
@@ -141,11 +143,38 @@ namespace D424___Software_Engineering_Capstone.Controllers
 
             return returnList;
         }
+
         public List<UserModel> FilterUserListByName(List<UserModel> list, string name)
         {
             var filteredList = list.Where(u => u.FullName.ToLower().Contains(name.ToLower())).ToList();
 
             return filteredList;
+        }
+
+        public async Task AddCourseNewsToDatabase(CourseNewsModel news)
+        {
+            CourseNewsTable newsTable;
+            ClosuresTable closureTable;
+
+            newsTable = new()
+            {
+                Title = news.Title,
+                NewsDetails = news.NewsDetails,
+                PostedDate = news.PostedDate
+            };
+
+            if (news.IsClosed)
+            {
+                closureTable = new()
+                {
+                    ClosureDate = news.ClosureDate,
+                    ClosureReason = news.ClosureReason
+                };
+
+                await _database.AddCourseNews(newsTable, closureTable);
+            }
+
+            await _database.AddCourseNews(newsTable);
         }
     }
 }
