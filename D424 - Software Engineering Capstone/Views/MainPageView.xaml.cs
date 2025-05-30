@@ -129,7 +129,7 @@ namespace D424___Software_Engineering_Capstone
 
         private void OnCourseNewsButtonClicked(object? sender, EventArgs e)
         {
-            // Navigation.PushAsync(new CourseNewsView(CurrentUser));
+            Navigation.PushAsync(new CourseNewsView(CurrentUser));
         }
 
         private void OnContactUsButtonClicked(object sender, EventArgs e)

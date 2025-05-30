@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.Views.CourseNewsView"
+             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views"
+             xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ProfileMenuIcon"
+                     IconImageSource="profile_menu_icon.png"
+                     Clicked="OnProfileMenuButtonClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+
+        <Grid RowDefinitions="Auto,Auto,*,Auto"
+              Padding="10">
+
+            <Label Grid.Row="0"
+                   Text="Parallel 33"
+                   FontFamily="Playball-Regular"
+                   TextColor="DarkGreen"
+                   FontSize="48"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Grid.Row="1"
+                   Text="Course News"
+                   FontFamily="Lora-Italic"
+                   TextColor="DarkGreen"
+                   FontSize="32"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,-15,0,0" />
+
+            <ScrollView Grid.Row="2"
+                        Padding="10"
+                        Margin="0,25">
+
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding CourseNews}"
+                                     Spacing="25">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:CourseNewsModel">
+
+                            <Border Padding="20"
+                                    BackgroundColor="LightGrey"
+                                    Stroke="DarkGreen"
+                                    StrokeThickness="4">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15" />
+                                </Border.StrokeShape>
+
+                                <Grid RowDefinitions="Auto,Auto,Auto"
+                                      ColumnDefinitions="*,Auto"
+                                      RowSpacing="15">
+
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                           Grid.RowSpan="5"
+                                           VerticalOptions="Center"
+                                           Text="X"
+                                           IsVisible="{Binding IsAdmin}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer x:Name="DeleteCourseNewsTap" Tapped="OnDeleteCourseNewsTapped" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           HorizontalOptions="End"
+                                           Text="{Binding PostedDate}"
+                                           TextColor="Grey" />
+
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           HorizontalOptions="Center"
+                                           Text="{Binding Title}"
+                                           Style="{StaticResource Headline}"
+                                           TextColor="DarkGreen"/>
+
+                                    <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Text="{Binding NewsDetails}"
+                                           Style="{StaticResource SubHeadline}"/>
+
+                                </Grid>
+                                
+                            </Border>
+                            
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                    
+                </VerticalStackLayout>
+                
+            </ScrollView>
+
+            <Label x:Name="LoadMoreLabel"
+                   Grid.Row="3"
+                   HorizontalOptions="Center"
+                   Text="Load More"
+                   Style="{StaticResource Link}"
+                   IsVisible="{Binding IsLoadMoreEnabled}"
+                   IsEnabled="{Binding IsLoadMoreEnabled}" />
+
+        </Grid>
+
+        <views:SignInOverlayView x:Name="_signInOverlay" IsVisible="False" />
+        <views:SignUpOverlayView x:Name="_signUpOverlay" IsVisible="False" />
+        <views:ProfileOptionsOverlayView x:Name="_profileOptionsOverlay" IsVisible="False" />
+
+    </Grid>
+
+</ContentPage>

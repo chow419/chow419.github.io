@@ -342,8 +342,8 @@ public partial class AdminPortalOverlayView : ContentView
 		{
 			Title = CourseNewsTitleEntry.Text,
 			NewsDetails = CourseNewsDetailsEditor.Text,
-            PostedDate = DateTime.Today
-        };
+			PostedDate = DateTime.Now
+		};
 
 		if (IsCourseClosedSwitchEnabled)
 		{

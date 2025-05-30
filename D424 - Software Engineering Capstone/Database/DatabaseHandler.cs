@@ -323,5 +323,23 @@ namespace D424___Software_Engineering_Capstone.Database
 
             return query;
         }
+
+        public async Task<List<CourseNewsTable>> GetCourseNews(int offset, int pageNumber)
+        {
+            await Init();
+
+            var query = await _connection.Table<CourseNewsTable>().OrderByDescending(d => d.PostedDate).Skip(offset).Take(pageNumber).ToListAsync();
+
+            return query;
+        }
+
+        public async Task<int> GetCourseNewsCount()
+        {
+            await Init();
+
+            var query = await _connection.Table<CourseNewsTable>().CountAsync();
+
+            return query;
+        }
     }
 }

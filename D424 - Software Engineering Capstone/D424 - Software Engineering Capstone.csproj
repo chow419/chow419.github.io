@@ -66,6 +66,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\CourseNewsView.xaml.cs">
+	    <DependentUpon>CourseNewsView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\MainPageView.xaml.cs">
 	    <DependentUpon>MainPageView.xaml</DependentUpon>
 	  </Compile>
@@ -84,7 +87,7 @@
 	  <MauiXaml Update="Views\ContactUsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CourseNewView.xaml">
+	  <MauiXaml Update="Views\CourseNewsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfileOptionsOverlayView.xaml">
