@@ -94,7 +94,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
             return returnList;
         }
 
-        public async Task<List<UserModel>> GetUsersListFromDatabase()
+        public async Task<List<GuestModel>> GetUsersListFromDatabase()
         {
             var tempList = await _database.FetchAllSignedUpUsers();
             List<UserModel> returnList = new();
@@ -117,6 +117,26 @@ namespace D424___Software_Engineering_Capstone.Controllers
                 };
 
                 returnList.Add(userModel);
+            }
+
+            return returnList.Cast<GuestModel>().ToList();
+        }
+        public async Task<List<GuestModel>> GetGuestsFromDatabase()
+        {
+            var guests = await _database.FetchAllGuests();
+
+            List<GuestModel> returnList = new();
+
+            foreach (var guest in guests)
+            {
+                var guestModel = new GuestModel()
+                {
+                    FirstName = guest.FirstName,
+                    LastName = guest.LastName,
+                    PhoneNumber = guest.PhoneNumber,
+                };
+
+                returnList.Add(guestModel);
             }
 
             return returnList;

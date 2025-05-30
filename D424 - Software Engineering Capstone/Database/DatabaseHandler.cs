@@ -266,7 +266,10 @@ namespace D424___Software_Engineering_Capstone.Database
         {
             await Init();
 
-            var query = await _connection.Table<GuestTable>().ToListAsync();
+            var query = await _connection.Table<GuestTable>()
+                                         .OrderBy(g => g.LastName)
+                                         .ThenBy(g => g.FirstName)
+                                         .ToListAsync();
 
             return query;
         }

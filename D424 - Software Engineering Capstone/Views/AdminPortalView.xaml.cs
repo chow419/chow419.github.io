@@ -18,10 +18,14 @@ public partial class AdminPortalView : ContentPage
 
 		this.OnViewReservations += _adminPortalOverlay.OnViewReservationsClicked;
 		this.OnViewUsers += _adminPortalOverlay.OnViewUsersClicked;
+		this.OnViewGuests += _adminPortalOverlay.OnViewGuestsClicked;
+		this.OnViewCourseNews += _adminPortalOverlay.OnAddCourseNewsButtonClicked;
 	}
 
-	public event EventHandler? OnViewReservations;
+	private event EventHandler? OnViewReservations;
 	private event EventHandler? OnViewUsers;
+	private event EventHandler? OnViewGuests;
+	private event EventHandler? OnViewCourseNews;
 
 	private void OnProfileMenuButtonTapped(object sender, EventArgs e)
 	{
@@ -32,13 +36,27 @@ public partial class AdminPortalView : ContentPage
 	{
 		_adminPortalOverlay.IsVisible = true;
 
-		OnViewReservations?.Invoke(sender, e);
+		OnViewReservations?.Invoke(this, e);
 	}
 
 	private void OnViewUsersClicked(object sender, EventArgs e)
 	{
 		_adminPortalOverlay.IsVisible = true;
 
-		OnViewUsers?.Invoke(sender, e);
+		OnViewUsers?.Invoke(this, e);
+	}
+
+	private void OnViewGuestsClicked(object sender, EventArgs e)
+	{
+		_adminPortalOverlay.IsVisible = true;
+
+		OnViewGuests?.Invoke(this, e);
+	}
+
+	private void OnCourseNewsClicked(object sender, EventArgs e)
+	{
+		_adminPortalOverlay.IsVisible = true;
+
+		OnViewCourseNews?.Invoke(this, e);
 	}
 }

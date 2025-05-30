@@ -7,6 +7,7 @@
 
     <ContentView.Resources>
         <converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter" />
+        <converters:PhoneNumberFormatterConverter x:Key="PhoneNumberFormatterConverter" />
     </ContentView.Resources>
 
     <Grid x:Name="MainOverlay"
@@ -213,19 +214,74 @@
             </Border.StrokeShape>
 
             <Grid x:Name="ViewGuestsOverlay"
-                  ColumnDefinitions="*,*"
-                  RowDefinitions="Auto,Auto,Auto"
-                  IsVisible="False"
-                  ColumnSpacing="50"
+                  RowDefinitions="Auto,Auto,*,Auto"
                   RowSpacing="20"
                   BackgroundColor="White"
                   Padding="10"
-                  WidthRequest="325">
+                  MinimumWidthRequest="325">
 
+                <!-- Title -->
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Text="Guests"
+                       Style="{StaticResource Headline}" />
+
+                <!-- Filter Information -->
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      ColumnDefinitions="Auto,*">
+                    <Label Grid.Column="0"
+                           Text="Filter By Name: "
+                           VerticalTextAlignment="Center" />
+                    <Entry x:Name="GuestNameFilterEntry"
+                           Grid.Column="2"
+                           Placeholder="User Name"
+                           TextChanged="OnNameFilterTextChanged" />
+                </Grid>
+
+
+                <ScrollView Grid.Row="2"
+                            VerticalOptions="Start">
+                    <VerticalStackLayout>
+                        <!-- Title Bar / Column Headers -->
+                        <Grid ColumnDefinitions="*,110" Padding="5" BackgroundColor="#e0e0e0">
+                            <Label Grid.Column="0" Text="Player Name" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="Phone #" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        </Grid>
+                        <!-- Reservation List -->
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding FilteredUsers}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="model:GuestModel">
+                                    <Grid ColumnDefinitions="*,110">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer x:Name="UserEntryTap"
+                                                                  Tapped="UserEntryTapped"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Border Grid.Column="0" Padding="5">
+                                            <Label Text="{Binding FullName}" HorizontalTextAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="1" Padding="5">
+                                            <Label Text="{Binding PhoneNumber, Converter={StaticResource PhoneNumberFormatterConverter}}"
+                                                   HorizontalTextAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+
+                <Button Grid.Row="3"
+                        Grid.Column="0"
+                        Text="Close"
+                        Style="{StaticResource OverlayButton}"
+                        HorizontalOptions="Center"
+                        Clicked="OnViewGuestsCloseButtonClicked"/>
             </Grid>
 
         </Border>
-        
+
         <!-- View Course News Overlay -->
         <Border x:Name="ViewCourseNewsBorder"
                 HorizontalOptions="Center"
@@ -236,14 +292,78 @@
             </Border.StrokeShape>
 
             <Grid x:Name="ViewCourseNewsOverlay"
-                  ColumnDefinitions="*,*"
-                  RowDefinitions="Auto,Auto,Auto"
-                  IsVisible="False"
+                  ColumnDefinitions="Auto,Auto,*"
+                  RowDefinitions="Auto,Auto,*,Auto,Auto"
                   ColumnSpacing="50"
                   RowSpacing="20"
                   BackgroundColor="White"
                   Padding="10"
                   WidthRequest="325">
+
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="3"/>
+
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      ColumnDefinitions="Auto,*">
+
+                    <Label Grid.Column="0"
+                           Text="Title" />
+                    <Entry x:Name="CourseNewsTitleEntry"
+                           Grid.Column="1" />
+
+                </Grid>
+
+                <Grid Grid.Row="2"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      ColumnDefinitions="Auto,*">
+
+                    <Label Grid.Column="0"
+                           Text="Details" />
+                    <Editor x:Name="CourseNewsDetailsEditor"
+                            Grid.Column="1" />
+
+                </Grid>
+
+                <Switch x:Name="IsClosedSwitch"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        IsToggled="{Binding IsCourseClosedSwitchToggled}" />
+                <DatePicker x:Name="CourseClosedDate"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            IsEnabled="{Binding IsCourseClosedSwitchToggled}" />
+                <Picker x:Name="CourseClosedReasonEntry"
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        IsEnabled="{Binding IsCourseClosedSwitchToggled}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Weather</x:String>
+                            <x:String>Maintenance</x:String>
+                            <x:String>Tournament</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Grid Grid.Row="4"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      ColumnDefinitions="*,*">
+
+                    <Button x:Name="CourseNewsCancelButton"
+                            Grid.Column="0"
+                            Text="Cancel"
+                            Clicked="OnCourseNewsCancelButtonClicked" />
+                    <Button x:Name="CourseNewsSubmitButton"
+                            Grid.Column="1"
+                            Text="Submit"
+                            Clicked="OnCourseNewsSubmitButtonClicked" />
+
+                </Grid>
 
             </Grid>
 

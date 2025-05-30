@@ -8,8 +8,9 @@ public partial class AdminPortalOverlayView : ContentView
 {
 	private bool _isFilterByDateEnabled;
 	private bool _isFilterByPlayerEnabled;
+	private bool _isCourseClosedSwitchEnabled;
 	private ObservableCollection<ReservationModel> _filteredReservations;
-	private ObservableCollection<UserModel> _filteredUsers;
+	private ObservableCollection<GuestModel> _filteredUsers;
 
 	public AdminPortalOverlayController _controller { get; set; }
 	public bool IsFilterByDateEnabled
@@ -36,8 +37,20 @@ public partial class AdminPortalOverlayView : ContentView
 			}
 		}
 	}
+	public bool IsCourseClosedSwitchEnabled
+	{
+		get => _isCourseClosedSwitchEnabled;
+		set
+		{
+			if (_isCourseClosedSwitchEnabled != value)
+			{
+				_isCourseClosedSwitchEnabled = value;
+				OnPropertyChanged(nameof(IsCourseClosedSwitchEnabled));
+			}
+		}
+	}
 	public List<ReservationModel> ReservationList { get; set; }
-	public List<UserModel> UserList { get; set; }
+	public List<GuestModel> UserList { get; set; }
 	public List<ReservationModel> NameFilteredList { get; set; }
 	public List<ReservationModel> DateFilteredList { get; set; }
 	public ObservableCollection<ReservationModel> FilteredReservations
@@ -52,7 +65,7 @@ public partial class AdminPortalOverlayView : ContentView
 			}
 		}
 	}
-	public ObservableCollection<UserModel> FilteredUsers
+	public ObservableCollection<GuestModel> FilteredUsers
 	{
 		get => _filteredUsers;
 		set
@@ -197,9 +210,15 @@ public partial class AdminPortalOverlayView : ContentView
         ReservationDatePicker.Date = DateTime.Today;
         ReservationNameEntry.Text = string.Empty;
     }
+
 	private void ClearUserViewFilter()
 	{
+		NameFilterEntry.Text = string.Empty;
+	}
 
+	private void ClearGuestViewFilter()
+	{
+		GuestNameFilterEntry.Text = string.Empty;
 	}
 
 	private void OnViewReservationsClosedClicked(object sender, EventArgs e)
@@ -209,9 +228,14 @@ public partial class AdminPortalOverlayView : ContentView
 		ClearReservationViewFilters();
 	}
 
+	private void SetFilteredUsers(List<GuestModel> list)
+	{
+		FilteredUsers = new ObservableCollection<GuestModel>(list);
+	}
+
 	private void SetFilteredUsers(List<UserModel> list)
 	{
-		FilteredUsers = new ObservableCollection<UserModel>(list);
+		FilteredUsers = new ObservableCollection<GuestModel>(list.Cast<GuestModel>().ToList());
 	}
 
 	public async void OnViewUsersClicked(object? sender, EventArgs e)
@@ -219,7 +243,8 @@ public partial class AdminPortalOverlayView : ContentView
 		ViewSignedUpUsersBorder.IsVisible = true;
 
 		UserList = await _controller.GetUsersListFromDatabase();
-		SetFilteredUsers(UserList);
+
+        SetFilteredUsers(UserList.Cast<GuestModel>().ToList());
 	}
 
 	private void OnNameFilterTextChanged(object sender, TextChangedEventArgs e)
@@ -230,13 +255,16 @@ public partial class AdminPortalOverlayView : ContentView
 		}
 		else
 		{
-			SetFilteredUsers(_controller.FilterUserListByName(UserList, NameFilterEntry.Text));
+			SetFilteredUsers(_controller.FilterUserListByName(UserList.Cast<UserModel>().ToList(), NameFilterEntry.Text));
 		}
 	}
 
 	private void OnViewUsersCloseButtonClicked(object sender, EventArgs e)
 	{
 		ViewSignedUpUsersBorder.IsVisible = false;
+
+		FilteredUsers = new();
+
 		this.IsVisible = false;
 		ClearUserViewFilter();
 	}
@@ -254,7 +282,7 @@ public partial class AdminPortalOverlayView : ContentView
 
 		if (e.Parameter is GuestModel guest)
 		{
-
+			SelectedUserGrid.BindingContext = guest;
 		}
 	}
 
@@ -263,5 +291,43 @@ public partial class AdminPortalOverlayView : ContentView
 		SelectedOverlay.IsVisible = false;
 
 		ViewSignedUpUsersBorder.IsVisible = true;
+	}
+
+	public async void OnViewGuestsClicked(object? sender, EventArgs e)
+	{
+		ViewGuestsBorder.IsVisible = true;
+
+		UserList = await _controller.GetGuestsFromDatabase();
+		SetFilteredUsers(UserList);
+	}
+
+	private void OnViewGuestsCloseButtonClicked(object sender, EventArgs e)
+	{
+		ViewGuestsBorder.IsVisible = false;
+
+		FilteredUsers = new();
+
+		this.IsVisible = false;
+		ClearGuestViewFilter();
+	}
+
+	public void OnAddCourseNewsButtonClicked(object? sender, EventArgs e)
+	{
+		ViewCourseNewsBorder.IsVisible = true;
+	}
+
+	private void OnCourseNewsClosedButtonClicked(object sender, EventArgs e)
+	{
+		ViewCourseNewsBorder.IsVisible = false;
+	}
+
+	private void OnCourseNewsCancelButtonClicked(object sender, EventArgs e)
+	{
+		// Cancel
+	}
+
+	private void OnCourseNewsSubmitButtonClicked(object sender, EventArgs e)
+	{
+		// Submit
 	}
 }

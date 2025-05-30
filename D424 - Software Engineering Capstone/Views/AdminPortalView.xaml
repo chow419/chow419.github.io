@@ -38,10 +38,12 @@
                         Clicked="OnViewUsersClicked" />
 
                 <Button Text="View Guests"
-                        Style="{StaticResource MainPageButton}" />
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnViewGuestsClicked" />
 
                 <Button Text="Add Course News"
-                        Style="{StaticResource MainPageButton}" />
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnCourseNewsClicked"/>
 
                 <Button Text="View Contact Us Information"
                         Style="{StaticResource MainPageButton}" />
