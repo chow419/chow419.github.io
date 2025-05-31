@@ -29,7 +29,7 @@
                HorizontalTextAlignment="Center" />
 
             <Label Grid.Row="1"
-               Text="Tee Times"
+               Text="Contact Us"
                FontFamily="Lora-Italic"
                TextColor="DarkGreen"
                FontSize="32"
