@@ -149,7 +149,10 @@ namespace D424___Software_Engineering_Capstone
 
         private void OnMemberPageLabelTapped(object? sender, EventArgs e)
         {
-            // Navigation.PushAsync(new MemberPortalView(CurrentUser));
+            if (CurrentUser is UserModel user)
+            {
+                Navigation.PushAsync(new MemberPortalView(user));
+            }
         }
 
         private void OnAdminPortalLabelTapped(object? sender, EventArgs e)

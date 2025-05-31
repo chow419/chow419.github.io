@@ -418,13 +418,45 @@ namespace D424___Software_Engineering_Capstone.Database
             return query;
         }
 
-        public async Task<List<(DateTime Date, int Score)>> GetUserScoreByDate(UserModel player)
+        public async Task<List<ScoreTable>> GetUserScores(int userID)
         {
             await Init();
 
-            var scoreList = await _connection.Table<ScoreTable>().Where(s => s.UserId == player.Id).ToListAsync();
+            var scoreList = await _connection.Table<ScoreTable>().Where(s => s.UserId == userID).ToListAsync();
 
             return scoreList;
+        }
+
+        public async Task<int> GetUserScoreTotal(int userID)
+        {
+            await Init();
+
+            var total = await _connection.Table<ScoreTable>().Where(s => s.UserId == userID).ToListAsync();
+
+            return total.Sum(s => s.Score);
+        }
+
+        public async Task<int> GetTotalNumberOfScoresEntered(int userID)
+        {
+            await Init();
+
+            var count = await _connection.Table<ScoreTable>().Where( s => s.UserId == userID).CountAsync();
+
+            return count;
+        }
+
+        public async Task AddScore(ScoreTable score)
+        {
+            await Init();
+
+            await _connection.InsertAsync(score);
+        }
+
+        public async Task UpdateUserInformation(UserTable user)
+        {
+            await Init();
+
+            await _connection.UpdateAsync(user);
         }
     }
 }
