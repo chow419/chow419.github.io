@@ -21,7 +21,6 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<MainPageView>();
 		builder.Services.AddSingleton<DatabaseHandler>();
-		builder.Services.AddSingleton<TeeTimeView>();
 
 #if DEBUG
         builder.Logging.AddDebug();

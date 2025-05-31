@@ -1,11 +1,126 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="D424___Software_Engineering_Capstone.Views.EditMemberInfoView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Class="D424___Software_Engineering_Capstone.Views.EditMemberInfoView"
+             xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models"
+             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views"
+             xmlns:converters="clr-namespace:D424___Software_Engineering_Capstone.Converters">
+
+    <Grid x:Name="MainOverlay"
+          Grid.ColumnSpan="2"
+          Grid.RowSpan="3"
+          BackgroundColor="DarkGreen"
+          Opacity="0.96">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Grid.GestureRecognizers>
+
+        <!-- Sign In Overlay -->
+        <Border x:Name="EditContactInfoOverlay"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid ColumnDefinitions="Auto,*"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnSpacing="25"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="15"
+                  BindingContext="{Binding CurrentUser}"
+                  x:DataType="model:UserModel">
+
+                <!-- Sign In Title -->
+                <Label Grid.Column="0"
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       Text="Edit Contact Info"
+                       Style="{StaticResource Headline}"/>
+
+                <Label Grid.Row="1"
+                       Grid.Column="0"
+                       Text="Address"
+                       VerticalTextAlignment="Center"/>
+                <Label Grid.Row="2"
+                       Grid.Column="0"
+                       Text="Address Line 2"
+                       VerticalTextAlignment="Center"/>
+                <Label Grid.Row="3"
+                       Grid.Column="0"
+                       Text="City"
+                       VerticalTextAlignment="Center"/>
+                <Label Grid.Row="4"
+                       Grid.Column="0"
+                       Text="State"
+                       VerticalTextAlignment="Center"/>
+                <Label Grid.Row="5"
+                       Grid.Column="0"
+                       Text="ZipCode"
+                       VerticalTextAlignment="Center"/>
+                <Label Grid.Row="6"
+                       Grid.Column="0"
+                       Text="Country"
+                       VerticalTextAlignment="Center"/>
+                <Label Grid.Row="7"
+                       Grid.Column="0"
+                       Text="Phone Number"
+                       VerticalTextAlignment="Center"/>
+
+                <Entry x:Name="UpdateAddressEntry"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Text="{Binding StreetAddress}"/>
+                <Entry x:Name="UpdateAddressLine2Entry"
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       Text="{Binding AddressLine2}"/>
+                <Entry x:Name="UpdateCityEntry"
+                       Grid.Row="3"
+                       Grid.Column="1"
+                       Text="{Binding City}"/>
+                <Picker x:Name="UpdateStatePicker"
+                       Grid.Row="4"
+                       Grid.Column="1"
+                       SelectedItem="{Binding State}"/>
+                <Entry x:Name="UpdateZipCodeEntry"
+                       Grid.Row="5"
+                       Grid.Column="1"
+                       Text="{Binding ZipCode}"/>
+                <Picker x:Name="UpdateCountryPicker"
+                       Grid.Row="6"
+                       Grid.Column="1"
+                       SelectedItem="{Binding Country}"/>
+                <Entry x:Name="UpdatePhoneNumberEntry"
+                       Grid.Row="7"
+                       Grid.Column="1"
+                       Text="{Binding PhoneNumber}"/>
+
+                <Grid Grid.Row="8"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      ColumnDefinitions="*,*">
+
+                    <Button Grid.Column="0"
+                            Text="Cancel"
+                            Style="{StaticResource OverlayButton}"
+                            HorizontalOptions="Center"
+                            Clicked="OnEditContactInfoCancelButtonClicked"/>
+                    <Button Grid.Column="1"
+                            Text="Submit"
+                            Style="{StaticResource OverlayButton}"
+                            HorizontalOptions="Center"
+                            Clicked="OnEditContactInfoSubmitButtonClicked"/>
+
+                </Grid>
+
+                
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
 </ContentView>

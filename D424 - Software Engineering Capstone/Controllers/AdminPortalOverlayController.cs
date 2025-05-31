@@ -176,5 +176,14 @@ namespace D424___Software_Engineering_Capstone.Controllers
 
             await _database.AddCourseNews(newsTable);
         }
+
+        public async Task UpdateAdminInformation(UserModel user)
+        {
+            var userToUpdate = await _database.GetUserByEmail(user.Email);
+
+            userToUpdate.IsAdmin = user.IsAdmin;
+
+            await _database.UpdateUserInformation(userToUpdate);
+        }
     }
 }

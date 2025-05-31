@@ -7,6 +7,7 @@ public partial class SignUpOverlayView : ContentView
 {
     public SignUpOverlayController _controller { get; set; }
 
+
     public SignUpOverlayView()
 	{
 		InitializeComponent();

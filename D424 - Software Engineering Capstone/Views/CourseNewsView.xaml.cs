@@ -11,6 +11,7 @@ public partial class CourseNewsView : ContentPage
 	private ObservableCollection<CourseNewsModel> _courseNews;
 	private bool _isAdmin;
 
+
 	public CourseNewsController _controller { get; set; }
 	public ObservableCollection<CourseNewsModel> CourseNews
 	{
@@ -68,6 +69,7 @@ public partial class CourseNewsView : ContentPage
 			}
 		}
 	}
+
 
 	public CourseNewsView(GuestModel currentUser)
 	{

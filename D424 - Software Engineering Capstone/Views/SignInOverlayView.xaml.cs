@@ -7,13 +7,26 @@ public partial class SignInOverlayView : ContentView
 {
     public SignInOverlayController _controller { get; set; }
 
+
     public SignInOverlayView()
 	{
 		InitializeComponent();
 
         _controller = new();
-	}
-    
+
+        DisplayAlert += async (title, message, cancel) =>
+        {
+            var page = this.GetParentPage();
+            if (page != null)
+            {
+                await page.DisplayAlert(title, message, cancel);
+            }
+        };
+    }
+
+
+    public event Func<string, string, string, Task>? DisplayAlert;
+
     public event EventHandler? RequestSignUp;
     
     public event EventHandler<UserModel> SuccessfulSignIn;
@@ -30,7 +43,8 @@ public partial class SignInOverlayView : ContentView
     {
         var verificationResults = await _controller.VerifyLogin(
             SignInUsernameEntry.Text,
-            SignInPasswordEntry.Text
+            SignInPasswordEntry.Text,
+            DisplayAlert
         );
 
         if (verificationResults.IsVerified)
@@ -42,6 +56,7 @@ public partial class SignInOverlayView : ContentView
             ClearSignInFields();
 
             SuccessfulSignIn?.Invoke(sender, signedInUser);
+
         }
         else
         {

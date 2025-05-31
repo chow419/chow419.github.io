@@ -292,9 +292,9 @@
             </Border.StrokeShape>
 
             <Grid x:Name="ViewCourseNewsOverlay"
-                  ColumnDefinitions="Auto,Auto,*"
+                  ColumnDefinitions="Auto,Auto,Auto,*"
                   RowDefinitions="Auto,Auto,*,Auto,Auto"
-                  ColumnSpacing="50"
+                  ColumnSpacing="10"
                   RowSpacing="20"
                   BackgroundColor="White"
                   Padding="10"
@@ -302,11 +302,11 @@
 
                 <Label Grid.Row="0"
                        Grid.Column="0"
-                       Grid.ColumnSpan="3"/>
+                       Grid.ColumnSpan="4"/>
 
                 <Grid Grid.Row="1"
                       Grid.Column="0"
-                      Grid.ColumnSpan="3"
+                      Grid.ColumnSpan="4"
                       ColumnDefinitions="Auto,*">
 
                     <Label Grid.Column="0"
@@ -318,7 +318,7 @@
 
                 <Grid Grid.Row="2"
                       Grid.Column="0"
-                      Grid.ColumnSpan="3"
+                      Grid.ColumnSpan="4"
                       ColumnDefinitions="Auto,*">
 
                     <Label Grid.Column="0"
@@ -329,18 +329,23 @@
 
                 </Grid>
 
+                <Label Grid.Row="3"
+                       Grid.Column="0"
+                       VerticalTextAlignment="Center"
+                       Text="Closed?" />
                 <Switch x:Name="IsClosedSwitch"
                         Grid.Row="3"
-                        Grid.Column="0"
-                        IsToggled="{Binding IsCourseClosedSwitchToggled}" />
+                        Grid.Column="1"
+                        IsToggled="{Binding IsCourseClosedSwitchEnabled}"/>
                 <DatePicker x:Name="CourseClosedDate"
                             Grid.Row="3"
-                            Grid.Column="1"
-                            IsEnabled="{Binding IsCourseClosedSwitchToggled}" />
+                            Grid.Column="2"
+                            IsEnabled="{Binding IsCourseClosedSwitchEnabled}" />
                 <Picker x:Name="CourseClosedReasonPicker"
                         Grid.Row="3"
-                        Grid.Column="2"
-                        IsEnabled="{Binding IsCourseClosedSwitchToggled}">
+                        Grid.Column="3"
+                        IsEnabled="{Binding IsCourseClosedSwitchEnabled}"
+                        Title="Reason">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Weather</x:String>
@@ -352,17 +357,21 @@
 
                 <Grid Grid.Row="4"
                       Grid.Column="0"
-                      Grid.ColumnSpan="3"
+                      Grid.ColumnSpan="4"
                       ColumnDefinitions="*,*">
 
                     <Button x:Name="CourseNewsCancelButton"
                             Grid.Column="0"
                             Text="Cancel"
-                            Clicked="OnCourseNewsCancelButtonClicked" />
+                            Clicked="OnCourseNewsCancelButtonClicked"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource OverlayButton}"/>
                     <Button x:Name="CourseNewsSubmitButton"
                             Grid.Column="1"
                             Text="Submit"
-                            Clicked="OnCourseNewsSubmitButtonClicked" />
+                            Clicked="OnCourseNewsSubmitButtonClicked"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource OverlayButton}"/>
 
                 </Grid>
 
@@ -416,13 +425,90 @@
                            Grid.Column="0"
                            Text="{Binding FullName}"
                            Style="{StaticResource Headline}" />
+                    
+                    <VerticalStackLayout Grid.Row="1"
+                                         HorizontalOptions="Center">
+                        <Label Text="Phone Number"
+                               Style="{StaticResource SubHeadline}"
+                               Margin="0,20,0,5"/>
+                        <Label x:Name="PhoneNumberLabel"
+                               Text="{Binding PhoneNumber, Converter={StaticResource PhoneNumberFormatterConverter}}"
+                               IsVisible="True"
+                               HorizontalTextAlignment="Center"
+                               FontSize="18"/>
+                        <Label Text="Email Address"
+                               Style="{StaticResource SubHeadline}"
+                               Margin="0,20,0,5"/>
+                        <Label x:Name="EmailLabel"
+                               Text="{Binding Email}"
+                               IsVisible="True"
+                               HorizontalTextAlignment="Center"
+                               FontSize="18"/>
+                        <Label Text="Date of Birth"
+                               Style="{StaticResource SubHeadline}"
+                               Margin="0,20,0,5"/>
+                        <Label x:Name="DateOfBirthLabel"
+                               Text="{Binding DateOfBirth, StringFormat='{0:MM/dd/yyyy}'}"
+                               IsVisible="True"
+                               HorizontalTextAlignment="Center"
+                               FontSize="18"/>
+                        <Label Text="Address"
+                               Style="{StaticResource SubHeadline}"
+                               Margin="0,20,0,5"/>
+                        <Label x:Name="Address1Label"
+                               Text="{Binding StreetAddress}"
+                               IsVisible="True"
+                               HorizontalTextAlignment="Center"
+                               FontSize="18"/>
+                        <Label x:Name="Address2Label"
+                               Text="{Binding AddressLine2}"
+                               IsVisible="True"
+                               HorizontalTextAlignment="Center"
+                               FontSize="18"/>
+                        <HorizontalStackLayout x:Name="CityStateLabels"
+                                               IsVisible="True"
+                                               HorizontalOptions="Center">
+                            <Label Text="{Binding City}"
+                                   FontSize="18"/>
+                            <Label Text=", "
+                                   FontSize="18"/>
+                            <Label Text="{Binding ZipCode}"
+                                   FontSize="18"/>
+                        </HorizontalStackLayout>
+                        <Label x:Name="CountryLabel"
+                               Text="{Binding Country}"
+                               IsVisible="True"
+                               HorizontalTextAlignment="Center"
+                               FontSize="18"/>
+                        <Label Text="Admin Priveledges?"
+                               Style="{StaticResource SubHeadline}"
+                               Margin="0,20,0,5"/>
+                        <Switch x:Name="IsAdminSwitch"
+                                HorizontalOptions="Center"
+                                IsToggled="{Binding IsAdmin}"
+                                IsVisible="True"
+                                IsEnabled="True"/>
+                    </VerticalStackLayout>
 
-                    <Button Grid.Row="2"
-                            Grid.Column="0"
-                            Text="Close"
-                            Style="{StaticResource OverlayButton}"
-                            HorizontalOptions="Center"
-                            Clicked="OnSelectedUserCloseButtonClicked"/>
+                    <Grid ColumnDefinitions="*,*"
+                          Grid.Row="2">
+                        
+                        <Button Grid.Column="0"
+                                Text="Close"
+                                Style="{StaticResource OverlayButton}"
+                                HorizontalOptions="Center"
+                                WidthRequest="75"
+                                Clicked="OnSelectedUserCancelButtonClicked"/>
+
+                        <Button Grid.Column="1"
+                                Text="Save"
+                                Style="{StaticResource OverlayButton}"
+                                HorizontalOptions="Center"
+                                WidthRequest="75"
+                                Clicked="OnSelectedUserSaveButtonClicked" />
+                    </Grid>
+                    
+                    
 
                 </Grid>
 

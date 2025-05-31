@@ -50,7 +50,12 @@ namespace D424___Software_Engineering_Capstone.Controllers
             var scoreTotal = await _database.GetUserScoreTotal(userID);
             var totalScores = await _database.GetTotalNumberOfScoresEntered(userID);
 
-            return scoreTotal / totalScores;
+            if (totalScores > 0)
+            {
+                return (double)scoreTotal / (double)totalScores;
+            }
+
+            return 0.00;
         }
 
         public async Task AddRoundScore(UserModel currentUser, ScoreModel score)

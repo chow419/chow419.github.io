@@ -77,6 +77,8 @@ public partial class AdminPortalOverlayView : ContentView
 			}
 		}
 	}
+	public UserModel SelectedUser { get; set; }
+
 
 	public AdminPortalOverlayView()
 	{
@@ -271,26 +273,62 @@ public partial class AdminPortalOverlayView : ContentView
 
 	private void UserEntryTapped(object sender, TappedEventArgs e)
 	{
-		ViewSignedUpUsersBorder.IsVisible = false;
+        DateOfBirthLabel.IsVisible = true;
+        Address1Label.IsVisible = true;
+        Address2Label.IsVisible = true;
+        CityStateLabels.IsVisible = true;
+        CountryLabel.IsVisible = true;
+        IsAdminSwitch.IsVisible = true;
+        IsAdminSwitch.IsEnabled = true;
+
+        ViewSignedUpUsersBorder.IsVisible = false;
 
 		SelectedOverlay.IsVisible = true;
 
 		if (e.Parameter is UserModel user)
 		{
 			SelectedUserGrid.BindingContext = user;
-		}
 
-		if (e.Parameter is GuestModel guest)
+			if (user.AddressLine2 is null || user.AddressLine2 == string.Empty)
+			{
+				Address2Label.IsVisible = false;
+			}
+
+			SelectedUser = user;
+		}
+		else if (e.Parameter is GuestModel guest)
 		{
 			SelectedUserGrid.BindingContext = guest;
+
+			PhoneNumberLabel.IsVisible = true;
+			DateOfBirthLabel.IsVisible = false;
+			Address1Label.IsVisible = false;
+			Address2Label.IsVisible = false;
+			CityStateLabels.IsVisible = false;
+			CountryLabel.IsVisible = false;
+			IsAdminSwitch.IsVisible = false;
+			IsAdminSwitch.IsEnabled = false;
 		}
 	}
 
-	private void OnSelectedUserCloseButtonClicked(object sender, EventArgs e)
+	private void OnSelectedUserCancelButtonClicked(object sender, EventArgs e)
 	{
 		SelectedOverlay.IsVisible = false;
 
 		ViewSignedUpUsersBorder.IsVisible = true;
+	}
+
+	private async void OnSelectedUserSaveButtonClicked(object sender, EventArgs e)
+	{
+		SelectedOverlay.IsVisible = false;
+
+		ViewSignedUpUsersBorder.IsVisible = false;
+
+		var tempUser = SelectedUser;
+
+		tempUser.IsAdmin = IsAdminSwitch.IsToggled;
+
+		await _controller.UpdateAdminInformation(tempUser);
 	}
 
 	public async void OnViewGuestsClicked(object? sender, EventArgs e)

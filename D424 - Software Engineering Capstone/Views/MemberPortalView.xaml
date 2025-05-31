@@ -23,72 +23,101 @@
                                    Grid.Row="0">
                 <Label Text="Hello, "
                        FontFamily="Lora-Italic"
-                       FontSize="24"
-                       Style="{StaticResource Headline} "/>
-                <Label Text="{Binding FirstName}"
-                       Style="{StaticResource Headline} "/>
+                       Style="{StaticResource Headline}"
+                       TextColor="DarkGreen"/>
+                <Label Text="{Binding CurrentUser.FirstName}"
+                       FontFamily="Lora-Italic"
+                       Style="{StaticResource Headline}"
+                       TextColor="DarkGreen"/>
             </HorizontalStackLayout>
 
             <Grid Grid.Row="1"
-                  RowDefinitions="Auto,Auto,Auto,*,Auto"
-                  ColumnDefinitions="*,*">
+                  RowDefinitions="Auto,Auto,Auto,Auto,*,Auto"
+                  ColumnDefinitions="*,*"
+                  RowSpacing="10">
+
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Text="Enter Round Score:"
+                       Style="{StaticResource SubHeadline}" />
 
                 <DatePicker x:Name="ScoreDatePicker"
-                            Grid.Row="0"
-                            Grid.Column="0" />
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalOptions="Center"/>
                 <Entry x:Name="ScoreEntry"
-                       Grid.Row="0"
+                       Grid.Row="1"
                        Grid.Column="1"
-                       Placeholder="ex: 72" />
+                       Placeholder="ex: 72"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
 
                 <Button x:Name="ScoreSubmitButton"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Text="Submit"
                         HorizontalOptions="Center"
-                        Clicked="OnScoreSubmitButtonClicked" />
+                        Clicked="OnScoreSubmitButtonClicked"
+                        Style="{StaticResource OverlayButton}"/>
 
-                <Grid Grid.Row="2"
+                <Grid Grid.Row="3"
+                      Grid.ColumnSpan="2"
                       RowDefinitions="Auto,Auto">
 
                     <Label Grid.Row="0"
                            HorizontalOptions="Center"
                            Text="Course Average"
-                           FontFamily="Lora-Italic" />
+                           FontFamily="Lora-Italic"
+                           Margin="0,25,0,0"
+                           Style="{StaticResource SubHeadline}"
+                           TextColor="DarkGreen"/>
                     <Label Grid.Row="1"
                            HorizontalOptions="Center"
-                           Text="{Binding ScoreAverage}"
-                           FontFamily="Lora-Italic" />
+                           Text="{Binding ScoreAverage, StringFormat='{0:F2}'}"
+                           FontFamily="Playball-Regular"
+                           Margin="0,0,0,25"
+                           Style="{StaticResource Headline}"
+                           TextColor="DarkGreen"/>
 
                 </Grid>
 
-                <VerticalStackLayout Grid.Row="3"
-                                     BindableLayout.ItemsSource="{Binding ScoreList}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="model:ScoreModel">
+                <ScrollView Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2">
+                    
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ScoreList}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:ScoreModel">
 
-                            <Grid ColumnDefinitions="*,Auto">
+                                <Grid ColumnDefinitions="*,50">
 
-                                <Border Grid.Column="0">
-                                    <Label Text="{Binding Date}" />
-                                </Border>
-                                <Border Grid.Column="1">
-                                    <Label Text="{Binding Score}" />
-                                </Border>
+                                    <Border Grid.Column="0">
+                                        <Label Text="{Binding Date, StringFormat='{0:M/dd/yyyy}'}"
+                                               HorizontalTextAlignment="Center"/>
+                                    </Border>
+                                    <Border Grid.Column="1">
+                                        <Label Text="{Binding Score}"
+                                               HorizontalTextAlignment="Center"/>
+                                    </Border>
 
-                            </Grid>
+                                </Grid>
 
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
 
-                </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+                
 
                 <Button x:Name="EditContactInfoButton"
-                        Grid.Row="4"
+                        Grid.Row="5"
+                        Grid.ColumnSpan="2"
                         Text="Edit Contact Info"
                         HorizontalOptions="Center"
-                        Clicked="OnEditContactInfoButtonClicked" />
+                        Clicked="OnEditContactInfoButtonClicked"
+                        Style="{StaticResource OverlayButton}"/>
 
             </Grid>
 
@@ -98,6 +127,7 @@
         <views:SignInOverlayView x:Name="_signInOverlay" IsVisible="False" />
         <views:SignUpOverlayView x:Name="_signUpOverlay" IsVisible="False" />
         <views:AdminPortalOverlayView x:Name="_adminPortalOverlay" IsVisible="False" />
+        <views:EditMemberInfoView x:Name="_editContactInformationOverlay" IsVisible="False" />
 
     </Grid>
 

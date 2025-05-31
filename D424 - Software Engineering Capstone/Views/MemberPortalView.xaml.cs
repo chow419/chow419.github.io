@@ -10,6 +10,7 @@ public partial class MemberPortalView : ContentPage
 	private Double _scoreAverage;
 	private ObservableCollection<ScoreModel> _scoreList;
 
+
 	public UserModel CurrentUser { get; set; }
 	public MemberPortalController _controller { get; set; }
 	public ObservableCollection<ScoreModel> ScoreList
@@ -17,7 +18,7 @@ public partial class MemberPortalView : ContentPage
 		get => _scoreList;
 		set
 		{
-			if (_scoreList  != value)
+			if (_scoreList != value)
 			{
 				_scoreList = value;
 				OnPropertyChanged(nameof(ScoreList));
@@ -52,8 +53,15 @@ public partial class MemberPortalView : ContentPage
 
 		_profileOptionsOverlay.InitializeController(CurrentUser);
 
+		this.EditContactInfo += _editContactInformationOverlay.OnEditContactInfoOpened;
+
+		_profileOptionsOverlay.AdminPortalTapped += OnAdminPortalLabelTapped;
+
+
 		BindingContext = this;
 	}
+
+	private event EventHandler<UserModel?> EditContactInfo;
 
 	private async void OnScoreSubmitButtonClicked(object sender, EventArgs e)
 	{
@@ -63,7 +71,12 @@ public partial class MemberPortalView : ContentPage
 			Score = Convert.ToInt16(ScoreEntry.Text)
 		};
 
+		ScoreEntry.Text = string.Empty;
+
 		await _controller.AddRoundScore(CurrentUser, score);
+
+		GetCourseAverage();
+		GetScoresList();
 	}
 
 	private async void GetCourseAverage()
@@ -82,30 +95,48 @@ public partial class MemberPortalView : ContentPage
 
 	private void OnEditContactInfoButtonClicked(object sender, EventArgs e)
 	{
-		// Open Edit Contact Info Overlay/View
-	}
+		_editContactInformationOverlay.IsVisible = true;
 
-	private void ClearEditContactInfoFields()
-	{
-		//Clear Edit Contact Info Fields
-	}
-
-	private void OnCancelEditContactInfoButtonClicked(object sender, EventArgs e)
-	{
-		// Close Edit Contact Info Overlay/View
-		ClearEditContactInfoFields();
-	}
-
-	private async Task OnSubmitEditContactInfoButtonClicked(object sender, EventArgs e)
-	{
-		await _controller.UpdateUserInformation(CurrentUser);
-
-		// Close Edit Contact Info Overlay/View
-		ClearEditContactInfoFields();
+		if (CurrentUser is UserModel user)
+		{
+			EditContactInfo?.Invoke(this, user);
+		}
 	}
 
 	private void OnProfileMenuButtonTapped(object sender, EventArgs e)
 	{
 		_profileOptionsOverlay.IsVisible = !_profileOptionsOverlay.IsVisible;
+	}
+
+
+
+
+
+
+
+	private void SetNavigationBarColor(Color color)
+	{
+		if (Application.Current.MainPage is NavigationPage navPage)
+		{
+			navPage.BarBackgroundColor = color;
+		}
+	}
+
+	private async void OnAdminPortalLabelTapped(object? sender, EventArgs e)
+	{
+		await Navigation.PopToRootAsync();
+
+		await Navigation.PushAsync(new AdminPortalView(CurrentUser));
+	}
+
+	private async Task OnLogOutLabelTapped(object? sender, EventArgs e)
+	{
+		SetNavigationBarColor(Color.FromRgb(8, 105, 8));
+
+		ProfileMenuIcon.IsEnabled = false;
+
+		_signInOverlay.IsVisible = true;
+
+		await Navigation.PopToRootAsync();
 	}
 }

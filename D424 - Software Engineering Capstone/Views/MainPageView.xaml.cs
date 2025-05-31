@@ -9,11 +9,13 @@ namespace D424___Software_Engineering_Capstone
         public GuestModel CurrentUser { get; set; }
         public MainPageController _controller { get; set; }
 
+
         public MainPageView()
         {
             InitializeComponent();
 
             _controller = new MainPageController(this);
+
 
             _signInOverlay.IsVisible = true;
             _signUpOverlay.IsVisible = false;
@@ -125,16 +127,19 @@ namespace D424___Software_Engineering_Capstone
         private void OnTeeTimesButtonClicked(object? sender, EventArgs e)
         {
             Navigation.PushAsync(new TeeTimeView(CurrentUser));
+            _profileOptionsOverlay.IsVisible = false;
         }
 
         private void OnCourseNewsButtonClicked(object? sender, EventArgs e)
         {
             Navigation.PushAsync(new CourseNewsView(CurrentUser));
+            _profileOptionsOverlay.IsVisible = false;
         }
 
         private void OnContactUsButtonClicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new ContactUsView(CurrentUser));
+            _profileOptionsOverlay.IsVisible = false;
         }
 
         private void OnProfileIconTapped(object sender, TappedEventArgs e)
@@ -151,13 +156,14 @@ namespace D424___Software_Engineering_Capstone
         {
             if (CurrentUser is UserModel user)
             {
+                _profileOptionsOverlay.IsVisible = false;
                 Navigation.PushAsync(new MemberPortalView(user));
             }
         }
 
         private void OnAdminPortalLabelTapped(object? sender, EventArgs e)
         {
-
+            _profileOptionsOverlay.IsVisible = false;
             Navigation.PushAsync(new AdminPortalView((UserModel)CurrentUser));
         }
 

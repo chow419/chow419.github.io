@@ -37,7 +37,7 @@ namespace D424___Software_Engineering_Capstone.Database
                 StreetAddress = "511 McMillan St.",
                 AddressLine2 = "Apt. A",
                 City = "Winnsboro",
-                State = "TX",
+                State = "Texas",
                 ZipCode = "75494",
                 Country = "United States",
                 DateOfBirth = DateTime.ParseExact("1998-07-19", "yyyy-MM-dd", null),

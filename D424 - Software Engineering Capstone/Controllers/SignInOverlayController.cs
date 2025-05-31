@@ -12,13 +12,14 @@ namespace D424___Software_Engineering_Capstone.Controllers
             _database = new DatabaseHandler();
         }
 
-        public async Task<(bool IsVerified, UserModel? SignedInUser)> VerifyLogin(string username, string password)
+
+        public async Task<(bool IsVerified, UserModel? SignedInUser)> VerifyLogin(string username, string password, Func<string, string, string, Task> displayAlert)
         {
             var hashSaltQuery = await _database.GetHashAndSalt(username);
 
             if (hashSaltQuery.Hash is null)
             {
-                //await MainView.DisplayAlert("Login Failed", "Invalid username or password.", "OK");
+                await displayAlert("Login Failed", "Invalid username or password.", "OK");
 
                 return (false, null);
             }
@@ -47,7 +48,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
             }
             else
             {
-                //await MainView.DisplayAlert("Login Failed", "Invalid username or password.", "OK");
+                await displayAlert("Login Failed", "Invalid username or password.", "OK");
 
                 return (false, null);
             }
