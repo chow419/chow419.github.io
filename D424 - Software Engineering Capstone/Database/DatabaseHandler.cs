@@ -417,5 +417,14 @@ namespace D424___Software_Engineering_Capstone.Database
 
             return query;
         }
+
+        public async Task<List<(DateTime Date, int Score)>> GetUserScoreByDate(UserModel player)
+        {
+            await Init();
+
+            var scoreList = await _connection.Table<ScoreTable>().Where(s => s.UserId == player.Id).ToListAsync();
+
+            return scoreList;
+        }
     }
 }

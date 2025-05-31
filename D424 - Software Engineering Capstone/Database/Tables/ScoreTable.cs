@@ -14,19 +14,7 @@ namespace D424___Software_Engineering_Capstone.Database.Tables
         [Column("date")]
         public DateTime Date { get; set; }
 
-        [Column("hole")]
-        public int Hole { get; set; }
-
         [Column("score")]
         public int Score { get; set; }
-
-        [Column("gir")]
-        public bool GIR { get; set; }
-
-        [Column("fir")]
-        public bool FIR { get; set; }
-
-        [Column("putts")]
-        public int Putts { get; set; }
     }
 }
