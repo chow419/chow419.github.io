@@ -134,7 +134,7 @@ namespace D424___Software_Engineering_Capstone
 
         private void OnContactUsButtonClicked(object sender, EventArgs e)
         {
-            // Navigation.PushAsync(new ContactUsView(CurrentUser));
+            Navigation.PushAsync(new ContactUsView(CurrentUser));
         }
 
         private void OnProfileIconTapped(object sender, TappedEventArgs e)

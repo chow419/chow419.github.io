@@ -12,13 +12,18 @@ namespace D424___Software_Engineering_Capstone.Database
         {
         }
 
+        private async Task<bool> CheckTableForValues<T>() where T: new()
+        {
+            var query = await _connection.Table<T>().FirstOrDefaultAsync();
+
+            return query != null;
+        }
+
         public async Task AddMyselfAsAdmin()
         {
             await Init();
 
-            var query = await _connection.Table<UserTable>().FirstOrDefaultAsync();
-
-            if (query is not null)
+            if (await CheckTableForValues<UserTable>())
             {
                 return;
             }
@@ -27,7 +32,7 @@ namespace D424___Software_Engineering_Capstone.Database
             {
                 FirstName = "Cameron",
                 LastName = "Howard",
-                PhoneNumber = "208-841-2881",
+                PhoneNumber = "2088412881",
                 Email = "socialenigma11@gmail.com",
                 StreetAddress = "511 McMillan St.",
                 AddressLine2 = "Apt. A",
@@ -42,11 +47,73 @@ namespace D424___Software_Engineering_Capstone.Database
             await AddNewUser(cameron, "socialenigma11", "T#eD@rkUrg3");
         }
 
+        public async Task AddHolidayClosures()
+        {
+            await Init();
+
+            if (await CheckTableForValues<ClosuresTable>())
+            {
+                return;
+            }
+
+            var newYear = DateTime.Parse("2026/01/01");
+            var independence = DateTime.Parse("2025/07/04");
+            var christmas = DateTime.Parse("2025/12/25");
+
+            List<DateTime> holidays = new();
+            List<ClosuresTable> closures = new();
+
+            holidays.Add(independence);
+            holidays.Add(newYear);
+            holidays.Add(christmas);
+
+            foreach (var holiday in holidays)
+            {
+                var closureTable = new ClosuresTable()
+                {
+                    ClosureDate = holiday,
+                    ClosureReason = "Holiday"
+                };
+
+                closures.Add(closureTable);
+            }
+
+            await _connection.InsertAllAsync(closures);
+        }
+
+        public async Task AddBusinessInfo()
+        {
+            await Init();
+
+            if (await CheckTableForValues<ContactUsInfoTable>())
+            {
+                return;
+            }
+
+            var businessInfo = new ContactUsInfoTable()
+            {
+                Name = "Parallel 33 Country Club",
+                Address = "201 E. Carnegie",
+                City = "Winnsboro",
+                State = "Texas",
+                ZipCode = "75494",
+                Country = "United States",
+                PhoneNumber = "9038412881",
+                Email = "contact@parallel33.com",
+                OpenTime = DateTime.Today.AddHours(7),
+                CloseTime = DateTime.Today.AddHours(20)
+            };
+
+            await _connection.InsertAsync(businessInfo);
+        }
+
         public async Task AddAll()
         {
             // await DeleteAll();
 
             await AddMyselfAsAdmin();
+            await AddHolidayClosures();
+            await AddBusinessInfo();
         }
 
         public async Task Init()
@@ -338,6 +405,15 @@ namespace D424___Software_Engineering_Capstone.Database
             await Init();
 
             var query = await _connection.Table<CourseNewsTable>().CountAsync();
+
+            return query;
+        }
+
+        public async Task<ContactUsInfoTable> GetContactInfo()
+        {
+            await Init();
+
+            var query = await _connection.Table<ContactUsInfoTable>().FirstOrDefaultAsync();
 
             return query;
         }

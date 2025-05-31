@@ -31,5 +31,11 @@ namespace D424___Software_Engineering_Capstone.Database.Tables
 
         [Column("businessEmail")]
         public string Email { get; set; }
+
+        [Column("openTime")]
+        public DateTime OpenTime { get; set; }
+
+        [Column("closeTime")]
+        public DateTime CloseTime { get; set; }
     }
 }
