@@ -10,7 +10,8 @@
             SQLite.SQLiteOpenFlags.SharedCache;
 
         public static string DatabasePath =>
-            Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
+            Path.Combine("C:\\Temp", DatabaseFilename);
+            //Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
 
         public static readonly List<string> StateList = new List<string>
         {

@@ -104,13 +104,26 @@ public partial class SignUpOverlayView : ContentView
     {
         if (await _controller.ValidateLocationSignUp(SignUpAddressEntry.Text, SignUpCityEntry.Text, SignUpZipCodeEntry.Text))
         {
-            var newUser = await _controller.SignUpNewUser(SignUpUsernameEntry.Text, SignUpPasswordEntry.Text, SignUpFirstNameEntry.Text, SignUpLastNameEntry.Text,
-                SignUpPhoneNumberEntry.Text, SignUpEmailEntry.Text, SignUpAddressEntry.Text, SignUpAddressLine2Entry.Text, SignUpCityEntry.Text,
-                SignUpStatePicker.SelectedItem.ToString(), SignUpZipCodeEntry.Text, SignUpCountryPicker.SelectedItem.ToString(), SignUpDateOfBirthPicker.Date);
+            UserModel newUserModel = new()
+            {
+                FirstName = SignUpFirstNameEntry.Text,
+                LastName = SignUpLastNameEntry.Text,
+                PhoneNumber = SignUpPhoneNumberEntry.Text,
+                Email = SignUpEmailEntry.Text,
+                StreetAddress = SignUpAddressEntry.Text,
+                AddressLine2 = SignUpAddressLine2Entry.Text,
+                City = SignUpCityEntry.Text,
+                State = SignUpStatePicker.SelectedItem.ToString(),
+                ZipCode = SignUpZipCodeEntry.Text,
+                Country = SignUpCountryPicker.SelectedItem.ToString(),
+                DateOfBirth = SignUpDateOfBirthPicker.Date
+            };
+
+            var newUser = await _controller.SignUpNewUser(SignUpUsernameEntry.Text, SignUpPasswordEntry.Text, newUserModel);
 
             this.IsVisible = false;
 
-            SignUpCompleted?.Invoke(this, newUser);
+            SignUpCompleted?.Invoke(this, newUser.UserRetrieved);
         }
     }
 }

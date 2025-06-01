@@ -85,27 +85,32 @@ namespace D424___Software_Engineering_Capstone.Controllers
             return true;
         }
 
-        public async Task<UserModel> SignUpNewUser(string username, string password, string firstName, string lastName, string phoneNumber, string email,
-            string address1, string address2, string city, string state, string zipCode, string country, DateTime dateOfBirth)
+        public async Task<(int UserRowsAdded, UserModel UserRetrieved, int CredentialRowsAdded)> SignUpNewUser(string username, 
+            string password, 
+            UserModel user)
         {
-            UserModel newUserModel = new()
+            var retVal = await _database.AddNewUser(user, username, password);
+
+            var userRetrieved = new UserModel()
             {
-                FirstName = firstName,
-                LastName = lastName,
-                PhoneNumber = phoneNumber,
-                Email = email,
-                StreetAddress = address1,
-                AddressLine2 = address2,
-                City = city,
-                State = state,
-                ZipCode = zipCode,
-                Country = country,
-                DateOfBirth = dateOfBirth
+                Id = retVal.UserRetrieved.Id,
+                FirstName = retVal.UserRetrieved.FirstName,
+                LastName = retVal.UserRetrieved.LastName,
+                PhoneNumber = retVal.UserRetrieved.PhoneNumber,
+                Email = retVal.UserRetrieved.Email,
+                StreetAddress = retVal.UserRetrieved.StreetAddress,
+                AddressLine2 = retVal.UserRetrieved.AddressLine2,
+                City = retVal.UserRetrieved.City,
+                State = retVal.UserRetrieved.State,
+                ZipCode = retVal.UserRetrieved.ZipCode,
+                Country = retVal.UserRetrieved.Country,
+                DateOfBirth = retVal.UserRetrieved.DateOfBirth,
+                IsAdmin = retVal.UserRetrieved.IsAdmin
             };
 
-            await _database.AddNewUser(newUserModel, username, password);
+            var results = (retVal.UserRowsAdded, userRetrieved, retVal.CredentialRowsAdded);
 
-            return newUserModel;
+            return results;
         }
 
     }

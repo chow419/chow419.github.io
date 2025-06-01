@@ -118,7 +118,9 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task Init()
         {
-            Directory.CreateDirectory(FileSystem.AppDataDirectory);
+            Directory.CreateDirectory("C:\\Temp");
+
+            //Directory.CreateDirectory(FileSystem.AppDataDirectory);
 
             if (_connection is not null)
             {
@@ -148,13 +150,14 @@ namespace D424___Software_Engineering_Capstone.Database
             await _connection.DropTableAsync<CredentialsTable>();
         }
 
-        public async Task AddNewUser(UserModel user, string username, string password)
+        public async Task<(int UserRowsAdded, UserTable UserRetrieved, int CredentialRowsAdded)> AddNewUser(UserModel user,
+            string username, string password)
         {
             await Init();
 
             var passwordInfo = PasswordHasher.HashPassword(password);
 
-            await _connection.InsertAsync(new UserTable
+            var userTableRowsAdded = await _connection.InsertAsync(new UserTable
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -172,15 +175,24 @@ namespace D424___Software_Engineering_Capstone.Database
 
             
 
-            var newlyCreateUser = await GetUserByEmail(user.Email);
+            var newlyCreatedUser = await GetUserByEmail(user.Email);
 
-            await _connection.InsertAsync(new CredentialsTable
+            var credentialTableRowsAdded = await _connection.InsertAsync(new CredentialsTable
             {
-                UserId = newlyCreateUser.Id,
+                UserId = newlyCreatedUser.Id,
                 UserName = username,
                 PasswordHash = passwordInfo.Hash,
                 Salt = passwordInfo.Salt
             });
+
+            return (userTableRowsAdded, newlyCreatedUser, credentialTableRowsAdded);
+        }
+
+        public async Task<int> DeleteUserByID(int userId)
+        {
+            await Init();
+
+            return await _connection.DeleteAsync<UserTable>(userId);
         }
 
         public async Task<UserTable> GetUserById(int userId)
@@ -291,11 +303,11 @@ namespace D424___Software_Engineering_Capstone.Database
             return query.LastOrDefault();
         }
 
-        public async Task AddNewReservation(int id, bool isGuest, ReservationModel teeTime)
+        public async Task<int> AddNewReservation(int id, bool isGuest, ReservationModel teeTime)
         {
             await Init();
 
-            await _connection.InsertAsync(new ReservationTable
+            var rows = await _connection.InsertAsync(new ReservationTable
             {
                 UserId = id,
                 IsGuest = isGuest,
@@ -303,6 +315,8 @@ namespace D424___Software_Engineering_Capstone.Database
                 ReservationTime = teeTime.Time,
                 NumberOfPlayers = teeTime.NumberOfPlayers
             });
+
+            return rows;
         }
 
         public async Task<List<ReservationTable>> FetchAllReservations()
@@ -315,6 +329,15 @@ namespace D424___Software_Engineering_Capstone.Database
                                          .ToListAsync();
 
             return query;
+        }
+
+        public async Task<int> ClearReservationsTable()
+        {
+            await Init();
+
+            var retVal = await _connection.DeleteAllAsync<ReservationTable>();
+
+            return retVal;
         }
 
         public async Task<List<UserTable>> FetchAllSignedUpUsers()

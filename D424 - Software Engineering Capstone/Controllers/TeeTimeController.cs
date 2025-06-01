@@ -82,9 +82,11 @@ namespace D424___Software_Engineering_Capstone.Controllers
             return result;
         }
 
-        public async Task ScheduleTeeTime(int playerIdNumber, bool isGuest, ReservationModel teeTime)
+        public async Task<int> ScheduleTeeTime(int playerIdNumber, bool isGuest, ReservationModel teeTime)
         {
-            await _database.AddNewReservation(playerIdNumber, isGuest, teeTime);
+            var retVal = await _database.AddNewReservation(playerIdNumber, isGuest, teeTime);
+
+            return retVal;
         }
     }
 }
