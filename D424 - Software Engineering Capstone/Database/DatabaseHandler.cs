@@ -109,7 +109,7 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task AddAll()
         {
-            // await DeleteAll();
+            await DeleteAll();
 
             await AddMyselfAsAdmin();
             await AddHolidayClosures();
@@ -118,9 +118,9 @@ namespace D424___Software_Engineering_Capstone.Database
 
         public async Task Init()
         {
-            Directory.CreateDirectory("C:\\Temp");
+            //Directory.CreateDirectory("C:\\Temp");
 
-            //Directory.CreateDirectory(FileSystem.AppDataDirectory);
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
 
             if (_connection is not null)
             {
@@ -143,11 +143,16 @@ namespace D424___Software_Engineering_Capstone.Database
         {
             await Init();
 
+            await _connection.DropTableAsync<ClosuresTable>();
+            await _connection.DropTableAsync<ContactUsInfoTable>();
+            await _connection.DropTableAsync<CourseNewsTable>();
             await _connection.DropTableAsync<GuestTable>();
             await _connection.DropTableAsync<UserTable>();
             await _connection.DropTableAsync<ReservationTable>();
             await _connection.DropTableAsync<ScoreTable>();
             await _connection.DropTableAsync<CredentialsTable>();
+
+            _connection = null;
         }
 
         public async Task<(int UserRowsAdded, UserTable UserRetrieved, int CredentialRowsAdded)> AddNewUser(UserModel user,
@@ -364,20 +369,20 @@ namespace D424___Software_Engineering_Capstone.Database
             return query;
         }
 
-        public async Task AddCourseNews(CourseNewsTable news, ClosuresTable? closure = null)
+        public async Task<int> AddCourseNews(CourseNewsTable news, ClosuresTable? closure = null)
         {
             await Init();
 
             if (closure != null)
             {
-                AddClosure(closure);
+                await AddClosure(closure);
 
                 var closureID = await GetLastClosureId();
 
                 news.ClosureId = closureID;
             }
 
-            await _connection.InsertAsync(news);
+            return await _connection.InsertAsync(news);
         }
 
         public async Task AddClosure(ClosuresTable addedClosure)

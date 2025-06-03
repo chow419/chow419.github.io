@@ -36,7 +36,9 @@
                 <Label Grid.Row="0"
                        Grid.Column="0"
                        Text="Reservations"
-                       Style="{StaticResource Headline}" />
+                       Style="{StaticResource Headline}"
+                       FontFamily="Lora-Italic"
+                       TextColor="DarkGreen"/>
 
                 <Grid Grid.Row="1"
                       Grid.Column="0"
@@ -51,7 +53,8 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             IsToggled="{Binding IsFilterByDateEnabled}"
-                            Toggled="OnFilterByDateSwitchToggled"/>
+                            Toggled="OnFilterByDateSwitchToggled"
+                            HorizontalOptions="Start"/>
                     <DatePicker x:Name="ReservationDatePicker"
                                 Grid.Row="0"
                                 Grid.Column="2"
@@ -67,7 +70,8 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             IsToggled="{Binding IsFilterByPlayerEnabled}"
-                            Toggled="OnFilterByNameSwitchToggled"/>
+                            Toggled="OnFilterByNameSwitchToggled"
+                            Margin="0,0,50,0"/>
                     <Entry x:Name="ReservationNameEntry"
                            Grid.Row="1"
                            Grid.Column="2"
@@ -146,12 +150,15 @@
                     <Label Grid.Row="0"
                            Grid.Column="0"
                            Text="Signed-Up Users"
-                           Style="{StaticResource Headline}" />
+                           Style="{StaticResource Headline}"
+                           FontFamily="Lora-Italic"
+                           TextColor="DarkGreen"/>
 
                     <!-- Filter Information -->
                     <Grid Grid.Row="1"
                           Grid.Column="0"
-                          ColumnDefinitions="Auto,*">
+                          ColumnDefinitions="Auto,*"
+                          ColumnSpacing="50">
                         <Label Grid.Column="0"
                                Text="Filter By Name: "
                                VerticalTextAlignment="Center" />
@@ -224,12 +231,15 @@
                 <Label Grid.Row="0"
                        Grid.Column="0"
                        Text="Guests"
-                       Style="{StaticResource Headline}" />
+                       Style="{StaticResource Headline}"
+                       FontFamily="Lora-Italic"
+                       TextColor="DarkGreen"/>
 
                 <!-- Filter Information -->
                 <Grid Grid.Row="1"
                       Grid.Column="0"
-                      ColumnDefinitions="Auto,*">
+                      ColumnDefinitions="Auto,*"
+                      ColumnSpacing="50">
                     <Label Grid.Column="0"
                            Text="Filter By Name: "
                            VerticalTextAlignment="Center" />
@@ -293,7 +303,7 @@
 
             <Grid x:Name="ViewCourseNewsOverlay"
                   ColumnDefinitions="Auto,Auto,Auto,*"
-                  RowDefinitions="Auto,Auto,*,Auto,Auto"
+                  RowDefinitions="Auto,Auto,Auto,*,Auto,Auto"
                   ColumnSpacing="10"
                   RowSpacing="20"
                   BackgroundColor="White"
@@ -302,47 +312,60 @@
 
                 <Label Grid.Row="0"
                        Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       Text="Add Course News"
+                       Style="{StaticResource Headline}"
+                       FontFamily="Lora-Italic"
+                       TextColor="DarkGreen"/>
+
+                <Label Grid.Row="1"
+                       Grid.Column="0"
                        Grid.ColumnSpan="4"/>
 
-                <Grid Grid.Row="1"
+                <Grid Grid.Row="2"
                       Grid.Column="0"
                       Grid.ColumnSpan="4"
+                      ColumnSpacing="20"
                       ColumnDefinitions="Auto,*">
 
                     <Label Grid.Column="0"
-                           Text="Title" />
+                           Text="Title"
+                           Style="{StaticResource SubHeadline}"/>
                     <Entry x:Name="CourseNewsTitleEntry"
                            Grid.Column="1" />
 
                 </Grid>
 
-                <Grid Grid.Row="2"
+                <Grid Grid.Row="3"
                       Grid.Column="0"
                       Grid.ColumnSpan="4"
+                      ColumnSpacing="20"
                       ColumnDefinitions="Auto,*">
 
                     <Label Grid.Column="0"
-                           Text="Details" />
+                           Text="Details"
+                           Style="{StaticResource SubHeadline}"/>
                     <Editor x:Name="CourseNewsDetailsEditor"
                             Grid.Column="1"
                             HeightRequest="250"/>
 
                 </Grid>
 
-                <Label Grid.Row="3"
+                <Label Grid.Row="4"
                        Grid.Column="0"
                        VerticalTextAlignment="Center"
                        Text="Closed?" />
                 <Switch x:Name="IsClosedSwitch"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="1"
-                        IsToggled="{Binding IsCourseClosedSwitchEnabled}"/>
+                        IsToggled="{Binding IsCourseClosedSwitchEnabled}"
+                        Margin="-10,0,10,0"/>
                 <DatePicker x:Name="CourseClosedDate"
-                            Grid.Row="3"
+                            Grid.Row="4"
                             Grid.Column="2"
                             IsEnabled="{Binding IsCourseClosedSwitchEnabled}" />
                 <Picker x:Name="CourseClosedReasonPicker"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="3"
                         IsEnabled="{Binding IsCourseClosedSwitchEnabled}"
                         Title="Reason">
@@ -355,7 +378,7 @@
                     </Picker.ItemsSource>
                 </Picker>
 
-                <Grid Grid.Row="4"
+                <Grid Grid.Row="5"
                       Grid.Column="0"
                       Grid.ColumnSpan="4"
                       ColumnDefinitions="*,*">

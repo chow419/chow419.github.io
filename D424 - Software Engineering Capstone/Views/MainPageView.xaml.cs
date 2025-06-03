@@ -6,7 +6,25 @@ namespace D424___Software_Engineering_Capstone
 {
     public partial class MainPageView : ContentPage
     {
-        public GuestModel CurrentUser { get; set; }
+        private GuestModel currentUser;
+        public GuestModel CurrentUser
+        {
+            get => currentUser;
+            set
+            {
+                if (currentUser != value)
+                {
+                    currentUser = value;
+
+                    if (GlobalVariables.CurrentUser != value)
+                    {
+                        GlobalVariables.CurrentUser = value;
+                    }
+                }
+
+                OnPropertyChanged(nameof(CurrentUser));
+            }
+        }
         public MainPageController _controller { get; set; }
 
 
@@ -15,7 +33,6 @@ namespace D424___Software_Engineering_Capstone
             InitializeComponent();
 
             _controller = new MainPageController(this);
-
 
             _signInOverlay.IsVisible = true;
             _signUpOverlay.IsVisible = false;
@@ -56,6 +73,9 @@ namespace D424___Software_Engineering_Capstone
             {
                 SetNavigationBarColor(Color.FromRgb(8, 105, 8));
             }
+
+            CurrentUser = GlobalVariables.CurrentUser;
+            _profileOptionsOverlay.InitializeController(CurrentUser);
         }
 
         private void OnSuccessfulSignIn(object? sender, UserModel user)

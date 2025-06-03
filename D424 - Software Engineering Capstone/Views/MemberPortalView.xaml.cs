@@ -9,10 +9,28 @@ public partial class MemberPortalView : ContentPage
 {
 	private Double _scoreAverage;
 	private ObservableCollection<ScoreModel> _scoreList;
+	private GuestModel currentUser;
 
 
-	public UserModel CurrentUser { get; set; }
-	public MemberPortalController _controller { get; set; }
+    public GuestModel CurrentUser
+    {
+        get => currentUser;
+        set
+        {
+            if (currentUser != value)
+            {
+                currentUser = value;
+
+                if (GlobalVariables.CurrentUser != value)
+                {
+                    GlobalVariables.CurrentUser = value;
+                }
+            }
+
+            OnPropertyChanged(nameof(CurrentUser));
+        }
+    }
+    public MemberPortalController _controller { get; set; }
 	public ObservableCollection<ScoreModel> ScoreList
 	{
 		get => _scoreList;
@@ -73,7 +91,7 @@ public partial class MemberPortalView : ContentPage
 
 		ScoreEntry.Text = string.Empty;
 
-		await _controller.AddRoundScore(CurrentUser, score);
+		await _controller.AddRoundScore((UserModel)CurrentUser, score);
 
 		GetCourseAverage();
 		GetScoresList();
@@ -81,14 +99,14 @@ public partial class MemberPortalView : ContentPage
 
 	private async void GetCourseAverage()
 	{
-		var courseAverage = await _controller.CalculateScoreAverage(CurrentUser);
+		var courseAverage = await _controller.CalculateScoreAverage((UserModel)CurrentUser);
 
 		ScoreAverage = courseAverage;
 	}
 
 	private async void GetScoresList()
 	{
-		var result = await _controller.FetchUserScores(CurrentUser);
+		var result = await _controller.FetchUserScores((UserModel)CurrentUser);
 
 		ScoreList = new ObservableCollection<ScoreModel>(result);
 	}
@@ -126,11 +144,13 @@ public partial class MemberPortalView : ContentPage
 	{
 		await Navigation.PopToRootAsync();
 
-		await Navigation.PushAsync(new AdminPortalView(CurrentUser));
+		await Navigation.PushAsync(new AdminPortalView((UserModel)CurrentUser));
 	}
 
 	private async Task OnLogOutLabelTapped(object? sender, EventArgs e)
 	{
+		CurrentUser = null;
+
 		SetNavigationBarColor(Color.FromRgb(8, 105, 8));
 
 		ProfileMenuIcon.IsEnabled = false;

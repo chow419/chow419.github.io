@@ -385,12 +385,9 @@ public partial class AdminPortalOverlayView : ContentView
 
 		if (IsCourseClosedSwitchEnabled)
 		{
-            news = new CourseNewsModel()
-            {
-                IsClosed = IsCourseClosedSwitchEnabled,
-                ClosureDate = CourseClosedDate.Date,
-                ClosureReason = CourseClosedReasonPicker.SelectedItem.ToString(),
-            };
+			news.IsClosed = IsCourseClosedSwitchEnabled;
+			news.ClosureDate = CourseClosedDate.Date;
+			news.ClosureReason = CourseClosedReasonPicker.SelectedItem.ToString();
         }
 
 		await _controller.AddCourseNewsToDatabase(news);

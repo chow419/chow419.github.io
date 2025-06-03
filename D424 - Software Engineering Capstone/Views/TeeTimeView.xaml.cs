@@ -8,7 +8,25 @@ namespace D424___Software_Engineering_Capstone.Views;
 public partial class TeeTimeView : ContentPage
 {
     public TeeTimeController _controller { get; set; }
-    public GuestModel CurrentUser { get; set; }
+    private GuestModel currentUser;
+    public GuestModel CurrentUser
+    {
+        get => currentUser;
+        set
+        {
+            if (currentUser != value)
+            {
+                currentUser = value;
+
+                if (GlobalVariables.CurrentUser != value)
+                {
+                    GlobalVariables.CurrentUser = value;
+                }
+            }
+
+            OnPropertyChanged(nameof(CurrentUser));
+        }
+    }
     public ObservableCollection<TeeTimeModel> AvailableTeeTimes { get; set; }
 
     public TeeTimeView(GuestModel currentUser)

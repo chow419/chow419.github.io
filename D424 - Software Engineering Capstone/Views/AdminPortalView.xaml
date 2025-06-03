@@ -19,11 +19,16 @@
 
             <HorizontalStackLayout x:Name="Title"
                                    Grid.Row="0"
-                                   HorizontalOptions="Center">
+                                   HorizontalOptions="Center"
+                                   BindingContext="{Binding CurrentUser}">
                 <Label Text="Hello, "
                        FontFamily="Lora-Italic"
-                       FontSize="24"/>
-                <Label Text="{Binding FirstName}" />
+                       Style="{StaticResource Headline}"
+                       TextColor="DarkGreen"/>
+                <Label Text="{Binding FirstName}"
+                       FontFamily="Lora-Italic"
+                       TextColor="DarkGreen"
+                       Style="{StaticResource Headline}"/>
             </HorizontalStackLayout>
 
             <VerticalStackLayout Grid.Row="1"

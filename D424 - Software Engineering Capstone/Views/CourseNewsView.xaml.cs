@@ -9,7 +9,8 @@ public partial class CourseNewsView : ContentPage
 	private bool _isLoadMoreEnabled;
 	private int _currentOffset;
 	private ObservableCollection<CourseNewsModel> _courseNews;
-	private bool _isAdmin;
+	private bool _isDeleteEnabled;
+    private GuestModel currentUser;
 
 
 	public CourseNewsController _controller { get; set; }
@@ -56,16 +57,33 @@ public partial class CourseNewsView : ContentPage
 			OnPropertyChanged(nameof(IsLoadMoreEnabled));
 		}
 	}
-	public GuestModel CurrentUser { get; set; }
-	public bool IsAdmin
+    public GuestModel CurrentUser
+    {
+        get => currentUser;
+        set
+        {
+            if (currentUser != value)
+            {
+                currentUser = value;
+
+                if (GlobalVariables.CurrentUser != value)
+                {
+                    GlobalVariables.CurrentUser = value;
+                }
+            }
+
+            OnPropertyChanged(nameof(CurrentUser));
+        }
+    }
+    public bool IsDeleteEnabled
 	{
-		get => _isAdmin;
+		get => _isDeleteEnabled;
 		set
 		{
-			if (_isAdmin != value)
+			if (_isDeleteEnabled != value)
 			{
-				_isAdmin = value;
-				OnPropertyChanged(nameof(IsAdmin));
+				_isDeleteEnabled = value;
+				OnPropertyChanged(nameof(IsDeleteEnabled));
 			}
 		}
 	}
@@ -79,12 +97,14 @@ public partial class CourseNewsView : ContentPage
 
         InitializeCurrentUser(currentUser);
 
+        InitializeCourseNews();
+
         _profileOptionsOverlay.InitializeController(CurrentUser);
 
         CurrentOffset = 0;
 		PageSize = 10;
 
-		InitializeCourseNews();
+
 
         _signInOverlay.ContinueAsGuest += OnContinueAsGuest;
         _signInOverlay.RequestSignUp += OnRequestSignUp;
@@ -106,11 +126,11 @@ public partial class CourseNewsView : ContentPage
     {
         if (currentUser is UserModel user)
         {
-            IsAdmin = user.IsAdmin;
+            IsDeleteEnabled = user.IsAdmin;
         }
         else
         {
-            IsAdmin = false;
+            IsDeleteEnabled = false;
         }
 
         CurrentUser = currentUser;

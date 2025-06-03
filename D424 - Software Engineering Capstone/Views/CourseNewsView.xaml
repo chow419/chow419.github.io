@@ -52,16 +52,16 @@
                                       ColumnDefinitions="*,Auto"
                                       RowSpacing="15">
 
-                                    <Label Grid.Row="0"
+                                    <!--<Label Grid.Row="0"
                                            Grid.Column="1"
                                            Grid.RowSpan="5"
                                            VerticalOptions="Center"
                                            Text="X"
-                                           IsVisible="{Binding IsAdmin}">
+                                           IsVisible="{Binding IsDeleteEnabled}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer x:Name="DeleteCourseNewsTap" Tapped="OnDeleteCourseNewsTapped" />
                                         </Label.GestureRecognizers>
-                                    </Label>
+                                    </Label>-->
 
                                     <Label Grid.Row="0"
                                            Grid.Column="0"

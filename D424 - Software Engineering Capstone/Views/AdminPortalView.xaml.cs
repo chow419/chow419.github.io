@@ -5,10 +5,30 @@ namespace D424___Software_Engineering_Capstone.Views;
 
 public partial class AdminPortalView : ContentPage
 {
-	public AdminPortalController _controller { get; set; }
-	public UserModel CurrentUser { get; set; }
+	private GuestModel currentUser;
 
-	public AdminPortalView(UserModel admin)
+
+	public AdminPortalController _controller { get; set; }
+    public GuestModel CurrentUser
+    {
+        get => currentUser;
+        set
+        {
+            if (currentUser != value)
+            {
+                currentUser = value;
+
+                if (GlobalVariables.CurrentUser != value)
+                {
+                    GlobalVariables.CurrentUser = value;
+                }
+            }
+
+			OnPropertyChanged(nameof(CurrentUser));
+        }
+    }
+
+    public AdminPortalView(UserModel admin)
 	{
 		InitializeComponent();
 
@@ -20,6 +40,11 @@ public partial class AdminPortalView : ContentPage
 		this.OnViewUsers += _adminPortalOverlay.OnViewUsersClicked;
 		this.OnViewGuests += _adminPortalOverlay.OnViewGuestsClicked;
 		this.OnViewCourseNews += _adminPortalOverlay.OnAddCourseNewsButtonClicked;
+
+        _profileOptionsOverlay.MemberPortalTapped += OnMemberPageLabelTapped;
+        _profileOptionsOverlay.LogOutTapped += OnLogOutLabelTapped;
+
+        BindingContext = this; 
 	}
 
 	private event EventHandler? OnViewReservations;
@@ -59,4 +84,32 @@ public partial class AdminPortalView : ContentPage
 
 		OnViewCourseNews?.Invoke(this, e);
 	}
+
+
+
+    private void SetNavigationBarColor(Color color)
+    {
+        if (Application.Current.MainPage is NavigationPage navPage)
+        {
+            navPage.BarBackgroundColor = color;
+        }
+    }
+
+    private void OnMemberPageLabelTapped(object? sender, EventArgs e)
+    {
+        // Open MemberPageView
+    }
+
+    private async void OnLogOutLabelTapped(object? sender, EventArgs e)
+    {
+        CurrentUser = null;
+
+        SetNavigationBarColor(Color.FromRgb(8, 105, 8));
+
+        ProfileMenuIcon.IsEnabled = false;
+
+        _signInOverlay.IsVisible = true;
+
+        await Navigation.PopToRootAsync();
+    }
 }

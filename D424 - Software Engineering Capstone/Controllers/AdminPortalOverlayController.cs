@@ -151,7 +151,7 @@ namespace D424___Software_Engineering_Capstone.Controllers
             return filteredList;
         }
 
-        public async Task AddCourseNewsToDatabase(CourseNewsModel news)
+        public async Task<int> AddCourseNewsToDatabase(CourseNewsModel news)
         {
             CourseNewsTable newsTable;
             ClosuresTable closureTable;
@@ -171,10 +171,10 @@ namespace D424___Software_Engineering_Capstone.Controllers
                     ClosureReason = news.ClosureReason
                 };
 
-                await _database.AddCourseNews(newsTable, closureTable);
+                return await _database.AddCourseNews(newsTable, closureTable);
             }
 
-            await _database.AddCourseNews(newsTable);
+            return await _database.AddCourseNews(newsTable);
         }
 
         public async Task UpdateAdminInformation(UserModel user)
