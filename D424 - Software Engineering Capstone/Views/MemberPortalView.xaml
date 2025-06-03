@@ -8,8 +8,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="ProfileMenuIcon"
              IconImageSource="profile_menu_icon.png"
-             Clicked="OnProfileMenuButtonTapped"
-             IsEnabled="False"/>
+             Clicked="OnProfileMenuButtonTapped"/>
     </ContentPage.ToolbarItems>
 
     <Grid>

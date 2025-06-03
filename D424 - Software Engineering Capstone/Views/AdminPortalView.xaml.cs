@@ -1,5 +1,6 @@
 using D424___Software_Engineering_Capstone.Controllers;
 using D424___Software_Engineering_Capstone.Models;
+using System.Threading.Tasks;
 
 namespace D424___Software_Engineering_Capstone.Views;
 
@@ -36,10 +37,7 @@ public partial class AdminPortalView : ContentPage
 
 		CurrentUser = admin;
 
-		this.OnViewReservations += _adminPortalOverlay.OnViewReservationsClicked;
-		this.OnViewUsers += _adminPortalOverlay.OnViewUsersClicked;
-		this.OnViewGuests += _adminPortalOverlay.OnViewGuestsClicked;
-		this.OnViewCourseNews += _adminPortalOverlay.OnAddCourseNewsButtonClicked;
+        _profileOptionsOverlay.InitializeController(CurrentUser);
 
         _profileOptionsOverlay.MemberPortalTapped += OnMemberPageLabelTapped;
         _profileOptionsOverlay.LogOutTapped += OnLogOutLabelTapped;
@@ -95,9 +93,9 @@ public partial class AdminPortalView : ContentPage
         }
     }
 
-    private void OnMemberPageLabelTapped(object? sender, EventArgs e)
+    private async void OnMemberPageLabelTapped(object? sender, EventArgs e)
     {
-        // Open MemberPageView
+        await Navigation.PushAsync(new MemberPortalView((UserModel)CurrentUser));
     }
 
     private async void OnLogOutLabelTapped(object? sender, EventArgs e)
@@ -107,8 +105,6 @@ public partial class AdminPortalView : ContentPage
         SetNavigationBarColor(Color.FromRgb(8, 105, 8));
 
         ProfileMenuIcon.IsEnabled = false;
-
-        _signInOverlay.IsVisible = true;
 
         await Navigation.PopToRootAsync();
     }

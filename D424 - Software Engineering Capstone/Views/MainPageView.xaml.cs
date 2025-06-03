@@ -68,14 +68,26 @@ namespace D424___Software_Engineering_Capstone
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            CurrentUser = GlobalVariables.CurrentUser;
+
+            if (CurrentUser is null)
+            {
+                _signInOverlay.IsVisible = true;
+                
+                
+            }
+            else
+            {
+                _signInOverlay.IsVisible = false;
+                _profileOptionsOverlay.InitializeController(CurrentUser);
+            }
 
             if (_signInOverlay.IsVisible || _signUpOverlay.IsVisible)
             {
                 SetNavigationBarColor(Color.FromRgb(8, 105, 8));
             }
 
-            CurrentUser = GlobalVariables.CurrentUser;
-            _profileOptionsOverlay.InitializeController(CurrentUser);
+            
         }
 
         private void OnSuccessfulSignIn(object? sender, UserModel user)

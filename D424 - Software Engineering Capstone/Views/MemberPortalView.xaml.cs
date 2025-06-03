@@ -74,6 +74,7 @@ public partial class MemberPortalView : ContentPage
 		this.EditContactInfo += _editContactInformationOverlay.OnEditContactInfoOpened;
 
 		_profileOptionsOverlay.AdminPortalTapped += OnAdminPortalLabelTapped;
+		_profileOptionsOverlay.LogOutTapped += OnLogOutLabelTapped;
 
 
 		BindingContext = this;
@@ -142,20 +143,16 @@ public partial class MemberPortalView : ContentPage
 
 	private async void OnAdminPortalLabelTapped(object? sender, EventArgs e)
 	{
-		await Navigation.PopToRootAsync();
-
 		await Navigation.PushAsync(new AdminPortalView((UserModel)CurrentUser));
 	}
 
-	private async Task OnLogOutLabelTapped(object? sender, EventArgs e)
+	private async void OnLogOutLabelTapped(object? sender, EventArgs e)
 	{
 		CurrentUser = null;
 
 		SetNavigationBarColor(Color.FromRgb(8, 105, 8));
 
 		ProfileMenuIcon.IsEnabled = false;
-
-		_signInOverlay.IsVisible = true;
 
 		await Navigation.PopToRootAsync();
 	}
