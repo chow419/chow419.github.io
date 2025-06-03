@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.Views.AdminPortalView"
+             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ProfileMenuIcon"
+                 IconImageSource="profile_menu_icon.png"
+                 Clicked="OnProfileMenuButtonTapped"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+
+        <Grid RowDefinitions="Auto,*"
+              Padding="50"
+              RowSpacing="50">
+
+            <HorizontalStackLayout x:Name="Title"
+                                   Grid.Row="0"
+                                   HorizontalOptions="Center"
+                                   BindingContext="{Binding CurrentUser}">
+                <Label Text="Hello, "
+                       FontFamily="Lora-Italic"
+                       Style="{StaticResource Headline}"
+                       TextColor="DarkGreen"/>
+                <Label Text="{Binding FirstName}"
+                       FontFamily="Lora-Italic"
+                       TextColor="DarkGreen"
+                       Style="{StaticResource Headline}"/>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Grid.Row="1"
+                                 Spacing="50">
+
+                <Button Text="View Reservations"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnViewReservationsClicked"/>
+
+                <Button Text="View Users"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnViewUsersClicked" />
+
+                <Button Text="View Guests"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnViewGuestsClicked" />
+
+                <Button Text="Add Course News"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnCourseNewsClicked"/>
+
+                <Button Text="View Contact Us Information"
+                        Style="{StaticResource MainPageButton}" />
+
+            </VerticalStackLayout>
+                   
+
+        </Grid>
+        
+        <views:ProfileOptionsOverlayView x:Name="_profileOptionsOverlay" IsVisible="False" />
+        <views:SignInOverlayView x:Name="_signInOverlay" IsVisible="False" />
+        <views:SignUpOverlayView x:Name="_signUpOverlay" IsVisible="False" />
+        <views:AdminPortalOverlayView x:Name="_adminPortalOverlay" IsVisible="False" />
+
+    </Grid>
+    
+
+</ContentPage>

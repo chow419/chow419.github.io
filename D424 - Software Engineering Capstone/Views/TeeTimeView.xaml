@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.Views.TeeTimeView"
+             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views"
+             xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ProfileMenuIcon"
+                     IconImageSource="profile_menu_icon.png"
+                     Clicked="OnProfileMenuButtonClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        
+        <!-- Main Content -->
+        <Grid RowDefinitions="Auto,Auto,Auto,*"
+              ColumnDefinitions="*,*">
+
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Text="Parallel 33"
+                   FontFamily="Playball-Regular"
+                   TextColor="DarkGreen"
+                   FontSize="48"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Text="Tee Times"
+                   FontFamily="Lora-Italic"
+                   TextColor="DarkGreen"
+                   FontSize="32"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,-15,0,0" />
+
+            <DatePicker x:Name="ReservationDatePicker"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalOptions="Center"
+                        DateSelected="OnDateChanged"
+                        FontSize="24" />
+
+            <Picker x:Name="NumberOfPlayersPicker"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    SelectedIndexChanged="OnNumberOfPlayersChanged"
+                    FontSize="24"
+                    HorizontalTextAlignment="Center">
+            </Picker>
+
+            <ScrollView Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2">
+                <VerticalStackLayout x:Name="TeeTimeLayout"
+                                     BindableLayout.ItemsSource="{Binding AvailableTeeTimes}"
+                                     Spacing="20"
+                                     Padding="20">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:TeeTimeModel">
+
+                            <Border Stroke="DarkGreen"
+                                    StrokeThickness="4"
+                                    BackgroundColor="LightGrey">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="20" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnTeeTimeObjectTapped"
+                                                          CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <Grid RowDefinitions="Auto,Auto"
+                                      ColumnDefinitions="*,*"
+                                      RowSpacing="10"
+                                      Padding="10">
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Time, StringFormat='{0:h:mm tt}'}"
+                                           HorizontalTextAlignment="Center"
+                                           Style="{StaticResource Headline}" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Text="Player Slots:"
+                                           HorizontalTextAlignment="Center"
+                                           Style="{StaticResource SubHeadline}" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="1"
+                                           Text="{Binding AvailablePlayerSlots}"
+                                           HorizontalTextAlignment="Center"
+                                           Style="{StaticResource SubHeadline}" />
+                                </Grid>
+                            </Border>
+
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+
+        </Grid>
+
+        <views:SignInOverlayView x:Name="_signInOverlay" IsVisible="False" />
+        <views:SignUpOverlayView x:Name="_signUpOverlay" IsVisible="False" />
+        <views:ProfileOptionsOverlayView x:Name="_profileOptionsOverlay" IsVisible="False" />
+        <views:ReserveTeeTimeView x:Name="_reserveTeeTimeView" IsVisible="False" />
+
+    </Grid>
+    
+</ContentPage>

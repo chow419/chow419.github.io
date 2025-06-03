@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.Views.ContactUsView"
+             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views"
+             xmlns:model="clr-namespace:D424___Software_Engineering_Capstone.Models"
+             xmlns:converters="clr-namespace:D424___Software_Engineering_Capstone.Converters">
+
+    <ContentPage.Resources>
+        <converters:PhoneNumberFormatterConverter x:Key="PhoneNumberFormatterConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ProfileMenuIcon"
+                 IconImageSource="profile_menu_icon.png"
+                 Clicked="OnProfileMenuButtonClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+
+        <!-- Main Content -->
+        <Grid RowDefinitions="Auto,Auto,Auto">
+
+            <Label Grid.Row="0"
+               Text="Parallel 33"
+               FontFamily="Playball-Regular"
+               TextColor="DarkGreen"
+               FontSize="48"
+               HorizontalTextAlignment="Center" />
+
+            <Label Grid.Row="1"
+               Text="Contact Us"
+               FontFamily="Lora-Italic"
+               TextColor="DarkGreen"
+               FontSize="32"
+               HorizontalTextAlignment="Center"
+               Margin="0,-15,0,25" />
+
+            <Grid Grid.Row="2"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="Auto,*"
+                  ColumnSpacing="20"
+                  VerticalOptions="Center"
+                  HorizontalOptions="Center"
+                  BindingContext="{Binding BusinessInformation}"
+                  x:DataType="model:ContactUsModel">
+
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.RowSpan="3"
+                       Text="Address"
+                       Margin="0,25,0,0"
+                       FontSize="24"
+                       FontFamily="Lora-Italic"/>
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       Text="{Binding Address}"
+                       Margin="0,25,0,0"
+                       FontSize="18"
+                       VerticalTextAlignment="Center"/>
+                <HorizontalStackLayout Grid.Row="1"
+                                        Grid.Column="1">
+                    <Label Text="{Binding City}"
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text=", "
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text="{Binding State}"
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text=" "
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text="{Binding ZipCode}"
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                </HorizontalStackLayout>
+
+                <Label Grid.Row="2"
+                       Grid.Column="1"
+                       Text="{Binding Country}"
+                       Margin="0,0,0,25"
+                       FontSize="18"
+                       VerticalTextAlignment="Center"/>
+
+                <Label Grid.Row="3"
+                       Grid.Column="0"
+                       Text="Phone"
+                       Margin="0,25"
+                       FontSize="24"
+                       FontFamily="Lora-Italic"/>
+                <Label Grid.Row="3"
+                       Grid.Column="1"
+                       Text="{Binding PhoneNumber, Converter={StaticResource PhoneNumberFormatterConverter}}"
+                       Margin="0,25"
+                       FontSize="18"
+                       VerticalTextAlignment="Center"/>
+
+                <Label Grid.Row="4"
+                       Grid.Column="0"
+                       Text="Email"
+                       Margin="0,25"
+                       FontSize="24"
+                       FontFamily="Lora-Italic"/>
+                <Label Grid.Row="4"
+                       Grid.Column="1"
+                       Text="{Binding Email}"
+                       Margin="0,25"
+                       FontSize="18"
+                       VerticalTextAlignment="Center"/>
+
+                <Label Grid.Row="5"
+                       Grid.Column="0"
+                       Text="Hours"
+                       Margin="0,25"
+                       FontSize="24"
+                       FontFamily="Lora-Italic"/>
+                <HorizontalStackLayout Grid.Row="5"
+                                       Grid.Column="1"
+                                       Margin="0,25">
+                    <Label Text="{Binding OpenTime, StringFormat='{0:h:mm tt}'}"
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text=" - "
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text="{Binding CloseTime, StringFormat='{0:h:mm tt}'}"
+                           FontSize="18"
+                           VerticalTextAlignment="Center"/>
+                </HorizontalStackLayout>
+
+            </Grid>
+
+
+        </Grid>
+
+        <views:SignInOverlayView x:Name="_signInOverlay" IsVisible="False" />
+        <views:SignUpOverlayView x:Name="_signUpOverlay" IsVisible="False" />
+        <views:ProfileOptionsOverlayView x:Name="_profileOptionsOverlay" IsVisible="False" />
+
+    </Grid>
+
+</ContentPage>

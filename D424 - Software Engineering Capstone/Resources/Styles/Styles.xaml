@@ -49,6 +49,31 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Button" x:Key="MainPageButton">  
+       <Setter Property="BackgroundColor" Value="LightGrey" />  
+       <Setter Property="FontFamily" Value="Lora-Italic" />  
+       <Setter Property="FontSize" Value="24" />  
+       <Setter Property="BorderColor" Value="ForestGreen" />
+        <Setter Property="BorderWidth" Value="2"/>
+        <Setter Property="TextColor" Value="DarkGreen" />
+        <Setter Property="Shadow">  
+           <Shadow>  
+               <Shadow.Brush>Black</Shadow.Brush>  
+               <Shadow.Offset>4,4</Shadow.Offset>  
+               <Shadow.Radius>16</Shadow.Radius>  
+               <Shadow.Opacity>0.5</Shadow.Opacity>  
+           </Shadow>  
+       </Setter>  
+    </Style>
+
+    <Style TargetType="Button" x:Key="OverlayButton">
+        <Setter Property="BackgroundColor" Value="LightGrey" />
+        <Setter Property="TextColor" Value="DarkGreen" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="BorderColor" Value="ForestGreen" />
+    </Style>
+
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -196,6 +221,11 @@
         <Setter Property="FontSize" Value="24" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="Link">
+        <Setter Property="TextColor" Value="Blue" />
+        <Setter Property="TextDecorations" Value="Underline" />
     </Style>
 
     <Style TargetType="ListView">

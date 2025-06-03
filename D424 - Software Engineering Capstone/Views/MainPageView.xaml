@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.MainPageView"
+             xmlns:views="clr-namespace:D424___Software_Engineering_Capstone.Views">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ProfileMenuIcon"
+                     IconImageSource="profile_menu_icon.png"
+                     Clicked="OnProfileMenuButtonTapped"
+                     IsEnabled="False"/>
+    </ContentPage.ToolbarItems>
+
+    <!-- Main Page Layout -->
+    <Grid x:Name="MainPage">
+
+        <!-- Main Page -->
+        <Grid ColumnDefinitions="*,Auto"
+              RowDefinitions="Auto,*,*"
+              Padding="20"
+              RowSpacing="50">
+
+            <!-- Title -->
+            <VerticalStackLayout Grid.Column="0"
+                                 Grid.ColumnSpan="2"
+                                 Grid.Row="1"
+                                 Spacing="-30"
+                                 Margin="0,175,0,0">
+                <Label x:Name="MainTitle"
+                   Text="Parallel 33"
+                   FontFamily="Playball-Regular"
+                   FontSize="70"
+                   TextColor="DarkGreen"
+                   HorizontalTextAlignment="Center"/>
+
+                <Label x:Name="SubTitle"
+                       Text="Country Club"
+                       FontFamily="Lora-Italic"
+                       TextColor="DarkGreen"
+                       HorizontalTextAlignment="Center"
+                       FontSize="36"/>
+            </VerticalStackLayout>
+
+            <!-- Main Page Buttons -->
+            <Grid Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Grid.Row="2"
+                  RowDefinitions="*,*,*"
+                  HorizontalOptions="Fill"
+                  RowSpacing="25"
+                  Padding="10">
+
+                <!-- Tee Times Button -->
+                <Button Grid.Row="0"
+                        Text="Tee Times"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnTeeTimesButtonClicked"/>
+
+                <!-- Course News Button -->
+                <Button Grid.Row="1"
+                        Text="Course News"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnCourseNewsButtonClicked"/>
+
+                <!-- Contact Us Button -->
+                <Button Grid.Row="2"
+                        Text="Contact Us"
+                        Style="{StaticResource MainPageButton}"
+                        Clicked="OnContactUsButtonClicked"/>
+
+            </Grid>
+
+        </Grid>
+
+        <views:SignInOverlayView x:Name="_signInOverlay" IsVisible="True" />        
+        <views:SignUpOverlayView x:Name="_signUpOverlay" IsVisible="False" />
+        <views:ProfileOptionsOverlayView x:Name="_profileOptionsOverlay" IsVisible="False" />
+
+    </Grid>
+    
+    
+
+</ContentPage>

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D424___Software_Engineering_Capstone.Views.SignUpOverlayView">
+
+    <Grid x:Name="MainOverlay"
+      Grid.ColumnSpan="2"
+      Grid.RowSpan="3"
+      BackgroundColor="DarkGreen"
+      Opacity="0.96">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Grid.GestureRecognizers>
+
+        <!-- Sign Up Username And Password Overlay -->
+        <Border x:Name="SignUpUNPWBorder"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="SignUpUNPWOverlay"
+              ColumnDefinitions="*,*"
+              RowDefinitions="Auto,Auto,Auto"
+              ColumnSpacing="50"
+              RowSpacing="20"
+              BackgroundColor="White"
+              Padding="10"
+              WidthRequest="325">
+
+                <!-- Sign Up Title -->
+                <Label Grid.Column="0"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Text="Sign Up"
+                   Style="{StaticResource Headline}"/>
+
+                <!-- Sign Up Entry Fields -->
+                <VerticalStackLayout Grid.Column="0"
+                                     Grid.Row="1"
+                                     Grid.ColumnSpan="2"
+                                     Spacing="15">
+
+                    <!-- Sign Up Username Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                               Text="Username"
+                               VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpUsernameEntry"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up Password Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Password"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpPasswordEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"
+                               IsPassword="True" />
+                        </Border>
+                    </Grid>
+
+                </VerticalStackLayout>
+
+                <!-- Sign Up Cancel Button -->
+                <Button x:Name="SignUpCancelButton"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Text="Cancel"
+                    Clicked="OnSignUpCancelButtonClicked"
+                    Style="{StaticResource OverlayButton}"/>
+
+                <!-- Sign Up Username And Password Next Button -->
+                <Button x:Name="SignUpUNPWNextButton"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Text="Next"
+                    Clicked="OnSignUpUNPWNextButtonClicked"
+                    Style="{StaticResource OverlayButton}"/>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Sign Up Personal Info Overlay -->
+        <Border x:Name="SignUpPIBorder"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="SignUpPIOverlay"
+              ColumnDefinitions="*,*"
+              RowDefinitions="Auto,Auto,Auto"
+              IsVisible="False"
+              ColumnSpacing="50"
+              RowSpacing="20"
+              BackgroundColor="White"
+              Padding="10"
+              WidthRequest="325">
+
+                <!-- Sign Up Title -->
+                <Label Grid.Column="0"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Text="Sign Up"
+                   Style="{StaticResource Headline}"/>
+
+                <!-- Sign Up Entry Fields -->
+                <VerticalStackLayout Grid.Column="0"
+                                 Grid.Row="1"
+                                 Grid.ColumnSpan="2"
+                                 Spacing="15">
+
+                    <!-- Sign Up First Name Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="First Name"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpFirstNameEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up Last Name Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Last Name"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpLastNameEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up Phone Number Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Phone Number"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpPhoneNumberEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up Email Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Email"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpEmailEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up Date Of Birth Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Date of Birth"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <DatePicker x:Name="SignUpDateOfBirthPicker"
+                                    VerticalOptions="Center"/>
+                        </Border>
+                    </Grid>
+
+                </VerticalStackLayout>
+
+                <!-- Sign Up Personal Info Back Button -->
+                <Button x:Name="SignUpPIBackButton"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Text="Back"
+                    Clicked="OnSignUpPIBackButtonClicked"
+                    Style="{StaticResource OverlayButton}"/>
+
+                <!-- Sign Up Personal Info Next Button -->
+                <Button x:Name="SignUpPINextButton"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Text="Next"
+                    Clicked="OnSignUpPINextButtonClicked"
+                    Style="{StaticResource OverlayButton}"/>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Sign Up Location Overlay -->
+        <Border x:Name="SignUpLocationBorder"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid x:Name="SignUpLocationOverlay"
+              ColumnDefinitions="*,*"
+              RowDefinitions="Auto,Auto,Auto"
+              IsVisible="False"
+              ColumnSpacing="50"
+              RowSpacing="20"
+              BackgroundColor="White"
+              Padding="10"
+              WidthRequest="325">
+
+                <!-- Sign Up Title -->
+                <Label Grid.Column="0"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Text="Sign Up"
+                   Style="{StaticResource Headline}"/>
+
+                <!-- Sign Up Entry Fields -->
+                <VerticalStackLayout Grid.Column="0"
+                                 Grid.Row="1"
+                                 Grid.ColumnSpan="2"
+                                 Spacing="15">
+
+                    <!-- Sign Up Address Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Address"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpAddressEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up Address Line 2 Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Unit/Apt"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpAddressLine2Entry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up City Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="City"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpCityEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill" />
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up State Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="State"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Picker x:Name="SignUpStatePicker"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Fill" />
+
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up ZipCode Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Zip Code"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Entry x:Name="SignUpZipCodeEntry"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sign Up Country Entry -->
+                    <Grid ColumnDefinitions="Auto,*"
+                      ColumnSpacing="25">
+                        <Label Grid.Column="0"
+                           Text="Country"
+                           VerticalTextAlignment="Center" />
+                        <Border Grid.Column="1">
+                            <Picker x:Name="SignUpCountryPicker"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                        </Border>
+                    </Grid>
+
+                </VerticalStackLayout>
+
+                <!-- Sign Up Location Back Button -->
+                <Button x:Name="SignUpLocationBackButton"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Text="Back"
+                    Clicked="OnSignUpLocationBackButtonClicked"
+                    Style="{StaticResource OverlayButton}"/>
+
+                <!-- Sign Up Submit Button -->
+                <Button x:Name="SignUpSubmitButton"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Text="Sign Up!"
+                    Clicked="OnSignUpSubmitButtonClicked"
+                    Style="{StaticResource OverlayButton}"/>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</ContentView>
